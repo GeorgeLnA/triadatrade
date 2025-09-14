@@ -1,0 +1,348 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    /* Triada Trade Color Palette */
+    --background: 0 0% 0%; /* Pure Black */
+    --foreground: 0 0% 100%; /* Pure White */
+
+    --card: 0 0% 8%; /* Very Dark Gray */
+    --card-foreground: 0 0% 100%; /* Pure White */
+
+    --popover: 0 0% 8%; /* Very Dark Gray */
+    --popover-foreground: 0 0% 100%; /* Pure White */
+
+    --primary: 0 0% 70%; /* Silver */
+    --primary-foreground: 0 0% 0%; /* Black */
+
+    --secondary: 220 100% 20%; /* Royal Dark Blue */
+    --secondary-foreground: 0 0% 100%; /* White */
+
+    --muted: 0 0% 20%; /* Dark Gray */
+    --muted-foreground: 0 0% 60%; /* Medium Gray */
+
+    --accent: 0 0% 70%; /* Silver */
+    --accent-foreground: 0 0% 0%; /* Black */
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 25%; /* Dark Gray Border */
+    --input: 0 0% 25%; /* Dark Gray Input */
+    --ring: 0 0% 70%; /* Silver Ring */
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 0%; /* Pure Black */
+    --sidebar-foreground: 0 0% 100%; /* Pure White */
+    --sidebar-primary: 0 0% 70%; /* Silver */
+    --sidebar-primary-foreground: 0 0% 0%; /* Black */
+    --sidebar-accent: 220 100% 20%; /* Royal Dark Blue */
+    --sidebar-accent-foreground: 0 0% 100%; /* White */
+    --sidebar-border: 0 0% 25%; /* Dark Gray */
+    --sidebar-ring: 0 0% 70%; /* Silver */
+  }
+
+  .dark {
+    /* Triada Trade Color Palette - Dark Mode */
+    --background: 0 0% 0%; /* Pure Black */
+    --foreground: 0 0% 100%; /* Pure White */
+
+    --card: 0 0% 8%; /* Very Dark Gray */
+    --card-foreground: 0 0% 100%; /* Pure White */
+
+    --popover: 0 0% 8%; /* Very Dark Gray */
+    --popover-foreground: 0 0% 100%; /* Pure White */
+
+    --primary: 0 0% 70%; /* Silver */
+    --primary-foreground: 0 0% 0%; /* Black */
+
+    --secondary: 220 100% 20%; /* Royal Dark Blue */
+    --secondary-foreground: 0 0% 100%; /* White */
+
+    --muted: 0 0% 20%; /* Dark Gray */
+    --muted-foreground: 0 0% 60%; /* Medium Gray */
+
+    --accent: 0 0% 70%; /* Silver */
+    --accent-foreground: 0 0% 0%; /* Black */
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 25%; /* Dark Gray Border */
+    --input: 0 0% 25%; /* Dark Gray Input */
+    --ring: 0 0% 70%; /* Silver Ring */
+    --sidebar-background: 0 0% 0%; /* Pure Black */
+    --sidebar-foreground: 0 0% 100%; /* Pure White */
+    --sidebar-primary: 0 0% 70%; /* Silver */
+    --sidebar-primary-foreground: 0 0% 0%; /* Black */
+    --sidebar-accent: 220 100% 20%; /* Royal Dark Blue */
+    --sidebar-accent-foreground: 0 0% 100%; /* White */
+    --sidebar-border: 0 0% 25%; /* Dark Gray */
+    --sidebar-ring: 0 0% 70%; /* Silver */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+body {
+  @apply bg-background text-foreground;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-variant-numeric: tabular-nums;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Add padding for scroll ruler on desktop only */
+@media (min-width: 768px) {
+  body {
+    padding-right: 50px; /* Space for the scroll ruler */
+  }
+}
+
+/* Completely hide all scrollbars - use only the custom ruler */
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none !important; /* WebKit browsers */
+}
+
+html {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+html::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+html::-webkit-scrollbar-track {
+  display: none !important;
+}
+
+html::-webkit-scrollbar-thumb {
+  display: none !important;
+}
+
+html::-webkit-scrollbar-corner {
+  display: none !important;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+  /* Target Cursor Styles */
+  .target-cursor-corner {
+    will-change: transform;
+  }
+
+/* Hide default cursor completely */
+.tcursor-hide {
+  cursor: none !important;
+}
+
+/* Ensure main content doesn't overlap with ruler on desktop */
+@media (min-width: 768px) {
+  main, .main-content {
+    margin-right: 50px;
+  }
+}
+  
+  .tcursor-hide * {
+    cursor: none !important;
+  }
+  
+  .tcursor-hide *:hover {
+    cursor: none !important;
+  }
+  
+  .tcursor-hide button,
+  .tcursor-hide a,
+  .tcursor-hide [role="button"],
+  .tcursor-hide .cursor-target {
+    cursor: none !important;
+  }
+
+  /* Force hide cursor on all interactive elements when cursor is active */
+  .tcursor-hide button:hover,
+  .tcursor-hide a:hover,
+  .tcursor-hide [role="button"]:hover,
+  .tcursor-hide .cursor-target:hover,
+  .tcursor-hide input:hover,
+  .tcursor-hide select:hover,
+  .tcursor-hide textarea:hover {
+    cursor: none !important;
+  }
+
+  /* Improved container system - truly full width */
+  .container {
+    width: 100vw;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+  }
+
+  /* Grid system utilities */
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--grid-gutter);
+  }
+
+  /* Typography utilities */
+  .text-display-1 {
+    font-size: var(--text-8xl);
+    line-height: var(--leading-tight);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .text-display-2 {
+    font-size: var(--text-7xl);
+    line-height: var(--leading-tight);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .text-heading-1 {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-snug);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .text-heading-2 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-snug);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .text-heading-3 {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-snug);
+    font-weight: 400;
+  }
+
+  .text-body-large {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    font-weight: 400;
+  }
+
+  .text-body {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    font-weight: 400;
+  }
+
+  .text-caption {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Spacing utilities */
+  .section-padding {
+    padding-top: var(--space-4xl);
+    padding-bottom: var(--space-4xl);
+  }
+
+  .section-padding-sm {
+    padding-top: var(--space-3xl);
+    padding-bottom: var(--space-3xl);
+  }
+
+  /* Border system */
+  .border-accent {
+    position: relative;
+  }
+
+  .border-accent::before,
+  .border-accent::after {
+    content: '';
+    position: absolute;
+    background: hsl(var(--border));
+  }
+
+  .border-accent::before {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+
+  .border-accent::after {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+
+  /* Improved focus states */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Global side borders - solid throughout entire page */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: hsl(var(--border));
+    z-index: 1000;
+    pointer-events: none;
+  }
+
+  body::before {
+    left: 43px;
+  }
+
+  body::after {
+    right: 43px;
+  }
+}
