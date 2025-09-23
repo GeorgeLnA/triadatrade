@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
+import QuoteSection from "@/components/QuoteSection";
 import WhoWeAreSection from "@/components/WhoWeAreSection";
 import VisionMissionSection from "@/components/VisionMissionSection";
 import ActivitiesOverviewSection from "@/components/ActivitiesOverviewSection";
@@ -22,6 +23,9 @@ export default function Index() {
       <main className="w-full pt-[72px]">
         {/* Hero Section */}
         <HeroSection />
+        
+        {/* Quote Section */}
+        <QuoteSection />
         
         {/* Section Separator */}
         <div className="w-full h-px bg-scout-border" />

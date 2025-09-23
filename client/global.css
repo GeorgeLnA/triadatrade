@@ -121,7 +121,7 @@ body {
 /* Add padding for scroll ruler on desktop only */
 @media (min-width: 768px) {
   body {
-    padding-right: 50px; /* Space for the scroll ruler */
+    /* Removed padding-right to fix content shift */
   }
 }
 
@@ -330,19 +330,282 @@ html {
   body::after {
     content: '';
     position: fixed;
-    top: 0;
-    bottom: 0;
     width: 1px;
     background: hsl(var(--border));
     z-index: 1000;
     pointer-events: none;
+    height: 100vh;
+    top: 0;
+    animation: moveFromCenter 1.2s ease-out forwards;
+    animation-delay: 2s; /* 2 second pause before extending */
   }
 
   body::before {
-    left: 43px;
+    left: 35%; /* Left line starts at 35% - bigger rectangle */
+    transform: translateX(-50%);
+    animation-name: moveLeftLine;
   }
 
   body::after {
-    right: 43px;
+    left: 65%; /* Right line starts at 65% - bigger rectangle */
+    transform: translateX(-50%);
+    animation-name: moveRightLine;
   }
+
+  /* Header border animation - starts narrow and moves outward */
+  header {
+    border-bottom: none !important; /* Remove static border */
+  }
+
+  /* Top horizontal line - using html::before pseudo-element like the side lines */
+  html::before {
+    content: '';
+    position: fixed;
+    top: 35%; /* Start at 35% - bigger rectangle */
+    left: 50%;
+    width: 1px;
+    height: 100vw; /* Full screen width */
+    background: hsl(var(--border)); /* Same color as side lines */
+    z-index: 1000;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    animation: moveTopLine 1.2s ease-out forwards;
+    animation-delay: 2s; /* 2 second pause before extending */
+  }
+
+  /* Bottom horizontal line - using html::after pseudo-element */
+  html::after {
+    content: '';
+    position: fixed;
+    top: 65%; /* Start at 65% - bigger rectangle */
+    left: 50%;
+    width: 1px;
+    height: 100vw; /* Full screen width */
+    background: hsl(var(--border)); /* Same color as side lines */
+    z-index: 1000;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    animation: moveBottomLine 1.2s ease-out forwards;
+    animation-delay: 2s; /* 2 second pause before extending */
+  }
+
+/* Header logo - appears 0.2s before center logo disappears */
+header img {
+  opacity: 0;
+  animation: showHeaderLogo 0.01s ease-out forwards;
+  animation-delay: 3.1s; /* Appears 0.2s before center logo disappears (3.3s - 0.2s) */
+}
+
+  /* Navigation buttons - drop down from top when center logo disappears */
+  header a:not([href="/"]) {
+    opacity: 0;
+    transform: translateY(-100%);
+    animation: dropDownNavigation 0.5s ease-out forwards;
+    animation-delay: 3.0s; /* Appears when center logo finishes (1.8s + 1.2s) */
+  }
+
+  @keyframes showHeaderLogo {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+@keyframes dropDownNavigation {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropDownNavigationFixed {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+  @keyframes moveLogoToHeader {
+    0% {
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      top: 40px; /* Position at header logo location (half of header height 80px) */
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) scale(0.5);
+      opacity: 1; /* Stay visible at final position */
+    }
+  }
+
+  /* Center logo disappears 0.3s later */
+  #border-logo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 1;
+    animation: 
+      moveLogoToHeader 1.2s ease-out forwards,
+      fadeOutCenterLogo 0.01s ease-out forwards;
+    animation-delay: 
+      1.8s, /* Start moving immediately */
+      3.3s; /* Disappear 0.3s after reaching final position */
+  }
+
+  @keyframes fadeOutCenterLogo {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0; /* Instant disappear */
+    }
+  }
+
+  /* Scroll-based logo rotation */
+  .scroll-spin-logo {
+    transition: transform 0.1s ease-out;
+  }
+
+/* Header and side areas background - transparent */
+#header-bg,
+#left-side-bg,
+#right-side-bg,
+#bottom-bg {
+  position: fixed;
+  z-index: 40; /* Behind header (50) and border lines (1000) but above page content */
+  pointer-events: none;
+  background-color: transparent; /* No background */
+}
+
+  /* Header background */
+  #header-bg {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px; /* Header height */
+  }
+
+  /* Left side area background */
+  #left-side-bg {
+    top: 0;
+    left: 0;
+    width: 43px; /* Left margin area */
+    bottom: 0;
+  }
+
+  /* Right side area background */
+  #right-side-bg {
+    top: 0;
+    right: 0;
+    width: 43px; /* Right margin area */
+    bottom: 0;
+  }
+
+  /* Bottom area background */
+  #bottom-bg {
+    bottom: 0;
+    left: 43px;
+    right: 43px;
+    height: 43px; /* Bottom margin area */
+  }
+
+
+  @keyframes moveLeftLine {
+    100% {
+      left: 43px;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes moveRightLine {
+    100% {
+      left: calc(100% - 43px);
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes moveTopLine {
+    100% {
+      top: 80px; /* Position at bottom of header */
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    }
+  }
+
+  @keyframes moveBottomLine {
+    100% {
+      top: calc(100vh - 43px); /* Position with 43px margin from bottom */
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    }
+  }
+
+  /* Hero content animations - appear after border lines finish */
+  .hero-video {
+    opacity: 0;
+    animation: fadeInVideo 1s ease-out forwards;
+    animation-delay: 3.3s; /* After border animation completes (1.2s + 2s + 0.1s buffer) */
+  }
+
+  .hero-content {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInContent 1s ease-out forwards;
+    animation-delay: 3.5s; /* Slightly after video starts */
+  }
+
+  .hero-quote {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInQuote 1s ease-out forwards;
+    animation-delay: 3.8s; /* After main content */
+  }
+
+  @keyframes fadeInVideo {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInContent {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInQuote {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
 }

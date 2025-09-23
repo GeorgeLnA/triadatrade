@@ -138,13 +138,14 @@ const ScrollRuler: React.FC<ScrollRulerProps> = ({
   return (
     <div
       ref={rulerRef}
-      className="fixed right-0 z-10 pointer-events-none hidden md:block"
+      className="fixed right-0 z-50 pointer-events-none hidden md:block"
       style={{
         width: `${rulerWidth}px`,
-        top: '100px', // Start a bit lower
-        height: 'calc(100vh - 150px)', // More reasonable height
+        top: '87px', // Moved up 1 more pixel from 88px
+        height: 'calc(100vh - 137px)', // Adjusted height accordingly
         right: '0',
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        mixBlendMode: 'difference'
       }}
     >
       {/* Ruler marks */}
@@ -202,7 +203,7 @@ const ScrollRuler: React.FC<ScrollRulerProps> = ({
         className="absolute font-mono"
         style={{
           top: 'calc(100% + 20px)', // Position further under the ruler
-          right: '50%',
+          right: 'calc(50% - 5px)',
           transform: 'translateX(50%)',
           color: markerColor,
           fontSize: '9px',

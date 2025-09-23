@@ -232,3 +232,10 @@ export default function Partners() {
     </div>
   );
 }
+
+
+
+
+
+
+
