@@ -1,3 +1,5 @@
+import Reveal from "@/components/ui/Reveal";
+
 export default function QuoteSection() {
   return (
     <section className="relative w-full min-h-screen flex items-center overflow-hidden">
@@ -16,41 +18,44 @@ export default function QuoteSection() {
             
             {/* Portrait - Museum Quality */}
             <div className="order-1 lg:order-1 lg:col-span-4">
-              <div className="relative mx-auto lg:mx-0" style={{ width: '370px' }}>
-                {/* Image Container */}
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  <img 
-                    src="/9OaFLS5Kn4WF6NDjyf109hthVn1LIks0oCgs9pCv.png" 
-                    alt="Marie-Pierre Raymond"
-                    className="w-full h-full object-cover object-center"
-                  />
+              <Reveal variant="slide-right">
+                <div className="relative mx-auto lg:mx-0" style={{ width: '370px' }}>
+                  {/* Image Container */}
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <img 
+                      src="/9OaFLS5Kn4WF6NDjyf109hthVn1LIks0oCgs9pCv.png" 
+                      alt="Marie-Pierre Raymond"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    
+                    {/* Subtle Vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/40 via-transparent to-transparent"></div>
+                  </div>
                   
-                  {/* Subtle Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/40 via-transparent to-transparent"></div>
+                  {/* Minimalist Frame */}
+                  <div className="absolute inset-0 border border-scout-text-white/30 pointer-events-none"></div>
+                  <div className="absolute inset-2 border border-scout-text-white/10 pointer-events-none"></div>
                 </div>
                 
-                {/* Minimalist Frame */}
-                <div className="absolute inset-0 border border-scout-text-white/30 pointer-events-none"></div>
-                <div className="absolute inset-2 border border-scout-text-white/10 pointer-events-none"></div>
-              </div>
-              
-              {/* Attribution under image */}
-              <div className="mt-8 text-center lg:text-left">
-                <div className="text-2xl text-scout-text-white font-teko">
-                  Marie-Pierre Raymond
+                {/* Attribution under image */}
+                <div className="mt-8 text-center lg:text-left">
+                  <div className="text-2xl text-scout-text-white font-teko">
+                    Marie-Pierre Raymond
+                  </div>
+                  <div className="text-base text-scout-text-muted font-metropolis mt-1">
+                    Defence Scientist, Innovation Portfolio Manager
+                  </div>
+                  <div className="text-base text-scout-text-muted/80 font-metropolis">
+                    Defence Research Development Canada
+                  </div>
                 </div>
-                <div className="text-base text-scout-text-muted font-metropolis mt-1">
-                  Defence Scientist, Innovation Portfolio Manager
-                </div>
-                <div className="text-base text-scout-text-muted/80 font-metropolis">
-                  Defence Research Development Canada
-                </div>
-              </div>
+              </Reveal>
             </div>
 
             {/* Content - Typography Focused */}
             <div className="order-2 lg:order-2 lg:col-span-8">
-              <div className="max-w-4xl">
+              <Reveal variant="slide-left" delayMs={120}>
+                <div className="max-w-4xl">
                 
                 {/* Quote */}
                 <blockquote className="text-2xl md:text-3xl lg:text-4xl text-scout-text-white leading-[1.1] font-metropolis font-light mb-12">
@@ -74,7 +79,8 @@ export default function QuoteSection() {
                     READ FULL LETTER
                   </button>
                 </div>
-              </div>
+                </div>
+              </Reveal>
             </div>
           </div>
         </div>

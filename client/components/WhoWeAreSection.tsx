@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Reveal from "@/components/ui/Reveal";
 
 export default function WhoWeAreSection() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -20,27 +21,30 @@ export default function WhoWeAreSection() {
             
             {/* Portrait - Museum Quality */}
             <div className="order-1 lg:order-1 lg:col-span-4">
-              <div className="relative mx-auto lg:mx-0" style={{ width: '370px' }}>
-                {/* Image Container */}
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  <img 
-                    src="/yaroslav_yakymov_marsel_nikitin_mobile.jpg" 
-                    alt="Yaroslav Yakymov and Marsel Nikitin - Triada Trade Leadership"
-                    className="w-full h-full object-cover object-center"
-                  />
+              <Reveal variant="slide-right">
+                <div className="relative mx-auto lg:mx-0" style={{ width: '370px' }}>
+                  {/* Image Container */}
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <img 
+                      src="/yaroslav_yakymov_marsel_nikitin_mobile.jpg" 
+                      alt="Yaroslav Yakymov and Marsel Nikitin - Triada Trade Leadership"
+                      className="w-full h-full object-cover object-center"
+                    />
+                    
+                    {/* Subtle Vignette */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/40 via-transparent to-transparent"></div>
+                  </div>
                   
-                  {/* Subtle Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/40 via-transparent to-transparent"></div>
+                  {/* Minimalist Border Frame */}
+                  <div className="absolute inset-0 border border-scout-border/30 pointer-events-none"></div>
                 </div>
-                
-                {/* Minimalist Border Frame */}
-                <div className="absolute inset-0 border border-scout-border/30 pointer-events-none"></div>
-              </div>
+              </Reveal>
             </div>
             
             {/* Content - Ultra-Clean Typography */}
             <div className="order-2 lg:order-2 lg:col-span-8">
-              <div className="max-w-4xl">
+              <Reveal variant="slide-left" delayMs={120}>
+                <div className="max-w-4xl">
                 
                 
                 {/* Main Content */}
@@ -96,7 +100,8 @@ export default function WhoWeAreSection() {
                   </div>
                 </div>
                 
-              </div>
+                </div>
+              </Reveal>
             </div>
             
           </div>

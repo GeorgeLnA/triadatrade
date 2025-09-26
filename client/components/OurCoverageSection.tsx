@@ -1,6 +1,7 @@
 import RotatingEarth from "@/components/ui/wireframe-dotted-globe";
 import GlobalCoverageSummary from "@/components/GlobalCoverageSummary";
 import { useEffect, useRef, useState } from "react";
+import Reveal from "@/components/ui/Reveal";
 
 export default function OurCoverageSection() {
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -154,23 +155,26 @@ export default function OurCoverageSection() {
             >
               <div className="relative w-full">
                 {/* Intro card */}
-                <div
-                  className={`absolute inset-x-0 ${showIntroNow ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'} transition-all duration-500`}
-                  style={{ top: '50%', transform: 'translateY(-50%)', willChange: 'transform, opacity' }}
-                >
-                  <div className="bg-scout-card-bg/60 border border-scout-green/40 rounded-xl p-4 lg:p-6 backdrop-blur-sm max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
-                    <h3 className="text-scout-text-white text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-teko font-bold mb-2 leading-tight">TRIADA TRADE</h3>
-                    <p className="text-scout-text-muted font-metropolis text-xs lg:text-base xl:text-lg">Global coverage overview</p>
+                <Reveal variant="fade">
+                  <div
+                    className={`absolute inset-x-0 ${showIntroNow ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'} transition-all duration-500`}
+                    style={{ top: '50%', transform: 'translateY(-50%)', willChange: 'transform, opacity' }}
+                  >
+                    <div className="bg-scout-card-bg/60 border border-scout-green/40 rounded-xl p-4 lg:p-6 backdrop-blur-sm max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
+                      <h3 className="text-scout-text-white text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-teko font-bold mb-2 leading-tight">TRIADA TRADE</h3>
+                      <p className="text-scout-text-muted font-metropolis text-xs lg:text-base xl:text-lg">Global coverage overview</p>
+                    </div>
                   </div>
-                </div>
+                </Reveal>
 
                 {/* Region card */}
-                <div
-                  className={`absolute inset-x-0 ${showRegionContent ? 'opacity-100 translate-x-0' : lastRegion ? 'opacity-0 translate-x-8' : 'opacity-0 translate-x-8'} transition-all duration-500`}
-                  style={{ top: '50%', transform: 'translateY(-50%)', willChange: 'transform, opacity' }}
-                >
-                  {regionPhase && (
-                    <div className="bg-scout-card-bg/60 border border-scout-border rounded-xl p-4 lg:p-6 backdrop-blur-sm max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
+                <Reveal variant="fade" delayMs={120}>
+                  <div
+                    className={`absolute inset-x-0 ${showRegionContent ? 'opacity-100 translate-x-0' : lastRegion ? 'opacity-0 translate-x-8' : 'opacity-0 translate-x-8'} transition-all duration-500`}
+                    style={{ top: '50%', transform: 'translateY(-50%)', willChange: 'transform, opacity' }}
+                  >
+                    {regionPhase && (
+                      <div className="bg-scout-card-bg/60 border border-scout-border rounded-xl p-4 lg:p-6 backdrop-blur-sm max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
                       <h3 className="text-scout-text-white text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-teko font-bold mb-4 leading-tight">
                         OUR COVERAGE IN {regionPhase.toUpperCase()}
                       </h3>
@@ -198,9 +202,10 @@ export default function OurCoverageSection() {
                           <li>Australia: Brisbane</li>
                         </ul>
                       )}
-                    </div>
-                  )}
-                </div>
+                      </div>
+                    )}
+                  </div>
+                </Reveal>
 
 
               </div>

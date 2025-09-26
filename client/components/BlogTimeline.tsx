@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { cn } from "@/lib/utils"
+import Reveal from "@/components/ui/Reveal"
 
 export interface TimelineEntry {
   title: string
@@ -37,15 +38,18 @@ export function BlogTimeline({ data, className }: TimelineProps) {
 
   return (
     <div ref={containerRef} className={cn("w-full bg-scout-dark font-sans md:px-10", className)}>
-      <div className="max-w-7xl mx-auto pt-20 pb-2 px-4 md:px-8 lg:px-10">
-        <h2 className="text-3xl md:text-6xl mb-2 text-scout-text-white font-bold font-teko text-center">
-          OUR BLOG
-        </h2>
-      </div>
+      <Reveal variant="slide-up">
+        <div className="max-w-7xl mx-auto pt-20 pb-2 px-4 md:px-8 lg:px-10">
+          <h2 className="text-3xl md:text-6xl mb-2 text-scout-text-white font-bold font-teko text-center">
+            OUR BLOG
+          </h2>
+        </div>
+      </Reveal>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {data.map((item, index) => (
-          <div key={index} className="flex justify-start pt-6 md:pt-12 md:gap-10">
+          <Reveal key={index} delayMs={index * 100}>
+            <div className="flex justify-start pt-6 md:pt-12 md:gap-10">
             <div className="sticky flex flex-col md:flex-row z-20 items-center top-40 self-center max-w-xs lg:max-w-sm md:w-full">
               <div className="h-10 absolute left-3 md:left-3 top-0 w-10 rounded-full bg-transparent flex items-center justify-center">
                 <div className="h-5 w-5 rounded-full bg-scout-green border-2 border-scout-border shadow-lg shadow-scout-green/30" />
@@ -63,7 +67,8 @@ export function BlogTimeline({ data, className }: TimelineProps) {
                 {item.content}
               </div>
             </div>
-          </div>
+            </div>
+          </Reveal>
         ))}
         
         {/* Vertical progress line with proper transforms */}

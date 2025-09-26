@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import Reveal from "@/components/ui/Reveal"
 
 const ALL_SERVICES = [
   {
@@ -67,105 +68,110 @@ export default function DefenceProgramsSection() {
           
           {/* Left Column - Defence Programs */}
           <div>
-            <div className="mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-scout-text-white font-teko">
-                Defence Programs
-              </h2>
-            </div>
+            <Reveal variant="slide-up">
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-scout-text-white font-teko">
+                  Defence Programs
+                </h2>
+              </div>
+            </Reveal>
 
             <div className="space-y-4">
               {ALL_SERVICES.filter(service => service.category === 'defence').map((service, index) => {
                 const globalIndex = ALL_SERVICES.findIndex(s => s.id === service.id)
                 const isActive = activeIndex === globalIndex
             
-            return (
-              <div
-                key={service.id}
-                    className="group bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40"
-              >
-                {/* Header */}
-                <button
-                      onClick={() => toggleAccordion(globalIndex)}
-                  className="w-full p-6 text-left transition-all duration-300"
-                >
-                  <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-6">
-                          {/* Title Content */}
-                          <div className="flex-1">
-                            <h3 className="text-xl md:text-2xl font-bold text-scout-text-white font-teko">
-                              {service.title}
-                            </h3>
+                return (
+                  <Reveal key={service.id} delayMs={index * 80}>
+                    <div
+                      className="group bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40"
+                    >
+                      {/* Header */}
+                      <button
+                        onClick={() => toggleAccordion(globalIndex)}
+                        className="w-full p-6 text-left transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-6">
+                            {/* Title Content */}
+                            <div className="flex-1">
+                              <h3 className="text-xl md:text-2xl font-bold text-scout-text-white font-teko">
+                                {service.title}
+                              </h3>
+                            </div>
+                          </div>
+
+                          {/* Arrow Icon */}
+                          <div className="w-8 h-8 border border-scout-border/60 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:border-scout-green/60">
+                            <svg 
+                              className={`w-4 h-4 transition-all duration-200 ${isActive ? 'rotate-180' : ''} text-scout-text-white`}
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
                           </div>
                         </div>
+                      </button>
 
-                        {/* Arrow Icon */}
-                        <div className="w-8 h-8 border border-scout-border/60 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:border-scout-green/60">
-                          <svg 
-                            className={`w-4 h-4 transition-all duration-200 ${isActive ? 'rotate-180' : ''} text-scout-text-white`}
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </div>
-                      </div>
-                    </button>
-
-                    {/* Content */}
-                    <div
-                      className="overflow-hidden transition-all duration-300"
-                      style={{
-                        height: isActive ? `${heights[globalIndex]}px` : '0px'
-                      }}
-                    >
-                      <div 
-                        ref={el => contentRefs.current[globalIndex] = el}
-                        className="px-6 pb-6"
+                      {/* Content */}
+                      <div
+                        className="overflow-hidden transition-all duration-300"
+                        style={{
+                          height: isActive ? `${heights[globalIndex]}px` : '0px'
+                        }}
                       >
-                        {/* Description */}
-                        <p className="text-scout-text-muted font-metropolis leading-relaxed mb-6">
-                          {service.description}
-                        </p>
+                        <div 
+                          ref={el => contentRefs.current[globalIndex] = el}
+                          className="px-6 pb-6"
+                        >
+                          {/* Description */}
+                          <p className="text-scout-text-muted font-metropolis leading-relaxed mb-6">
+                            {service.description}
+                          </p>
 
-                        {/* Services List */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {service.services.map((serviceItem, serviceIndex) => (
-                            <div
-                              key={serviceItem}
-                              className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30 hover:border-scout-green/40 transition-all duration-200"
-                            >
-                              <span className="text-scout-text-white font-metropolis text-sm font-medium">
-                                {serviceItem}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
+                          {/* Services List */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {service.services.map((serviceItem, serviceIndex) => (
+                              <div
+                                key={serviceItem}
+                                className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30 hover:border-scout-green/40 transition-all duration-200"
+                              >
+                                <span className="text-scout-text-white font-metropolis text-sm font-medium">
+                                  {serviceItem}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
 
-                        {/* Action Button */}
-                        <div className="mt-6 pt-4 border-t border-scout-border/20">
-                          <button className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
-                            <span>Explore Program</span>
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                          </button>
+                          {/* Action Button */}
+                          <div className="mt-6 pt-4 border-t border-scout-border/20">
+                            <button className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
+                              <span>Explore Program</span>
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                              </svg>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )
+                  </Reveal>
+                );
               })}
             </div>
           </div>
 
           {/* Right Column - Legal, Financing & Consulting Services */}
           <div>
-            <div className="mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-scout-text-white font-teko">
-                Legal, Financing & Consulting
-              </h2>
-            </div>
+            <Reveal variant="slide-up">
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-scout-text-white font-teko">
+                  Legal, Financing & Consulting
+                </h2>
+              </div>
+            </Reveal>
 
             <div className="space-y-4">
               {ALL_SERVICES.filter(service => service.category === 'legal').map((service, index) => {
@@ -173,83 +179,84 @@ export default function DefenceProgramsSection() {
                 const isActive = activeIndex === globalIndex
                 
                 return (
-                  <div
-                    key={service.id}
-                    className="group bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40"
-                  >
-                    {/* Header */}
-                    <button
-                      onClick={() => toggleAccordion(globalIndex)}
-                      className="w-full p-6 text-left transition-all duration-300"
+                  <Reveal key={service.id} delayMs={index * 80}>
+                    <div
+                      className="group bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40"
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-6">
-                          {/* Title Content */}
-                          <div className="flex-1">
-                            <h3 className="text-xl md:text-2xl font-bold text-scout-text-white font-teko">
-                              {service.title}
-                            </h3>
+                      {/* Header */}
+                      <button
+                        onClick={() => toggleAccordion(globalIndex)}
+                        className="w-full p-6 text-left transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-6">
+                            {/* Title Content */}
+                            <div className="flex-1">
+                              <h3 className="text-xl md:text-2xl font-bold text-scout-text-white font-teko">
+                                {service.title}
+                              </h3>
+                            </div>
+                          </div>
+
+                          {/* Arrow Icon */}
+                          <div className="w-8 h-8 border border-scout-border/60 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:border-scout-green/60">
+                            <svg 
+                              className={`w-4 h-4 transition-all duration-200 ${isActive ? 'rotate-180' : ''} text-scout-text-white`}
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
                           </div>
                         </div>
-
-                    {/* Arrow Icon */}
-                        <div className="w-8 h-8 border border-scout-border/60 rounded-lg flex items-center justify-center transition-all duration-200 group-hover:border-scout-green/60">
-                      <svg 
-                            className={`w-4 h-4 transition-all duration-200 ${isActive ? 'rotate-180' : ''} text-scout-text-white`}
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
-                  </div>
-                </button>
-
-                {/* Content */}
-                <div
-                  className="overflow-hidden transition-all duration-300"
-                  style={{
-                        height: isActive ? `${heights[globalIndex]}px` : '0px'
-                  }}
-                >
-                  <div 
-                        ref={el => contentRefs.current[globalIndex] = el}
-                    className="px-6 pb-6"
-                  >
-                    {/* Description */}
-                        <p className="text-scout-text-muted font-metropolis leading-relaxed mb-6">
-                      {service.description}
-                    </p>
-
-                    {/* Services List */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {service.services.map((serviceItem, serviceIndex) => (
-                        <div
-                          key={serviceItem}
-                          className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30 hover:border-scout-green/40 transition-all duration-200"
-                        >
-                          <span className="text-scout-text-white font-metropolis text-sm font-medium">
-                            {serviceItem}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Action Button */}
-                        <div className="mt-6 pt-4 border-t border-scout-border/20">
-                          <button className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
-                            <span>Explore Service</span>
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
                       </button>
+
+                      {/* Content */}
+                      <div
+                        className="overflow-hidden transition-all duration-300"
+                        style={{
+                          height: isActive ? `${heights[globalIndex]}px` : '0px'
+                        }}
+                      >
+                        <div 
+                          ref={el => contentRefs.current[globalIndex] = el}
+                          className="px-6 pb-6"
+                        >
+                          {/* Description */}
+                          <p className="text-scout-text-muted font-metropolis leading-relaxed mb-6">
+                            {service.description}
+                          </p>
+
+                          {/* Services List */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {service.services.map((serviceItem, serviceIndex) => (
+                              <div
+                                key={serviceItem}
+                                className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30 hover:border-scout-green/40 transition-all duration-200"
+                              >
+                                <span className="text-scout-text-white font-metropolis text-sm font-medium">
+                                  {serviceItem}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Action Button */}
+                          <div className="mt-6 pt-4 border-t border-scout-border/20">
+                            <button className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
+                              <span>Explore Service</span>
+                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         </div>

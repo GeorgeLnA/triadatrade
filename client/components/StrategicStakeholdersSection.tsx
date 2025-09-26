@@ -1,3 +1,5 @@
+import Reveal from "@/components/ui/Reveal";
+
 export default function StrategicStakeholdersSection() {
   const stakeholders = [
     {
@@ -60,15 +62,18 @@ export default function StrategicStakeholdersSection() {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           {/* Section Title */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
-              STRATEGIC DEFENCE STAKEHOLDERS
-            </h2>
-          </div>
+          <Reveal variant="slide-up">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
+                STRATEGIC DEFENCE STAKEHOLDERS
+              </h2>
+            </div>
+          </Reveal>
 
           {/* Mobile: Horizontal Strip */}
-          <div className="md:hidden relative overflow-hidden">
-            <div className="flex gap-4 animate-scroll-seamless">
+          <Reveal>
+            <div className="md:hidden relative overflow-hidden">
+              <div className="flex gap-4 animate-scroll-seamless">
               {duplicatedStakeholders.map((stakeholder, index) => (
                 <div 
                   key={index} 
@@ -87,11 +92,13 @@ export default function StrategicStakeholdersSection() {
                   </div>
                 </div>
               ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Desktop: Circular Layout Container */}
-          <div className="hidden md:block relative w-full h-[600px] flex items-center justify-center">
+          <Reveal variant="fade" delayMs={100}>
+            <div className="hidden md:block relative w-full h-[600px] flex items-center justify-center">
             {/* Center Logo - Triada Trade */}
             <div className="absolute z-20 flex items-center justify-center" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
               <div className="w-40 h-40 flex items-center justify-center p-5">
@@ -139,7 +146,8 @@ export default function StrategicStakeholdersSection() {
                 );
               })}
             </div>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

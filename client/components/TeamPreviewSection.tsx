@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Reveal from "@/components/ui/Reveal";
 
 const SENIOR_LEADERS = [
   {
@@ -131,23 +132,26 @@ export default function TeamPreviewSection() {
     <section className="w-full py-20 bg-scout-dark">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
-              MEET OUR EXPERT TEAM
-            </h2>
-          </div>
+          <Reveal variant="slide-up">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
+                MEET OUR EXPERT TEAM
+              </h2>
+            </div>
+          </Reveal>
 
           {/* Senior Leaders - 2 cards at the top */}
-          <div className="flex justify-center mb-16">
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
-              {SENIOR_LEADERS.map((member, index) => (
-                <div 
-                  key={member.id}
-                  className="group relative"
-                  onMouseEnter={() => setHoveredMember(member.id)}
-                  onMouseLeave={() => setHoveredMember(null)}
-                >
-                  <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105">
+          <Reveal>
+            <div className="flex justify-center mb-16">
+              <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
+                {SENIOR_LEADERS.map((member, index) => (
+                  <div 
+                    key={member.id}
+                    className="group relative"
+                    onMouseEnter={() => setHoveredMember(member.id)}
+                    onMouseLeave={() => setHoveredMember(null)}
+                  >
+                    <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105">
                     {/* Image Container */}
                     <div className="relative h-64 overflow-hidden">
                       <img 
@@ -220,19 +224,21 @@ export default function TeamPreviewSection() {
                   </div>
                 </div>
               ))}
+              </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Team Members - 8 cards below */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {TEAM_MEMBERS.map((member, index) => (
-              <div 
-                key={member.id}
-                className="group relative h-full"
-                onMouseEnter={() => setHoveredMember(member.id)}
-                onMouseLeave={() => setHoveredMember(null)}
-              >
-                <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105 h-full flex flex-col">
+          <Reveal>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+              {TEAM_MEMBERS.map((member, index) => (
+                <div 
+                  key={member.id}
+                  className="group relative h-full"
+                  onMouseEnter={() => setHoveredMember(member.id)}
+                  onMouseLeave={() => setHoveredMember(null)}
+                >
+                  <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105 h-full flex flex-col">
                   {/* Image Container */}
                   <div className="relative h-48 overflow-hidden flex-shrink-0">
                     <img 
@@ -314,21 +320,24 @@ export default function TeamPreviewSection() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          </Reveal>
 
           {/* Enhanced Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-            {STATS.map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl p-6 backdrop-blur-sm hover:border-scout-green/40 transition-all duration-300 hover:scale-105">
-                  <div className="text-3xl md:text-4xl font-bold text-scout-green mb-2 font-teko group-hover:scale-110 transition-transform duration-200">
-                    {stat.number}
+          <Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+              {STATS.map((stat, index) => (
+                <div key={index} className="text-center group">
+                  <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl p-6 backdrop-blur-sm hover:border-scout-green/40 transition-all duration-300 hover:scale-105">
+                    <div className="text-3xl md:text-4xl font-bold text-scout-green mb-2 font-teko group-hover:scale-110 transition-transform duration-200">
+                      {stat.number}
+                  </div>
+                    <div className="text-scout-text-muted text-sm font-metropolis">{stat.label}</div>
+                  </div>
                 </div>
-                  <div className="text-scout-text-muted text-sm font-metropolis">{stat.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
 
         </div>
       </div>

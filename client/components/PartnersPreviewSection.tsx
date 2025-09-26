@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Reveal from "@/components/ui/Reveal";
 
 const PARTNERS = [
   { 
@@ -86,18 +87,21 @@ export default function PartnersPreviewSection() {
     <section className="w-full py-20 bg-scout-dark">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
-              TRUSTED BY INDUSTRY LEADERS
-            </h2>
-          </div>
+          <Reveal variant="slide-up">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
+                TRUSTED BY INDUSTRY LEADERS
+              </h2>
+            </div>
+          </Reveal>
 
           {/* Featured Partner - Large Card */}
-          <div className="mb-16">
-            <div className="group relative">
-              <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-2xl backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-scout-green/40 hover:scale-[1.02] h-64">
-                <div className="p-12 h-full">
-                  <div className="flex flex-col lg:flex-row items-center gap-8 h-full">
+          <Reveal>
+            <div className="mb-16">
+              <div className="group relative">
+                <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-2xl backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-scout-green/40 hover:scale-[1.02] h-64">
+                  <div className="p-12 h-full">
+                    <div className="flex flex-col lg:flex-row items-center gap-8 h-full">
                     {/* Logo */}
                     <div className="flex-shrink-0">
                       <div className="w-32 h-32 bg-scout-dark/40 border border-scout-border/30 rounded-2xl flex items-center justify-center group-hover:border-scout-green/40 transition-all duration-300">
@@ -123,14 +127,16 @@ export default function PartnersPreviewSection() {
                         {PARTNERS[currentIndex].description}
                       </p>
                     </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Partners Grid - Logo Focus */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <Reveal>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {PARTNERS.map((partner, index) => (
               <div 
                 key={partner.name}
@@ -168,22 +174,25 @@ export default function PartnersPreviewSection() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          </Reveal>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center mt-8 space-x-2">
-            {PARTNERS.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'bg-scout-green scale-125' 
-                    : 'bg-scout-border/40 hover:bg-scout-green/60'
-                }`}
-              />
-            ))}
-          </div>
+          <Reveal variant="fade" delayMs={100}>
+            <div className="flex justify-center mt-8 space-x-2">
+              {PARTNERS.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentIndex 
+                      ? 'bg-scout-green scale-125' 
+                      : 'bg-scout-border/40 hover:bg-scout-green/60'
+                  }`}
+                />
+              ))}
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
