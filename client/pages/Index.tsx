@@ -3,7 +3,6 @@ import HeroSection from "@/components/HeroSection";
 import QuoteSection from "@/components/QuoteSection";
 import WhoWeAreSection from "@/components/WhoWeAreSection";
 import DefenceProgramsSection from "@/components/DefenceProgramsSection";
-import SplineSection from "@/components/SplineSection";
 import StrategicStakeholdersSection from "@/components/StrategicStakeholdersSection";
 import OurCoverageSection from "@/components/OurCoverageSection";
 import PartnersPreviewSection from "@/components/PartnersPreviewSection";
@@ -336,12 +335,6 @@ export default function Index() {
           <StrategicStakeholdersSection />
         </div>
 
-        {/* 3D Interactive - Black background - Lazy loaded after hero animations complete */}
-        {!showWaves && (
-          <div style={{backgroundColor: '#050612'}}>
-            <SplineSection />
-          </div>
-        )}
 
         {/* Trusted By Industry Leaders (Partners) - Black background */}
         <div ref={partnersSectionRef} style={{backgroundColor: '#050612'}}>

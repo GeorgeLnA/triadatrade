@@ -120,9 +120,9 @@ const TEAM_MEMBERS = [
 const STATS = [
   { number: "50+", label: "Years Combined Experience" },
   { number: "100+", label: "Successful Partnerships" },
-  { number: "15+", label: "Team Members" },
-  { number: "100%", label: "Client Satisfaction" }
-];
+    { number: "15+", label: "Team Members" },
+    { number: "100%", label: "Client Satisfaction" }
+  ];
 
 export default function TeamPreviewSection() {
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
@@ -181,7 +181,7 @@ export default function TeamPreviewSection() {
                         <p className="text-scout-text-muted font-metropolis text-lg leading-relaxed">
                           {member.role}
                         </p>
-                      </div>
+                </div>
 
                       {/* Skills Tags */}
                       <div className="flex flex-wrap gap-3 mb-6">
@@ -193,9 +193,9 @@ export default function TeamPreviewSection() {
                             <span className="text-scout-text-white font-metropolis text-sm">
                               {skill}
                             </span>
-                          </div>
-                        ))}
-                      </div>
+              </div>
+            ))}
+          </div>
 
                       {/* Description - Shows on hover */}
                       <div className={`transition-all duration-300 overflow-hidden ${
@@ -228,13 +228,13 @@ export default function TeamPreviewSection() {
             {TEAM_MEMBERS.map((member, index) => (
               <div 
                 key={member.id}
-                className="group relative"
+                className="group relative h-full"
                 onMouseEnter={() => setHoveredMember(member.id)}
                 onMouseLeave={() => setHoveredMember(null)}
               >
-                <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105">
+                <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105 h-full flex flex-col">
                   {/* Image Container */}
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden flex-shrink-0">
                     <img 
                       src={member.image} 
                       alt={member.name}
@@ -260,8 +260,8 @@ export default function TeamPreviewSection() {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
-                    <div className="text-center mb-4">
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="text-center mb-4 flex-shrink-0">
                       <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">
                         {member.name}
                       </h3>
@@ -271,7 +271,7 @@ export default function TeamPreviewSection() {
                     </div>
 
                     {/* Skills Tags */}
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-2 mb-4 flex-shrink-0">
                       {member.skills.slice(0, 2).map((skill, skillIndex) => (
                         <div
                           key={skill}
@@ -292,7 +292,7 @@ export default function TeamPreviewSection() {
                     </div>
 
                     {/* Description - Shows on hover */}
-                    <div className={`transition-all duration-300 overflow-hidden ${
+                    <div className={`transition-all duration-300 overflow-hidden flex-grow ${
                       hoveredMember === member.id ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
                     }`}>
                       <p className="text-scout-text-muted font-metropolis text-xs leading-relaxed">
@@ -301,7 +301,7 @@ export default function TeamPreviewSection() {
                     </div>
 
                     {/* View Profile Button - Shows on hover */}
-                    <div className={`transition-all duration-300 ${
+                    <div className={`transition-all duration-300 flex-shrink-0 ${
                       hoveredMember === member.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                     }`}>
                       <div className="pt-4 border-t border-scout-border/20">
@@ -323,7 +323,7 @@ export default function TeamPreviewSection() {
                 <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl p-6 backdrop-blur-sm hover:border-scout-green/40 transition-all duration-300 hover:scale-105">
                   <div className="text-3xl md:text-4xl font-bold text-scout-green mb-2 font-teko group-hover:scale-110 transition-transform duration-200">
                     {stat.number}
-                  </div>
+                </div>
                   <div className="text-scout-text-muted text-sm font-metropolis">{stat.label}</div>
                 </div>
               </div>
