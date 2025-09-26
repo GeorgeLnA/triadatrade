@@ -23,10 +23,10 @@ export default function PartnersPreviewSection() {
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6">
-              Trusted by Industry Leaders
+            <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
+              TRUSTED BY INDUSTRY LEADERS
             </h2>
-            <p className="text-lg md:text-xl text-scout-text-muted max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-scout-text-muted max-w-3xl mx-auto font-metropolis">
               We work with leading organizations across the defence sector, government, and private industry to deliver exceptional results.
             </p>
           </div>
@@ -36,19 +36,19 @@ export default function PartnersPreviewSection() {
             {partners.map((partner, index) => (
               <div key={index} className="bg-card border border-border rounded-lg p-6 hover:border-triada-silver/50 transition-all duration-200">
                 <h3 className="text-xl font-bold text-foreground mb-2">{partner.name}</h3>
-                <p className="text-muted-foreground text-sm">{partner.category}</p>
+                <p className="text-muted-foreground text-sm font-metropolis">{partner.category}</p>
               </div>
             ))}
           </div>
 
           {/* Strategic Stakeholders */}
           <div className="bg-card border border-border rounded-lg p-8 mb-12">
-            <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Strategic Defence Stakeholders</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-6 text-center font-teko">STRATEGIC DEFENCE STAKEHOLDERS</h3>
             <div className="grid md:grid-cols-2 gap-4">
               {stakeholders.map((stakeholder, index) => (
                 <div key={index} className="flex items-center">
                   <div className="w-2 h-2 bg-triada-silver rounded-full mr-4 flex-shrink-0" />
-                  <span className="text-muted-foreground">{stakeholder}</span>
+                  <span className="text-muted-foreground font-metropolis">{stakeholder}</span>
                 </div>
               ))}
             </div>
@@ -57,8 +57,8 @@ export default function PartnersPreviewSection() {
           {/* CTA */}
           <div className="text-center">
             <Link to="/partners">
-              <Button size="lg" className="bg-triada-silver hover:bg-triada-silver/90 text-triada-black font-semibold px-8 py-4">
-                View All Partners
+              <Button size="lg" className="bg-triada-silver hover:bg-triada-silver/90 text-triada-black font-semibold px-8 py-4 font-teko">
+                VIEW ALL PARTNERS
               </Button>
             </Link>
           </div>

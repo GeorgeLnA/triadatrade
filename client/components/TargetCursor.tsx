@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useRef, useCallback, useMemo, useState } from "react";
 import { gsap } from "gsap";
 
 interface TargetCursorProps {
@@ -15,6 +15,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   const cursorRef = useRef<HTMLDivElement>(null);
   const cornersRef = useRef<HTMLDivElement[]>([]);
   const spinTl = useRef<gsap.core.Timeline | null>(null);
+  const [customText, setCustomText] = useState<string>("");
 
   const constants = useMemo(
     () => ({
@@ -177,6 +178,13 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
       activeTarget = target;
 
+      // Set custom text for specific elements
+      if (target.classList.contains('scroll-ruler')) {
+        setCustomText('Jump here');
+      } else {
+        setCustomText('');
+      }
+
       gsap.killTweensOf(cursorRef.current, "rotation");
       spinTl.current?.pause();
 
@@ -263,6 +271,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
       const leaveHandler = () => {
         activeTarget = null;
+        setCustomText('');
         isAnimatingToTarget = false;
 
         if (cornersRef.current) {
@@ -394,6 +403,23 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
         className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0"
         style={{ willChange: 'transform' }}
       />
+      {/* Custom text display */}
+      {customText && (
+        <div
+          className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          style={{
+            marginTop: '25px',
+            color: 'white',
+            fontSize: '8px',
+            fontWeight: '600',
+            textShadow: '0 0 4px rgba(255,255,255,0.4)',
+            whiteSpace: 'nowrap',
+            willChange: 'transform'
+          }}
+        >
+          {customText}
+        </div>
+      )}
     </div>
   );
 };

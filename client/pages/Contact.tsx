@@ -38,10 +38,10 @@ export default function Contact() {
         <section className="w-full py-20 bg-scout-dark">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl md:text-6xl font-bold text-scout-text-white mb-8">
-                Contact Us
+              <h1 className="text-5xl md:text-6xl font-bold text-scout-text-white mb-8 font-teko">
+                CONTACT US
               </h1>
-              <p className="text-xl md:text-2xl text-scout-text-muted leading-relaxed">
+              <p className="text-xl md:text-2xl text-scout-text-muted font-metropolis leading-relaxed">
                 Get in touch with our team to discuss your defence partnership needs and how we can support your initiatives in Ukraine.
               </p>
             </div>
@@ -58,8 +58,8 @@ export default function Contact() {
               <div className="grid md:grid-cols-2 gap-12">
                 {/* Contact Details */}
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8">
-                    Get in Touch
+                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8 font-teko">
+                    GET IN TOUCH
                   </h2>
                   
                   <div className="space-y-8">
@@ -71,8 +71,8 @@ export default function Contact() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-scout-text-white mb-2">Address</h3>
-                        <p className="text-scout-text-muted">
+                        <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">ADDRESS</h3>
+                        <p className="text-scout-text-muted font-metropolis">
                           01032, Saksahanskoho St 38<br />
                           Kyiv, Ukraine
                         </p>
@@ -86,8 +86,8 @@ export default function Contact() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-scout-text-white mb-2">Phone</h3>
-                        <p className="text-scout-text-muted">+380-97-126-5663</p>
+                        <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">PHONE</h3>
+                        <p className="text-scout-text-muted font-metropolis">+380-97-126-5663</p>
                       </div>
                     </div>
                     
@@ -98,8 +98,8 @@ export default function Contact() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-scout-text-white mb-2">Email</h3>
-                        <p className="text-scout-text-muted">info@triada-trade.com</p>
+                        <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">EMAIL</h3>
+                        <p className="text-scout-text-muted font-metropolis">info@triada-trade.com</p>
                       </div>
                     </div>
                     
@@ -110,12 +110,12 @@ export default function Contact() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-scout-text-white mb-2">Social</h3>
+                        <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">SOCIAL</h3>
                         <div className="flex space-x-4">
-                          <a href="#" className="text-scout-text-muted hover:text-scout-green transition-colors">
+                          <a href="#" className="text-scout-text-muted font-metropolis hover:text-scout-green transition-colors">
                             LinkedIn
                           </a>
-                          <a href="#" className="text-scout-text-muted hover:text-scout-green transition-colors">
+                          <a href="#" className="text-scout-text-muted font-metropolis hover:text-scout-green transition-colors">
                             Medium
                           </a>
                         </div>
@@ -126,7 +126,7 @@ export default function Contact() {
 
                 {/* Contact Form */}
                 <div className="bg-scout-dark border border-scout-border rounded-lg p-8">
-                  <h3 className="text-2xl font-bold text-scout-text-white mb-6">Send us a message</h3>
+                  <h3 className="text-2xl font-bold text-scout-text-white mb-6 font-teko">SEND US A MESSAGE</h3>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
@@ -220,7 +220,7 @@ export default function Contact() {
                         onChange={handleInputChange}
                         className="w-4 h-4 text-scout-green bg-scout-card-bg border-scout-border rounded focus:ring-scout-green focus:ring-2"
                       />
-                      <label htmlFor="callBack" className="ml-2 text-sm text-scout-text-muted">
+                      <label htmlFor="callBack" className="ml-2 text-sm text-scout-text-muted font-metropolis">
                         Call me back
                       </label>
                     </div>
@@ -247,41 +247,41 @@ export default function Contact() {
             <div className="max-w-6xl mx-auto">
               <div className="grid md:grid-cols-2 gap-12">
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8">
-                    Office Hours
+                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8 font-teko">
+                    OFFICE HOURS
                   </h2>
                   <div className="space-y-4">
                     <div className="flex justify-between">
-                      <span className="text-scout-text-muted">Monday - Friday</span>
+                      <span className="text-scout-text-muted font-metropolis">Monday - Friday</span>
                       <span className="text-scout-text-white">9:00 AM - 6:00 PM (EET)</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-scout-text-muted">Saturday</span>
+                      <span className="text-scout-text-muted font-metropolis">Saturday</span>
                       <span className="text-scout-text-white">10:00 AM - 2:00 PM (EET)</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-scout-text-muted">Sunday</span>
+                      <span className="text-scout-text-muted font-metropolis">Sunday</span>
                       <span className="text-scout-text-white">Closed</span>
                     </div>
                   </div>
                 </div>
                 
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8">
-                    Response Time
+                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8 font-teko">
+                    RESPONSE TIME
                   </h2>
                   <div className="space-y-4">
                     <div className="bg-scout-card-bg border border-scout-border rounded-lg p-6">
-                      <h3 className="text-xl font-bold text-scout-text-white mb-2">General Inquiries</h3>
-                      <p className="text-scout-text-muted">Within 24 hours during business days</p>
+                      <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">GENERAL INQUIRIES</h3>
+                      <p className="text-scout-text-muted font-metropolis">Within 24 hours during business days</p>
                     </div>
                     <div className="bg-scout-card-bg border border-scout-border rounded-lg p-6">
-                      <h3 className="text-xl font-bold text-scout-text-white mb-2">Partnership Proposals</h3>
-                      <p className="text-scout-text-muted">Within 48 hours for detailed responses</p>
+                      <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">PARTNERSHIP PROPOSALS</h3>
+                      <p className="text-scout-text-muted font-metropolis">Within 48 hours for detailed responses</p>
                     </div>
                     <div className="bg-scout-card-bg border border-scout-border rounded-lg p-6">
-                      <h3 className="text-xl font-bold text-scout-text-white mb-2">Urgent Matters</h3>
-                      <p className="text-scout-text-muted">Please call directly for immediate assistance</p>
+                      <h3 className="text-xl font-bold text-scout-text-white mb-2 font-teko">URGENT MATTERS</h3>
+                      <p className="text-scout-text-muted font-metropolis">Please call directly for immediate assistance</p>
                     </div>
                   </div>
                 </div>

@@ -20,9 +20,32 @@ const ScrollRuler: React.FC<ScrollRulerProps> = ({
 }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
   const rulerRef = useRef<HTMLDivElement>(null);
   const markerRef = useRef<HTMLDivElement>(null);
   const numbersRef = useRef<HTMLDivElement>(null);
+
+  // Handle click on ruler to jump to position
+  const handleRulerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!rulerRef.current) return;
+    
+    const rect = rulerRef.current.getBoundingClientRect();
+    const clickY = event.clientY - rect.top;
+    const rulerHeight = rect.height;
+    const clickPercentage = clickY / rulerHeight;
+    
+    // Calculate scroll position
+    const headerHeight = 80;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const adjustedScrollHeight = Math.max(0, scrollHeight - headerHeight);
+    const targetScrollTop = headerHeight + (clickPercentage * adjustedScrollHeight);
+    
+    // Smooth scroll to target position
+    window.scrollTo({
+      top: targetScrollTop,
+      behavior: 'smooth'
+    });
+  };
 
   useEffect(() => {
     const updateScrollProgress = () => {
@@ -138,13 +161,16 @@ const ScrollRuler: React.FC<ScrollRulerProps> = ({
   return (
     <div
       ref={rulerRef}
-      className="fixed right-0 z-50 pointer-events-none hidden md:block"
+      className="fixed right-0 z-50 hidden md:block scroll-ruler"
+      onClick={handleRulerClick}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
       style={{
         width: `${rulerWidth}px`,
         top: '87px', // Moved up 1 more pixel from 88px
         height: 'calc(100vh - 137px)', // Adjusted height accordingly
         right: '0',
-        pointerEvents: 'none',
+        pointerEvents: 'auto',
         mixBlendMode: 'difference'
       }}
     >
@@ -213,6 +239,7 @@ const ScrollRuler: React.FC<ScrollRulerProps> = ({
       >
         {Math.round(scrollProgress * 100)}%
       </div>
+
     </div>
   );
 };

@@ -1,9 +1,62 @@
 /** @import must precede all other statements */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Audiowide:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Metropolis:wght@300;400;500;600;700&display=swap");
+
+/* Teko Font Face Declarations */
+@font-face {
+  font-family: 'Teko';
+  src: url('/teko/Teko-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teko';
+  src: url('/teko/Teko-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teko';
+  src: url('/teko/Teko-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teko';
+  src: url('/teko/Teko-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Teko';
+  src: url('/teko/Teko-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hide default cursor globally from the start */
+html, body {
+  cursor: none !important;
+}
+
+/* Ensure all interactive elements also have no cursor initially */
+*, *::before, *::after {
+  cursor: none !important;
+}
 
 @layer base {
   /**
@@ -107,15 +160,19 @@
 
 body {
   @apply bg-background text-foreground;
-  background-image:
-    radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-  background-size: 20px 20px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Metropolis', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   font-variant-numeric: tabular-nums;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Dot pattern for black sections */
+.dot-pattern {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 /* Add padding for scroll ruler on desktop only */
@@ -231,6 +288,28 @@ html {
     letter-spacing: -0.02em;
   }
 
+  /* Teko Font Utility - Headers */
+  .font-teko {
+    font-family: 'Teko', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  /* Metropolis Font Utility - Body Text */
+  .font-metropolis {
+    font-family: 'Metropolis', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  /* Audiowide Font Utility */
+  .font-audiowide {
+    font-family: 'Audiowide', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
   .text-display-2 {
     font-size: var(--text-7xl);
     line-height: var(--leading-tight);
@@ -332,12 +411,13 @@ html {
     position: fixed;
     width: 1px;
     background: hsl(var(--border));
-    z-index: 1000;
+    z-index: 999;
     pointer-events: none;
     height: 100vh;
     top: 0;
     animation: moveFromCenter 1.2s ease-out forwards;
     animation-delay: 2s; /* 2 second pause before extending */
+    mix-blend-mode: difference;
   }
 
   body::before {
@@ -350,6 +430,19 @@ html {
     left: 65%; /* Right line starts at 65% - bigger rectangle */
     transform: translateX(-50%);
     animation-name: moveRightLine;
+  }
+
+  /* Mobile-specific loading animation - wider starting position */
+  @media (max-width: 640px) {
+    body::before {
+      left: 25%; /* Wider starting position on mobile */
+      animation-name: moveLeftLineMobile;
+    }
+
+    body::after {
+      left: 75%; /* Wider starting position on mobile */
+      animation-name: moveRightLineMobile;
+    }
   }
 
   /* Header border animation - starts narrow and moves outward */
@@ -366,11 +459,12 @@ html {
     width: 1px;
     height: 100vw; /* Full screen width */
     background: hsl(var(--border)); /* Same color as side lines */
-    z-index: 1000;
+    z-index: 999;
     pointer-events: none;
     transform: translateX(-50%) translateY(-50%) rotate(90deg);
     animation: moveTopLine 1.2s ease-out forwards;
     animation-delay: 2s; /* 2 second pause before extending */
+    mix-blend-mode: difference;
   }
 
   /* Bottom horizontal line - using html::after pseudo-element */
@@ -382,18 +476,19 @@ html {
     width: 1px;
     height: 100vw; /* Full screen width */
     background: hsl(var(--border)); /* Same color as side lines */
-    z-index: 1000;
+    z-index: 999;
     pointer-events: none;
     transform: translateX(-50%) translateY(-50%) rotate(90deg);
     animation: moveBottomLine 1.2s ease-out forwards;
     animation-delay: 2s; /* 2 second pause before extending */
+    mix-blend-mode: difference;
   }
 
 /* Header logo - appears 0.2s before center logo disappears */
 header img {
   opacity: 0;
   animation: showHeaderLogo 0.01s ease-out forwards;
-  animation-delay: 3.1s; /* Appears 0.2s before center logo disappears (3.3s - 0.2s) */
+  animation-delay: 2.7s; /* Appears 0.3s before center logo disappears (3.0s - 0.3s) */
 }
 
   /* Navigation buttons - drop down from top when center logo disappears */
@@ -401,7 +496,7 @@ header img {
     opacity: 0;
     transform: translateY(-100%);
     animation: dropDownNavigation 0.5s ease-out forwards;
-    animation-delay: 3.0s; /* Appears when center logo finishes (1.8s + 1.2s) */
+    animation-delay: 2.7s; /* Appears when center logo finishes (1.8s + 0.9s) */
   }
 
   @keyframes showHeaderLogo {
@@ -540,6 +635,81 @@ header img {
     }
   }
 
+  /* Mobile-specific keyframes for wider starting position */
+  @keyframes moveLeftLineMobile {
+    100% {
+      left: 43px;
+      transform: translateX(0);
+    }
+  }
+
+@keyframes moveRightLineMobile {
+  100% {
+    left: calc(100% - 43px);
+    transform: translateX(0);
+  }
+}
+
+/* 3D Card Flip Animation */
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* Running Strip Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-307%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 60s linear infinite;
+}
+
+.animate-scroll-fast {
+  animation: scroll 20s linear infinite;
+}
+
+/* Seamless scroll animation - moves exactly the width of one logo set */
+.animate-scroll-seamless {
+  animation: scroll-seamless 20s linear infinite;
+}
+
+@keyframes scroll-seamless {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-1160px);
+  }
+}
+
+/* Slow Spin Animation */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 30s linear infinite;
+}
+
+/* Counter-rotation to keep logos upright */
+.animate-spin-reverse {
+  animation: spin-slow 30s linear infinite reverse;
+}
+
   @keyframes moveTopLine {
     100% {
       top: 80px; /* Position at bottom of header */
@@ -560,21 +730,21 @@ header img {
   .hero-video {
     opacity: 0;
     animation: fadeInVideo 1s ease-out forwards;
-    animation-delay: 3.3s; /* After border animation completes (1.2s + 2s + 0.1s buffer) */
+    animation-delay: 3.0s; /* After border animation completes (1.2s + 2s - 0.2s buffer) */
   }
 
   .hero-content {
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInContent 1s ease-out forwards;
-    animation-delay: 3.5s; /* Slightly after video starts */
+    animation-delay: 3.2s; /* Slightly after video starts */
   }
 
   .hero-quote {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInQuote 1s ease-out forwards;
-    animation-delay: 3.8s; /* After main content */
+    animation-delay: 3.5s; /* After main content */
   }
 
   @keyframes fadeInVideo {
@@ -597,6 +767,48 @@ header img {
     }
   }
 
+  @keyframes fadeInOnly {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInFromBottom {
+    0% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInFromBottomRotating {
+    0% {
+      opacity: 0;
+      transform: translateX(calc(-50% + 1px)) translateY(calc(1px + 50px));
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(calc(-50% + 1px)) translateY(1px);
+    }
+  }
+
+  @keyframes slideInFromBottomCTA {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
   @keyframes fadeInQuote {
     0% {
       opacity: 0;
@@ -605,6 +817,15 @@ header img {
     100% {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes showContent {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 

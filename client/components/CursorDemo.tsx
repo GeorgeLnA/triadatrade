@@ -24,7 +24,7 @@ const CursorDemo: React.FC = () => {
         <section className="space-y-6">
           <h2 className="text-2xl font-semibold text-foreground mb-4">Interactive Elements</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Button className="cursor-target">Hover Me</Button>
+            <Button className="cursor-target font-teko">HOVER ME</Button>
             <Link to="/" className="cursor-target inline-block bg-triada-silver text-triada-black px-6 py-3 rounded-lg hover:bg-triada-silver/80 transition-colors">
               Link Target
             </Link>
@@ -68,12 +68,12 @@ const CursorDemo: React.FC = () => {
                 <h3 className="text-lg font-semibold text-foreground mb-3 group-hover:text-triada-silver transition-colors">
                   Interactive Card {i}
                 </h3>
-                <p className="text-muted-foreground mb-4">
+                <p className="text-muted-foreground mb-4 font-metropolis">
                   This card demonstrates the advanced cursor animation with parallax corner effects and smooth transitions.
                 </p>
                 <div className="flex gap-2">
-                  <Button size="sm" className="cursor-target">Action</Button>
-                  <Button size="sm" variant="outline" className="cursor-target">Secondary</Button>
+                  <Button size="sm" className="cursor-target font-teko">ACTION</Button>
+                  <Button size="sm" variant="outline" className="cursor-target font-teko">SECONDARY</Button>
                 </div>
               </div>
             ))}
@@ -85,12 +85,12 @@ const CursorDemo: React.FC = () => {
           <h2 className="text-2xl font-semibold text-foreground mb-4">Nested Elements</h2>
           <div className="cursor-target bg-card border border-border rounded-lg p-8">
             <h3 className="text-xl font-semibold text-foreground mb-4">Parent Container</h3>
-            <p className="text-muted-foreground mb-6">
+            <p className="text-muted-foreground mb-6 font-metropolis">
               This container has the cursor-target class, and contains nested interactive elements.
             </p>
             <div className="flex gap-4 flex-wrap">
-              <Button className="cursor-target">Nested Button 1</Button>
-              <Button variant="outline" className="cursor-target">Nested Button 2</Button>
+              <Button className="cursor-target font-teko">NESTED BUTTON 1</Button>
+              <Button variant="outline" className="cursor-target font-teko">NESTED BUTTON 2</Button>
               <Link to="/" className="cursor-target text-triada-silver hover:text-white transition-colors">
                 Nested Link
               </Link>
@@ -119,7 +119,7 @@ const CursorDemo: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-4">Advanced Features</h3>
-              <ul className="space-y-2 text-muted-foreground">
+              <ul className="space-y-2 text-muted-foreground font-metropolis">
                 <li>• <strong>Parallax Corners:</strong> Corners move subtly based on mouse position within the target</li>
                 <li>• <strong>Smart Detection:</strong> Automatically detects nested interactive elements</li>
                 <li>• <strong>Smooth Transitions:</strong> Seamless spinning to corner animation transitions</li>
@@ -129,7 +129,7 @@ const CursorDemo: React.FC = () => {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-foreground mb-4">Technical Details</h3>
-              <ul className="space-y-2 text-muted-foreground">
+              <ul className="space-y-2 text-muted-foreground font-metropolis">
                 <li>• <strong>GSAP Timeline:</strong> Advanced animation sequencing</li>
                 <li>• <strong>Event Delegation:</strong> Efficient event handling</li>
                 <li>• <strong>Memory Management:</strong> Proper cleanup and garbage collection</li>

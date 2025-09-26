@@ -3,16 +3,16 @@ import Footer from "@/components/Footer";
 
 export default function WhoWeAre() {
   return (
-    <div className="w-full min-h-screen bg-scout-dark text-scout-text-primary overflow-x-hidden">
+    <div className="w-full min-h-screen" style={{backgroundColor: '#0a1628'}}>
       <Header />
       
       <main className="w-full pt-[72px]">
         {/* Hero Section */}
-        <section className="w-full py-20 bg-scout-dark">
+        <section className="w-full py-20" style={{backgroundColor: '#0a1628'}}>
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl md:text-6xl font-bold text-scout-text-white mb-8">
-                Who we are
+              <h1 className="text-5xl md:text-6xl font-bold text-scout-text-white mb-8 font-teko">
+                WHO WE ARE
               </h1>
               <p className="text-xl md:text-2xl text-scout-text-muted leading-relaxed">
                 Triada Trade is a defence-sector advisory and delivery partner focused on Ukraine. We combine a collaborative operating model with a deep network across public and private stakeholders to move fast on complex initiatives—while upholding strict standards of ethics, transparency, and trust.
@@ -25,11 +25,11 @@ export default function WhoWeAre() {
         <div className="w-full h-px bg-scout-border" />
 
         {/* Values Section */}
-        <section className="w-full py-20 bg-scout-card-bg">
+        <section className="w-full py-20" style={{backgroundColor: '#0a1628'}}>
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-16 text-center">
-                Our Values
+              <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-16 text-center font-teko">
+                OUR VALUES
               </h2>
               
               <div className="grid md:grid-cols-3 gap-8">
@@ -39,7 +39,7 @@ export default function WhoWeAre() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-scout-text-white mb-4">Ethics</h3>
+                  <h3 className="text-2xl font-bold text-scout-text-white mb-4 font-teko">ETHICS</h3>
                   <p className="text-scout-text-muted">
                     Upholding the highest standards of integrity and ethical conduct in all our partnerships and operations.
                   </p>
@@ -51,7 +51,7 @@ export default function WhoWeAre() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-scout-text-white mb-4">Transparency</h3>
+                  <h3 className="text-2xl font-bold text-scout-text-white mb-4 font-teko">TRANSPARENCY</h3>
                   <p className="text-scout-text-muted">
                     Maintaining clear, open communication and transparent processes throughout all our engagements.
                   </p>
@@ -63,7 +63,7 @@ export default function WhoWeAre() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-scout-text-white mb-4">Trust</h3>
+                  <h3 className="text-2xl font-bold text-scout-text-white mb-4 font-teko">TRUST</h3>
                   <p className="text-scout-text-muted">
                     Building lasting relationships based on mutual trust, reliability, and consistent delivery of results.
                   </p>

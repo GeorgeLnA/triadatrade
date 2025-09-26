@@ -11,8 +11,8 @@ export default function VisionMission() {
         <section className="w-full py-20 bg-scout-dark">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl md:text-6xl font-bold text-scout-text-white mb-8">
-                Vision & Mission
+              <h1 className="text-5xl md:text-6xl font-bold text-scout-text-white mb-8 font-teko">
+                VISION & MISSION
               </h1>
               <p className="text-xl md:text-2xl text-scout-text-muted leading-relaxed">
                 Our commitment to building a secure, resilient Ukraine through strategic partnerships and collaborative defence initiatives.
@@ -30,8 +30,8 @@ export default function VisionMission() {
             <div className="max-w-6xl mx-auto">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8">
-                    Our Vision
+                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8 font-teko">
+                    OUR VISION
                   </h2>
                   <p className="text-lg text-scout-text-muted mb-8">
                     We envision a future where Ukraine stands as a resilient, secure nation supported by robust international alliances and strengthened through strategic partnerships.
@@ -66,8 +66,8 @@ export default function VisionMission() {
             <div className="max-w-6xl mx-auto">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="order-2 md:order-1">
-                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8">
-                    Our Mission
+                  <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-8 font-teko">
+                    OUR MISSION
                   </h2>
                   <p className="text-lg text-scout-text-muted leading-relaxed">
                     Attract and enable foreign partners to collaborate with Ukraine's MoD, Security & Defence Forces, and private defence companies—improving outcomes through strategy, implementation, and analysis.
@@ -76,7 +76,7 @@ export default function VisionMission() {
                 
                 <div className="order-1 md:order-2">
                   <div className="bg-scout-card-bg border border-scout-border rounded-lg p-8">
-                    <h3 className="text-2xl font-bold text-scout-text-white mb-6">How We Achieve This</h3>
+                    <h3 className="text-2xl font-bold text-scout-text-white mb-6 font-teko">HOW WE ACHIEVE THIS</h3>
                     <ul className="space-y-4">
                       <li className="flex items-start">
                         <div className="w-2 h-2 bg-scout-green rounded-full mt-3 mr-4 flex-shrink-0" />
