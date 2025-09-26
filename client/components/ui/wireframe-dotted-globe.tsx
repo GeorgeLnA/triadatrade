@@ -216,8 +216,8 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
         const shadowSize = 8 * scaleFactor
         context.beginPath()
         context.arc(projected[0], projected[1], markerSize, 0, 2 * Math.PI)
-        context.fillStyle = "#0066ff"
-        context.shadowColor = "#0066ff"
+        context.fillStyle = "#c0c0c0"
+        context.shadowColor = "#c0c0c0"
         context.shadowBlur = shadowSize
         context.fill()
         context.beginPath()
@@ -645,7 +645,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
             const maxIndex = Math.floor(Math.max(0, Math.min(1, prog)) * (curve.length - 1))
             if (maxIndex <= 0) return false
             
-            context.shadowColor = "#c0c0c0"
+            context.shadowColor = "#0066ff"
             context.shadowBlur = 10 * scaleFactor
             context.beginPath()
             let pathStarted = false
@@ -667,7 +667,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
               }
             }
             if (pathStarted) {
-              context.strokeStyle = "#c0c0c0"
+              context.strokeStyle = "#0066ff"
               context.lineWidth = 1.5 * scaleFactor
               context.globalAlpha = 0.9 * linesOpacityRef.current
               context.stroke()

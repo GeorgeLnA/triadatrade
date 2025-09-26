@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 export default function HeroSection() {
@@ -168,14 +167,13 @@ export default function HeroSection() {
           mixBlendMode: 'difference'
         }}
       >
-          <Link to="/activities/defence-security">
-            <Button 
-              size="lg" 
-              className="bg-white hover:bg-white/90 text-black font-teko px-10 py-5 text-xl rounded-none transition-all duration-200 transform hover:scale-105"
-            >
-              Explore our activities
-            </Button>
-          </Link>
+          <Button 
+            size="lg" 
+            className="bg-white hover:bg-white/90 text-black font-teko px-10 py-5 text-xl rounded-none transition-all duration-200 transform hover:scale-105 cursor-pointer"
+            onClick={(e) => e.preventDefault()}
+          >
+            Explore our activities
+          </Button>
       </div>
 
     </section>

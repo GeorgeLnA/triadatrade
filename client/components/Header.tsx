@@ -28,7 +28,7 @@ export default function Header() {
         className="fixed top-6 left-[28%] pointer-events-none z-[9999] hidden sm:block"
         style={{ mixBlendMode: 'difference', transform: 'translateX(-50%)', opacity: 0, animation: 'dropDownNavigationFixed 0.5s ease-out forwards', animationDelay: '3.3s' }}
       >
-        <a href="/who-we-are" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko">
+        <a href="#" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko" onClick={(e) => e.preventDefault()}>
           Who we are
         </a>
       </div>
@@ -37,7 +37,7 @@ export default function Header() {
         className="fixed top-6 left-[38%] pointer-events-none z-[9999] hidden sm:block"
         style={{ mixBlendMode: 'difference', transform: 'translateX(-50%)', opacity: 0, animation: 'dropDownNavigationFixed 0.5s ease-out forwards', animationDelay: '3.3s' }}
       >
-        <a href="/partners" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko">
+        <a href="#" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko" onClick={(e) => e.preventDefault()}>
           Partners
         </a>
       </div>
@@ -58,7 +58,7 @@ export default function Header() {
         className="fixed top-6 right-[38%] pointer-events-none z-[9999] hidden sm:block"
         style={{ mixBlendMode: 'difference', transform: 'translateX(50%)', opacity: 0, animation: 'dropDownNavigationFixed 0.5s ease-out forwards', animationDelay: '3.3s' }}
       >
-        <a href="/team" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko">
+        <a href="#" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko" onClick={(e) => e.preventDefault()}>
           Our Team
         </a>
       </div>
@@ -67,7 +67,7 @@ export default function Header() {
         className="fixed top-6 right-[28%] pointer-events-none z-[9999] hidden sm:block"
         style={{ mixBlendMode: 'difference', transform: 'translateX(50%)', opacity: 0, animation: 'dropDownNavigationFixed 0.5s ease-out forwards', animationDelay: '3.3s' }}
       >
-        <a href="/contact" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko">
+        <a href="#" className="text-2xl text-white transition-colors duration-200 px-6 py-4 pointer-events-auto font-teko" onClick={(e) => e.preventDefault()}>
           Contact us
         </a>
       </div>
@@ -100,30 +100,30 @@ export default function Header() {
         >
           <div className="flex flex-col space-y-4">
             <a 
-              href="/who-we-are" 
+              href="#" 
               className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }}
             >
               Who we are
             </a>
             <a 
-              href="/partners" 
+              href="#" 
               className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }}
             >
               Partners
             </a>
             <a 
-              href="/team" 
+              href="#" 
               className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }}
             >
               Our Team
             </a>
             <a 
-              href="/contact" 
+              href="#" 
               className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={(e) => { e.preventDefault(); setIsMobileMenuOpen(false); }}
             >
               Contact us
             </a>

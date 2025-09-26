@@ -330,15 +330,14 @@ export default function Index() {
         </div>
 
 
-        {/* Strategic Defence Stakeholders - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
-          <StrategicStakeholdersSection />
-        </div>
-
-
         {/* Trusted By Industry Leaders (Partners) - Black background */}
         <div ref={partnersSectionRef} style={{backgroundColor: '#050612'}}>
           <PartnersPreviewSection />
+        </div>
+
+        {/* Strategic Defence Stakeholders - Black background */}
+        <div style={{backgroundColor: '#050612'}}>
+          <StrategicStakeholdersSection />
         </div>
 
         {/* Meet Our Team - Black background */}

@@ -37,21 +37,18 @@ export function BlogTimeline({ data, className }: TimelineProps) {
 
   return (
     <div ref={containerRef} className={cn("w-full bg-scout-dark font-sans md:px-10", className)}>
-      <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-        <h2 className="text-lg md:text-4xl mb-4 text-scout-text-white max-w-4xl font-bold font-teko">
-          WRITING TIMELINE
+      <div className="max-w-7xl mx-auto pt-20 pb-2 px-4 md:px-8 lg:px-10">
+        <h2 className="text-3xl md:text-6xl mb-2 text-scout-text-white font-bold font-teko text-center">
+          OUR BLOG
         </h2>
-        <p className="text-scout-text-muted text-sm md:text-base max-w-sm font-metropolis">
-          Highlights from our recent writing and updates from the defence industry.
-        </p>
       </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {data.map((item, index) => (
-          <div key={index} className="flex justify-start pt-10 md:pt-40 md:gap-10">
-            <div className="sticky flex flex-col md:flex-row z-20 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
+          <div key={index} className="flex justify-start pt-6 md:pt-12 md:gap-10">
+            <div className="sticky flex flex-col md:flex-row z-20 items-center top-40 self-center max-w-xs lg:max-w-sm md:w-full">
               <div className="h-10 absolute left-3 md:left-3 top-0 w-10 rounded-full bg-transparent flex items-center justify-center">
-                <div className="h-4 w-4 rounded-full bg-gray-700 border border-gray-500" />
+                <div className="h-5 w-5 rounded-full bg-scout-green border-2 border-scout-border shadow-lg shadow-scout-green/30" />
               </div>
               <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-scout-text-white/70 font-teko">
                 {item.title}
@@ -62,7 +59,7 @@ export function BlogTimeline({ data, className }: TimelineProps) {
               <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-scout-text-white/70 font-teko">
                 {item.title}
               </h3>
-              <div className="[&_img]:border [&_img]:border-scout-border [&_.card]:bg-scout-card-bg [&_.card]:border [&_.card]:border-scout-border">
+              <div className="[&_img]:border [&_img]:border-scout-border [&_img]:rounded-lg [&_.card]:bg-scout-card-bg [&_.card]:border [&_.card]:border-scout-border [&_.card]:rounded-lg">
                 {item.content}
               </div>
             </div>
@@ -74,14 +71,14 @@ export function BlogTimeline({ data, className }: TimelineProps) {
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-gradient-to-b from-transparent via-gray-500/40 to-transparent"
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[3px] bg-gradient-to-b from-scout-border/20 via-scout-border/40 to-scout-border/20 rounded-full"
         >
           <motion.div
             style={{
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-scout-green via-scout-green to-transparent rounded-full"
+            className="absolute inset-x-0 top-0 w-[3px] bg-gradient-to-t from-scout-green via-scout-green/80 to-scout-green/40 rounded-full shadow-lg shadow-scout-green/20"
           />
         </div>
       </div>
