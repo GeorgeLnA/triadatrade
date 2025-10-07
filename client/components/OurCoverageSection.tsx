@@ -106,7 +106,15 @@ export default function OurCoverageSection() {
 
   return (
     <section className="relative w-full min-h-[800px] bg-scout-dark overflow-x-hidden">
-      <div className="container mx-auto px-6 py-16" style={{ marginLeft: '43px', marginRight: '43px' }}>
+      {/* Dynamic container that matches vertical lines - 70px margins */}
+      <div 
+        className="relative z-10 w-full mx-auto py-16"
+        style={{
+          marginLeft: '70px',
+          marginRight: '70px',
+          maxWidth: 'calc(100vw - 140px)' // 70px left + 70px right
+        }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Left: Sticky Globe */}
           <div className="order-2 lg:order-1 lg:col-span-2 relative">
@@ -124,7 +132,7 @@ export default function OurCoverageSection() {
                   height: "100vh",
                 }}
              >
-                <div className="w-full max-w-[800px] mx-auto">
+                <div className="w-full">
                   <RotatingEarth
                     width={800}
                     height={800}
@@ -160,9 +168,23 @@ export default function OurCoverageSection() {
                     className={`absolute inset-x-0 ${showIntroNow ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'} transition-all duration-500`}
                     style={{ top: '50%', transform: 'translateY(-50%)', willChange: 'transform, opacity' }}
                   >
-                    <div className="bg-scout-card-bg/60 border border-scout-green/40 rounded-xl p-4 lg:p-6 backdrop-blur-sm max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
-                      <h3 className="text-scout-text-white text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-teko font-bold mb-2 leading-tight">TRIADA TRADE</h3>
-                      <p className="text-scout-text-muted font-metropolis text-xs lg:text-base xl:text-lg">Global coverage overview</p>
+                    <div className="bg-scout-card-bg/60 border border-scout-green/40 rounded-xl p-4 lg:p-6 backdrop-blur-sm w-full ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
+                      <h3 
+                        className="text-scout-text-white font-teko font-bold mb-2 leading-tight"
+                        style={{
+                          fontSize: 'calc(1.5rem + 2vw)' // Scales with container width
+                        }}
+                      >
+                        TRIADA TRADE
+                      </h3>
+                      <p 
+                        className="text-scout-text-muted font-metropolis"
+                        style={{
+                          fontSize: 'calc(0.75rem + 0.5vw)' // Scales with container width
+                        }}
+                      >
+                        Global coverage overview
+                      </p>
                     </div>
                   </div>
                 </Reveal>
@@ -174,17 +196,32 @@ export default function OurCoverageSection() {
                     style={{ top: '50%', transform: 'translateY(-50%)', willChange: 'transform, opacity' }}
                   >
                     {regionPhase && (
-                      <div className="bg-scout-card-bg/60 border border-scout-border rounded-xl p-4 lg:p-6 backdrop-blur-sm max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
-                      <h3 className="text-scout-text-white text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-teko font-bold mb-4 leading-tight">
+                      <div className="bg-scout-card-bg/60 border border-scout-border rounded-xl p-4 lg:p-6 backdrop-blur-sm w-full ml-2 lg:ml-8 xl:ml-16 2xl:ml-24">
+                      <h3 
+                        className="text-scout-text-white font-teko font-bold mb-4 leading-tight"
+                        style={{
+                          fontSize: 'calc(1.5rem + 2vw)' // Scales with container width
+                        }}
+                      >
                         OUR COVERAGE IN {regionPhase.toUpperCase()}
                       </h3>
                       {regionPhase === 'North America' && (
-                        <ul className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1 text-xs lg:text-base xl:text-lg">
+                        <ul 
+                          className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1"
+                          style={{
+                            fontSize: 'calc(0.75rem + 0.5vw)' // Scales with container width
+                          }}
+                        >
                           <li><span className="text-scout-text-white">Canada</span>: Vancouver, Toronto</li>
                         </ul>
                       )}
                       {regionPhase === 'Europe' && (
-                        <ul className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1 text-xs lg:text-base xl:text-lg">
+                        <ul 
+                          className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1"
+                          style={{
+                            fontSize: 'calc(0.75rem + 0.5vw)' // Scales with container width
+                          }}
+                        >
                           <li>UK: London</li>
                           <li>Norway: Oslo</li>
                           <li>France: Paris</li>
@@ -193,12 +230,22 @@ export default function OurCoverageSection() {
                         </ul>
                       )}
                       {regionPhase === 'Asia' && (
-                        <ul className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1 text-xs lg:text-base xl:text-lg">
+                        <ul 
+                          className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1"
+                          style={{
+                            fontSize: 'calc(0.75rem + 0.5vw)' // Scales with container width
+                          }}
+                        >
                           <li>China: Beijing</li>
                         </ul>
                       )}
                       {regionPhase === 'Oceania' && (
-                        <ul className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1 text-xs lg:text-base xl:text-lg">
+                        <ul 
+                          className="list-disc list-inside text-scout-text-muted font-metropolis space-y-1"
+                          style={{
+                            fontSize: 'calc(0.75rem + 0.5vw)' // Scales with container width
+                          }}
+                        >
                           <li>Australia: Brisbane</li>
                         </ul>
                       )}

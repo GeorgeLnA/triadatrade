@@ -193,19 +193,19 @@ export default function Index() {
 
 
         {/* Invisible Diagram Section (Video Parallax) - Transparent for video visibility */}
-        <section ref={videoSectionRef} className="w-full py-80 bg-transparent relative">
-          {/* Text Content - Left Side */}
-          <div className="absolute inset-0 flex items-center z-10 pl-28">
-            <div className="max-w-lg">
-              <p className="text-3xl md:text-4xl lg:text-5xl text-scout-text-primary font-normal font-teko leading-tight">
+        <section ref={videoSectionRef} className="w-full py-20 sm:py-32 md:py-48 lg:py-80 bg-transparent relative">
+          {/* Text Content - Responsive Layout */}
+          <div className="absolute inset-0 flex items-center z-10 px-4 sm:px-6 md:px-12 lg:pl-28">
+            <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl text-scout-text-primary font-normal font-teko leading-tight">
                 We combine strategic advisory expertise with deep Ukrainian defense sector networks to facilitate international partnerships, technology transfer, and comprehensive support for defense industry collaboration.
               </p>
             </div>
           </div>
 
-          {/* Graphic Diagram Overlay - Right Side */}
-          <div className="absolute inset-0 flex items-center justify-end z-10 pr-28">
-            <div className="bg-transparent backdrop-blur-sm border-2 border-scout-green/30 rounded-xl p-6 w-[500px] shadow-2xl relative">
+          {/* Graphic Diagram Overlay - Responsive Layout */}
+          <div className="absolute inset-0 flex items-center justify-center lg:justify-end z-10 px-4 sm:px-6 md:px-12 lg:pr-28">
+            <div className="bg-transparent backdrop-blur-sm border-2 border-scout-green/30 rounded-xl p-4 sm:p-6 w-full max-w-[280px] sm:max-w-[350px] md:max-w-[400px] lg:max-w-[500px] shadow-2xl relative">
               {/* Minimalist Flow Indicators */}
               <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
                 {/* Subtle flow dots */}
@@ -217,61 +217,61 @@ export default function Index() {
                 <div className="absolute top-1/4 left-1/2 w-px h-1/2 bg-gradient-to-b from-transparent via-scout-text-muted/20 to-transparent transform -translate-x-1/2"></div>
               </div>
 
-              {/* SERVICES Section */}
-              <div className="mb-8 relative" style={{ zIndex: 2 }}>
-                <h3 className="text-scout-text-white text-lg font-bold font-teko mb-6 text-center">SERVICES</h3>
-                <div className="grid grid-cols-2 gap-8">
+              {/* SERVICES Section - Responsive */}
+              <div className="mb-6 sm:mb-8 relative" style={{ zIndex: 2 }}>
+                <h3 className="text-scout-text-white text-sm sm:text-base md:text-lg font-bold font-teko mb-4 sm:mb-6 text-center">SERVICES</h3>
+                <div className="grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
                   {/* Export Agency */}
-                  <div className="flex flex-col items-center text-center space-y-4 group relative">
-                    <div className="w-16 h-16 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center group-hover:bg-scout-green/30 transition-all duration-300 group-hover:scale-105">
-                      <svg className="w-8 h-8 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4 group relative">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center group-hover:bg-scout-green/30 transition-all duration-300 group-hover:scale-105">
+                      <svg className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
                       </svg>
                     </div>
-                    <p className="text-scout-text-white font-metropolis text-sm font-medium leading-tight">EXPORT<br />AGENCY</p>
+                    <p className="text-scout-text-white font-metropolis text-xs sm:text-sm font-medium leading-tight">EXPORT<br />AGENCY</p>
                     {/* Flow indicator */}
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0.5 h-4 bg-gradient-to-b from-scout-green/40 to-transparent"></div>
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0.5 h-3 sm:h-4 bg-gradient-to-b from-scout-green/40 to-transparent"></div>
                   </div>
                   
                   {/* Legal & Financing */}
-                  <div className="flex flex-col items-center text-center space-y-4 group relative">
-                    <div className="w-16 h-16 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center group-hover:bg-scout-green/30 transition-all duration-300 group-hover:scale-105">
-                      <svg className="w-8 h-8 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex flex-col items-center text-center space-y-2 sm:space-y-4 group relative">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center group-hover:bg-scout-green/30 transition-all duration-300 group-hover:scale-105">
+                      <svg className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                     </div>
-                    <p className="text-scout-text-white font-metropolis text-sm font-medium leading-tight">LEGAL &<br />FINANCING</p>
+                    <p className="text-scout-text-white font-metropolis text-xs sm:text-sm font-medium leading-tight">LEGAL &<br />FINANCING</p>
                     {/* Flow indicator */}
-                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0.5 h-4 bg-gradient-to-b from-scout-green/40 to-transparent"></div>
+                    <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0.5 h-3 sm:h-4 bg-gradient-to-b from-scout-green/40 to-transparent"></div>
                   </div>
                 </div>
               </div>
 
-              {/* Strategic Advisory - Central Hub */}
-              <div className="mb-8 text-center relative" style={{ zIndex: 2 }}>
-                <div className="bg-gradient-to-r from-scout-green to-scout-green/80 text-scout-dark px-8 py-6 rounded-2xl border-2 border-scout-green shadow-2xl relative group">
-                  <div className="absolute -top-2 -left-2 -right-2 -bottom-2 bg-scout-green/10 rounded-2xl blur-md group-hover:bg-scout-green/20 transition-all duration-500"></div>
-                  <h3 className="text-xl font-bold font-teko relative">STRATEGIC ADVISORY</h3>
+              {/* Strategic Advisory - Central Hub - Responsive */}
+              <div className="mb-6 sm:mb-8 text-center relative" style={{ zIndex: 2 }}>
+                <div className="bg-gradient-to-r from-scout-green to-scout-green/80 text-scout-dark px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 rounded-xl sm:rounded-2xl border-2 border-scout-green shadow-2xl relative group">
+                  <div className="absolute -top-1 sm:-top-2 -left-1 sm:-left-2 -right-1 sm:-right-2 -bottom-1 sm:-bottom-2 bg-scout-green/10 rounded-xl sm:rounded-2xl blur-md group-hover:bg-scout-green/20 transition-all duration-500"></div>
+                  <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold font-teko relative">STRATEGIC ADVISORY</h3>
                   {/* Flow indicators to deliverables */}
-                  <div className="absolute -bottom-3 left-1/4 w-0.5 h-6 bg-gradient-to-b from-scout-green/40 to-transparent transform -translate-x-1/2"></div>
-                  <div className="absolute -bottom-3 left-1/2 w-0.5 h-6 bg-gradient-to-b from-scout-green/40 to-transparent transform -translate-x-1/2"></div>
-                  <div className="absolute -bottom-3 left-3/4 w-0.5 h-6 bg-gradient-to-b from-scout-green/40 to-transparent transform -translate-x-1/2"></div>
+                  <div className="absolute -bottom-2 sm:-bottom-3 left-1/4 w-0.5 h-4 sm:h-6 bg-gradient-to-b from-scout-green/40 to-transparent transform -translate-x-1/2"></div>
+                  <div className="absolute -bottom-2 sm:-bottom-3 left-1/2 w-0.5 h-4 sm:h-6 bg-gradient-to-b from-scout-green/40 to-transparent transform -translate-x-1/2"></div>
+                  <div className="absolute -bottom-2 sm:-bottom-3 left-3/4 w-0.5 h-4 sm:h-6 bg-gradient-to-b from-scout-green/40 to-transparent transform -translate-x-1/2"></div>
                 </div>
               </div>
 
-              {/* DELIVERABLES Section */}
+              {/* DELIVERABLES Section - Responsive */}
               <div className="relative" style={{ zIndex: 2 }}>
-                <h3 className="text-scout-text-white text-lg font-bold font-teko mb-6 text-center">DELIVERABLES</h3>
-                <div className="grid grid-cols-3 gap-6">
+                <h3 className="text-scout-text-white text-sm sm:text-base md:text-lg font-bold font-teko mb-4 sm:mb-6 text-center">DELIVERABLES</h3>
+                <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6">
                     {/* Partnerships */}
                     <div className="text-center group relative">
-                      <div className="w-14 h-14 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center mb-3 mx-auto group-hover:bg-scout-green/30 group-hover:scale-105 transition-all duration-300">
-                        <svg className="w-7 h-7 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center mb-2 sm:mb-3 mx-auto group-hover:bg-scout-green/30 group-hover:scale-105 transition-all duration-300">
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                       </div>
-                      <p className="text-scout-text-white font-teko font-bold text-sm mb-2">PARTNERSHIPS</p>
-                      <div className="text-scout-text-muted font-metropolis text-xs space-y-1">
+                      <p className="text-scout-text-white font-teko font-bold text-xs sm:text-sm mb-1 sm:mb-2">PARTNERSHIPS</p>
+                      <div className="text-scout-text-muted font-metropolis text-[10px] sm:text-xs space-y-0.5 sm:space-y-1">
                         <p>NETWORK</p>
                         <p>CONNECTIONS</p>
                         <p>COLLABORATION</p>
@@ -280,13 +280,13 @@ export default function Index() {
 
                     {/* Technology */}
                     <div className="text-center group relative">
-                      <div className="w-14 h-14 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center mb-3 mx-auto group-hover:bg-scout-green/30 group-hover:scale-105 transition-all duration-300">
-                        <svg className="w-7 h-7 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center mb-2 sm:mb-3 mx-auto group-hover:bg-scout-green/30 group-hover:scale-105 transition-all duration-300">
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
                       </div>
-                      <p className="text-scout-text-white font-teko font-bold text-sm mb-2">TECHNOLOGY</p>
-                      <div className="text-scout-text-muted font-metropolis text-xs space-y-1">
+                      <p className="text-scout-text-white font-teko font-bold text-xs sm:text-sm mb-1 sm:mb-2">TECHNOLOGY</p>
+                      <div className="text-scout-text-muted font-metropolis text-[10px] sm:text-xs space-y-0.5 sm:space-y-1">
                         <p>TRANSFER</p>
                         <p>VALIDATION</p>
                         <p>INTEGRATION</p>
@@ -295,13 +295,13 @@ export default function Index() {
 
                     {/* Support */}
                     <div className="text-center group relative">
-                      <div className="w-14 h-14 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center mb-3 mx-auto group-hover:bg-scout-green/30 group-hover:scale-105 transition-all duration-300">
-                        <svg className="w-7 h-7 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-scout-green/20 border-2 border-scout-green rounded-xl flex items-center justify-center mb-2 sm:mb-3 mx-auto group-hover:bg-scout-green/30 group-hover:scale-105 transition-all duration-300">
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-scout-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z" />
                         </svg>
                       </div>
-                      <p className="text-scout-text-white font-teko font-bold text-sm mb-2">SUPPORT</p>
-                      <div className="text-scout-text-muted font-metropolis text-xs space-y-1">
+                      <p className="text-scout-text-white font-teko font-bold text-xs sm:text-sm mb-1 sm:mb-2">SUPPORT</p>
+                      <div className="text-scout-text-muted font-metropolis text-[10px] sm:text-xs space-y-0.5 sm:space-y-1">
                         <p>TRAINING</p>
                         <p>GUIDANCE</p>
                         <p>ANALYSIS</p>

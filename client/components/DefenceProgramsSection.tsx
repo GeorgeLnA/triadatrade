@@ -62,15 +62,28 @@ export default function DefenceProgramsSection() {
 
   return (
     <section className="w-full py-20" style={{backgroundColor: '#050612'}}>
-      <div className="container px-6 mx-auto">
+      {/* Dynamic container that matches vertical lines - 70px margins */}
+      <div 
+        className="relative z-10 w-full mx-auto"
+        style={{
+          marginLeft: '70px',
+          marginRight: '70px',
+          maxWidth: 'calc(100vw - 140px)' // 70px left + 70px right
+        }}
+      >
         {/* Two Column Layout */}
-        <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto items-start">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
           
           {/* Left Column - Defence Programs */}
           <div>
             <Reveal variant="slide-up">
               <div className="mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-scout-text-white font-teko">
+                <h2 
+                  className="font-bold text-scout-text-white font-teko"
+                  style={{
+                    fontSize: 'calc(1.375rem + 1.25vw)' // Scales with container width
+                  }}
+                >
                   Defence Programs
                 </h2>
               </div>
@@ -95,7 +108,12 @@ export default function DefenceProgramsSection() {
                           <div className="flex items-center gap-6">
                             {/* Title Content */}
                             <div className="flex-1">
-                              <h3 className="text-xl md:text-2xl font-bold text-scout-text-white font-teko">
+                              <h3 
+                                className="font-bold text-scout-text-white font-teko"
+                                style={{
+                                  fontSize: 'calc(1rem + 0.75vw)' // Scales with container width
+                                }}
+                              >
                                 {service.title}
                               </h3>
                             </div>
@@ -127,7 +145,12 @@ export default function DefenceProgramsSection() {
                           className="px-6 pb-6"
                         >
                           {/* Description */}
-                          <p className="text-scout-text-muted font-metropolis leading-relaxed mb-6">
+                          <p 
+                            className="text-scout-text-muted font-metropolis leading-relaxed mb-6"
+              style={{
+                fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
+              }}
+                          >
                             {service.description}
                           </p>
 
@@ -138,7 +161,12 @@ export default function DefenceProgramsSection() {
                                 key={serviceItem}
                                 className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30 hover:border-scout-green/40 transition-all duration-200"
                               >
-                                <span className="text-scout-text-white font-metropolis text-sm font-medium">
+                                <span 
+                                  className="text-scout-text-white font-metropolis font-medium"
+                                  style={{
+                                    fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
+                                  }}
+                                >
                                   {serviceItem}
                                 </span>
                               </div>
@@ -147,9 +175,21 @@ export default function DefenceProgramsSection() {
 
                           {/* Action Button */}
                           <div className="mt-6 pt-4 border-t border-scout-border/20">
-                            <button className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
+                            <button 
+                              className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10"
+              style={{
+                fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
+              }}
+                            >
                               <span>Explore Program</span>
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg 
+                                className="fill-none stroke-currentColor" 
+                                style={{
+                                  width: 'calc(0.75rem + 0.25vw)',
+                                  height: 'calc(0.75rem + 0.25vw)'
+                                }}
+                                viewBox="0 0 24 24"
+                              >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                               </svg>
                             </button>
@@ -167,7 +207,12 @@ export default function DefenceProgramsSection() {
           <div>
             <Reveal variant="slide-up">
               <div className="mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-scout-text-white font-teko">
+                <h2 
+                  className="font-bold text-scout-text-white font-teko"
+                  style={{
+                    fontSize: 'calc(1.375rem + 1.25vw)' // Scales with container width
+                  }}
+                >
                   Legal, Financing & Consulting
                 </h2>
               </div>
@@ -192,7 +237,12 @@ export default function DefenceProgramsSection() {
                           <div className="flex items-center gap-6">
                             {/* Title Content */}
                             <div className="flex-1">
-                              <h3 className="text-xl md:text-2xl font-bold text-scout-text-white font-teko">
+                              <h3 
+                                className="font-bold text-scout-text-white font-teko"
+                                style={{
+                                  fontSize: 'calc(1rem + 0.75vw)' // Scales with container width
+                                }}
+                              >
                                 {service.title}
                               </h3>
                             </div>
@@ -224,7 +274,12 @@ export default function DefenceProgramsSection() {
                           className="px-6 pb-6"
                         >
                           {/* Description */}
-                          <p className="text-scout-text-muted font-metropolis leading-relaxed mb-6">
+                          <p 
+                            className="text-scout-text-muted font-metropolis leading-relaxed mb-6"
+              style={{
+                fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
+              }}
+                          >
                             {service.description}
                           </p>
 
@@ -235,7 +290,12 @@ export default function DefenceProgramsSection() {
                                 key={serviceItem}
                                 className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30 hover:border-scout-green/40 transition-all duration-200"
                               >
-                                <span className="text-scout-text-white font-metropolis text-sm font-medium">
+                                <span 
+                                  className="text-scout-text-white font-metropolis font-medium"
+                                  style={{
+                                    fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
+                                  }}
+                                >
                                   {serviceItem}
                                 </span>
                               </div>
@@ -244,9 +304,21 @@ export default function DefenceProgramsSection() {
 
                           {/* Action Button */}
                           <div className="mt-6 pt-4 border-t border-scout-border/20">
-                            <button className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
+                            <button 
+                              className="inline-flex items-center gap-2 px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10"
+              style={{
+                fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
+              }}
+                            >
                               <span>Explore Service</span>
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg 
+                                className="fill-none stroke-currentColor" 
+                                style={{
+                                  width: 'calc(0.75rem + 0.25vw)',
+                                  height: 'calc(0.75rem + 0.25vw)'
+                                }}
+                                viewBox="0 0 24 24"
+                              >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                               </svg>
                             </button>
@@ -264,10 +336,20 @@ export default function DefenceProgramsSection() {
         {/* Bottom CTA */}
         <div className="text-center mt-16">
           <div className="inline-flex flex-col sm:flex-row items-center gap-6 p-6 border border-scout-border/40 rounded-xl bg-scout-card-bg/60 backdrop-blur-sm">
-            <span className="text-scout-text-white font-teko text-lg">
+            <span 
+              className="text-scout-text-white font-teko"
+              style={{
+                fontSize: 'calc(0.875rem + 0.25vw)' // Scales with container width
+              }}
+            >
               Ready to strengthen Ukraine's defense capabilities?
             </span>
-            <button className="px-6 py-3 border border-scout-green/60 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:bg-scout-green/10 hover:border-scout-green">
+            <button 
+              className="px-6 py-3 border border-scout-green/60 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:bg-scout-green/10 hover:border-scout-green"
+              style={{
+                fontSize: 'calc(0.75rem + 0.125vw)' // Scales with container width
+              }}
+            >
               Start Partnership
             </button>
           </div>
