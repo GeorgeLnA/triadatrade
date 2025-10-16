@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import Reveal from "@/components/ui/Reveal"
 
-const ALL_SERVICES = [
+export const ALL_SERVICES = [
   {
     id: "defence-1",
     title: "Office of Trade Representatives",
@@ -45,7 +45,7 @@ const ALL_SERVICES = [
 ]
 
 export default function DefenceProgramsSection() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0)
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [heights, setHeights] = useState<number[]>([])
   const contentRefs = useRef<(HTMLDivElement | null)[]>([])
 

@@ -1,6 +1,6 @@
 import Reveal from "@/components/ui/Reveal";
 
-export default function QuoteSection() {
+export default function QuoteSection2() {
   return (
     <section className="relative w-full flex items-center overflow-hidden">
       {/* Ultra-Premium Background - Transparent to show waves */}
@@ -28,8 +28,8 @@ export default function QuoteSection() {
                 {/* Image Container */}
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <img 
-                    src="/9OaFLS5Kn4WF6NDjyf109hthVn1LIks0oCgs9pCv.png" 
-                    alt="Marie-Pierre Raymond"
+                    src="/bill.jpeg" 
+                    alt="Bill Maadarani"
                     className="w-full h-full object-cover object-center"
                   />
                   
@@ -50,7 +50,7 @@ export default function QuoteSection() {
                     fontSize: 'calc(1rem + 0.8vw)' // Scales with container width
                   }}
                 >
-                  Marie-Pierre Raymond
+                  Bill Maadarani
                 </div>
                 <div 
                   className="text-scout-text-muted font-teko mt-0.5 leading-tight"
@@ -58,7 +58,7 @@ export default function QuoteSection() {
                     fontSize: 'calc(0.8rem + 0.5vw)' // Scales with container width
                   }}
                 >
-                  Defence Scientist, Innovation Portfolio Manager
+                  U.S. Embassy Representative
                 </div>
                 <div 
                   className="text-scout-text-muted/80 font-teko leading-tight"
@@ -66,7 +66,7 @@ export default function QuoteSection() {
                     fontSize: 'calc(0.8rem + 0.5vw)' // Scales with container width
                   }}
                 >
-                  Defence Research Development Canada
+                  U.S. Embassy Beirut
                 </div>
               </div>
             </Reveal>
@@ -84,7 +84,7 @@ export default function QuoteSection() {
                   fontSize: 'calc(1rem + 1.3vw)' // Scales with container width
                 }}
               >
-                As the security landscape continues to evolve, Ukraine's strategic importance has never been greater, and the opportunities for international defense companies to expand their footprint in the country are significant. Triada Trade Partners offers business solutions tailored to meet the unique needs of defense firms looking to enter or grow within the Ukrainian market.
+                It is a privilege to highlight our cooperation with Triada Trade Partners, whose team has consistently demonstrated the ability to connect complex U.S. Foreign Military Sales initiatives with real, measurable outcomes in Ukraine. Their understanding of both American and Ukrainian defense processes allows them to bridge systems that often appear worlds apart.
               </blockquote>
 
               {/* Read Full Letter Button */}
@@ -106,3 +106,4 @@ export default function QuoteSection() {
     </section>
   );
 }
+

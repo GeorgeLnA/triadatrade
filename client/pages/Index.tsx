@@ -1,6 +1,8 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import QuoteSection from "@/components/QuoteSection";
+import QuoteSection2 from "@/components/QuoteSection2";
+import QuoteSection3 from "@/components/QuoteSection3";
 import WhoWeAreSection from "@/components/WhoWeAreSection";
 import DefenceProgramsSection from "@/components/DefenceProgramsSection";
 import StrategicStakeholdersSection from "@/components/StrategicStakeholdersSection";
@@ -13,55 +15,25 @@ import { ParticleWaves } from "@/components/ui/threejs-particles-waves";
 import { useState, useEffect, useRef } from "react";
 import { useLoading } from "@/App";
 
-// Timeline data for main page
-const timelineData: TimelineEntry[] = [
+// Sample blog timeline data
+const blogTimelineData: TimelineEntry[] = [
   {
-    title: "Jun 17",
-    content: (
-      <div className="space-y-4">
-        <div className="card overflow-hidden">
-          <img src="/TT logo.png" alt="FPV Drones" className="w-full h-40 object-contain bg-scout-card-bg" />
-          <div className="p-4">
-            <h4 className="font-teko text-xl text-scout-text-white mb-1">The Evolution of FPV Drones in Ukraine: Progress, Innovations, and New Challenges</h4>
-            <p className="text-scout-text-muted font-metropolis text-sm">
-              In recent years, Ukraine has witnessed an impressive evolution of unmanned aerial vehicle technologies, particularly FPV (First Person View) drones. This comprehensive analysis explores the progress made, innovative applications, and emerging challenges in this critical defense technology sector.
-            </p>
-          </div>
-        </div>
-      </div>
-    ),
+    title: "The Evolution of FPV Drones in Ukraine: Progress, Innovations, and New Challenges",
+    date: "June 17, 2024",
+    description: "In recent years, Ukraine has witnessed an impressive evolution of unmanned aerial vehicle technologies, particularly FPV (First Person View) drones. This comprehensive analysis explores the progress made, innovative applications, and emerging challenges in this critical defense technology sector.",
+    image: "/TT logo.png"
   },
   {
-    title: "Apr 7",
-    content: (
-      <div className="space-y-4">
-        <div className="card overflow-hidden">
-          <img src="/TT logo.png" alt="Military Aid" className="w-full h-40 object-contain bg-scout-card-bg" />
-          <div className="p-4">
-            <h4 className="font-teko text-xl text-scout-text-white mb-1">Geopolitical Changes and Military Aid in 2025</h4>
-            <p className="text-scout-text-muted font-metropolis text-sm">
-              As we approach 2025, the geopolitical landscape is undergoing significant transformations that are reshaping the dynamics of military aid. Our analysis examines how these changes impact defense partnerships and strategic cooperation between nations.
-            </p>
-          </div>
-        </div>
-      </div>
-    ),
+    title: "Geopolitical Changes and Military Aid in 2025",
+    date: "April 7, 2024",
+    description: "As we approach 2025, the geopolitical landscape is undergoing significant transformations that are reshaping the dynamics of military aid. Our analysis examines how these changes impact defense partnerships and strategic cooperation between nations.",
+    image: "/TT logo.png"
   },
   {
-    title: "Jan 22",
-    content: (
-      <div className="space-y-4">
-        <div className="card overflow-hidden">
-          <img src="/TT logo.png" alt="Foreign Military Sales" className="w-full h-40 object-contain bg-scout-card-bg" />
-          <div className="p-4">
-            <h4 className="font-teko text-xl text-scout-text-white mb-1">Navigating the Future of Foreign Military Sales: Insights and Expectations</h4>
-            <p className="text-scout-text-muted font-metropolis text-sm">
-              As a businessman and an emerging military journalist with a keen interest in defense policy and strategic consulting, I'm eager to delve into the complex landscape of foreign military sales and their implications for international defense cooperation.
-            </p>
-          </div>
-        </div>
-      </div>
-    ),
+    title: "Navigating the Future of Foreign Military Sales: Insights and Expectations",
+    date: "January 22, 2024",
+    description: "As a businessman and an emerging military journalist with a keen interest in defense policy and strategic consulting, I'm eager to delve into the complex landscape of foreign military sales and their implications for international defense cooperation.",
+    image: "/TT logo.png"
   },
 ];
 
@@ -73,6 +45,7 @@ export default function Index() {
   const partnersSectionRef = useRef<HTMLDivElement>(null);
   const videoSectionRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const whoWeAreSectionRef = useRef<HTMLDivElement>(null);
   const { setHeroAnimationsComplete } = useLoading();
 
   useEffect(() => {
@@ -82,7 +55,7 @@ export default function Index() {
       setHeroAnimationsComplete(true); // Enable custom cursor after hero animations complete
     }, 3000);
 
-    // Track scroll to fade in waves and show footer after globe section
+    // Track scroll to fade in waves and show footer
     const handleScroll = () => {
       if (window.scrollY > 300) { // Start fading in after scrolling 300px
         setScrollStarted(true);
@@ -95,28 +68,6 @@ export default function Index() {
         const rect = partnersSectionRef.current.getBoundingClientRect();
         const isPastPartners = rect.bottom < 0; // Section is completely above viewport
         setShowFooter(isPastPartners);
-        console.log('Partners section bottom:', rect.bottom, 'Show Footer:', isPastPartners);
-      }
-      
-      // Control video visibility and waves based on video section
-      if (videoSectionRef.current) {
-        const rect = videoSectionRef.current.getBoundingClientRect();
-        // Hide waves when video section is more fully in view (top is 20% down from viewport)
-        // Show waves again when video section is more past the top (bottom is 60% down from viewport)
-        const isInVideoSection = rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.6;
-        setShowVideo(isInVideoSection);
-        console.log('Video section visible:', isInVideoSection);
-        
-        // Control video play/pause with different timing - play as soon as any part is visible
-        if (videoRef.current) {
-          const isVideoVisible = rect.top < window.innerHeight && rect.bottom > 0;
-          if (isVideoVisible) {
-            videoRef.current.play();
-          } else {
-            videoRef.current.pause();
-          }
-          console.log('Video should play:', isVideoVisible);
-        }
       }
     };
 
@@ -127,43 +78,73 @@ export default function Index() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Use IntersectionObserver to show and control background video only while the transparent diagram section is in view
+  useEffect(() => {
+    const target = videoSectionRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isIntersecting = entries.some((e) => e.isIntersecting);
+        setShowVideo(isIntersecting);
+        
+        // Control video play/pause based on visibility
+        if (videoRef.current) {
+          if (isIntersecting) {
+            videoRef.current.play();
+          } else {
+            videoRef.current.pause();
+          }
+        }
+      },
+      {
+        root: null,
+        threshold: 0, // fire as soon as any pixel is visible
+        rootMargin: '0px'
+      }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
   return (
     <div className="w-full min-h-screen bg-scout-dark text-scout-text-primary">
-      {/* Fixed Header */}
-      <Header />
-      
-      {/* Hero Section - Fixed positioned for parallax effect */}
-      <HeroSection />
-      
-      {/* Video Background - Fixed positioned on first layer, disappears when footer appears */}
-      <div className={`fixed inset-0 z-5 pointer-events-none transition-opacity duration-500 overflow-hidden ${showFooter ? 'opacity-0' : 'opacity-100'}`}>
+      {/* Video Background - Controlled by Who We Are visibility */}
+      <div className={`fixed inset-0 z-10 pointer-events-none transition-opacity duration-500 overflow-hidden ${showVideo ? 'opacity-100' : 'opacity-0'}`}>
         <video
           ref={videoRef}
           className="w-full h-full object-cover object-center"
           style={{ 
             objectPosition: 'center 20%',
-            transform: 'scale(1.3)',
+            transform: 'scale(1)',
             transformOrigin: 'center center'
           }}
           muted
           loop
           playsInline
         >
-          <source src="/Make_a_wellequped_202509260148.mp4" type="video/mp4" />
+          <source src="/enhancor-video.mp4" type="video/mp4" />
         </video>
       </div>
       
-      {/* Footer - Fixed positioned on first layer, visible only after globe section */}
-      <div className={`fixed bottom-0 left-0 w-full z-5 transition-opacity duration-500 ${showFooter ? 'opacity-100' : 'opacity-0'}`}>
-        <Footer />
-      </div>
+      {/* Fixed Header */}
+      <Header />
       
-      {/* Main Content - Scrolls over hero, video, and footer */}
-      <main className="relative w-full z-20">
+      {/* Hero Section - Fixed positioned for parallax effect */}
+      <HeroSection isHidden={showVideo} />
+      
+      {/* Main Content - Scrolls over hero and video, then reveals footer */}
+      <main 
+        className="relative w-full z-20 transition-all duration-500"
+        style={{
+          marginBottom: showFooter ? '0' : '0'
+        }}
+      >
         {/* Particle Waves Background - Fixed for entire main content */}
         <div 
           className={`fixed inset-0 z-5 pointer-events-none transition-opacity duration-[3000ms] ease-in-out ${
-            (showWaves || scrollStarted) && !showVideo ? 'opacity-100' : 'opacity-0'
+            (showWaves || scrollStarted) ? 'opacity-100' : 'opacity-0'
           }`}
         >
           <ParticleWaves 
@@ -181,15 +162,17 @@ export default function Index() {
         {/* Spacer to account for hero height */}
         <div className="h-screen" />
 
-        {/* Who We Are Section - Dark blue background */}
+            {/* Who We Are Section - Dark blue background */}
+            <div id="who-we-are" ref={whoWeAreSectionRef} style={{backgroundColor: '#050612'}}>
+              <WhoWeAreSection />
+            </div>
+
+        {/* Defence Programs Section - Black background */}
         <div style={{backgroundColor: '#050612'}}>
-          <WhoWeAreSection />
+          <DefenceProgramsSection />
         </div>
 
-        {/* Our Coverage (Globe) Section - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
-          <OurCoverageSection />
-        </div>
+        {/* Our Coverage (Globe) moved to Activities page */}
 
 
         {/* Invisible Diagram Section (Video Parallax) - Transparent for video visibility */}
@@ -319,19 +302,24 @@ export default function Index() {
           </div>
         </section>
         
-        {/* Defence Programs Section - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
-          <DefenceProgramsSection />
-        </div>
-
         {/* Quote Section - Black background */}
         <div style={{backgroundColor: '#050612'}}>
           <QuoteSection />
         </div>
 
+        {/* Quote Section 2 - Black background */}
+        <div style={{backgroundColor: '#050612'}}>
+          <QuoteSection2 />
+        </div>
+
+        {/* Quote Section 3 - Black background */}
+        <div style={{backgroundColor: '#050612'}}>
+          <QuoteSection3 />
+        </div>
+
 
         {/* Trusted By Industry Leaders (Partners) - Black background */}
-        <div ref={partnersSectionRef} style={{backgroundColor: '#050612'}}>
+        <div id="partners" ref={partnersSectionRef} style={{backgroundColor: '#050612'}}>
           <PartnersPreviewSection />
         </div>
 
@@ -341,25 +329,28 @@ export default function Index() {
         </div>
 
         {/* Meet Our Team - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
+        <div id="team" style={{backgroundColor: '#050612'}}>
           <TeamPreviewSection />
         </div>
-        
+
         {/* Blog Timeline Section - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
-          <section className="w-full py-20">
-            <div className="container mx-auto px-6">
-              <BlogTimeline data={timelineData} />
-            </div>
-          </section>
+        <div id="contact" style={{backgroundColor: '#050612'}}>
+          <BlogTimeline data={blogTimelineData} />
         </div>
-        
-        {/* Invisible bottom divider */}
-        <div className="w-full h-px bg-transparent" />
-        
-        {/* Transparent spacer for footer height */}
-        <div className="h-[65vh] bg-transparent" />
+
+        {/* Simple sticky curtain that makes the blog appear to uncover the footer */}
+        <div
+          aria-hidden="true"
+          className="sticky bottom-0 z-10 pointer-events-none"
+          style={{
+            height: '40vh',
+            backgroundColor: '#050612'
+          }}
+        />
       </main>
+
+      {/* Footer - Normal flow, fully clickable, not covered */}
+      <Footer />
     </div>
   );
 }

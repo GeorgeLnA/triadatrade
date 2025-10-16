@@ -37,6 +37,30 @@ const PARTNERS = [
     category: "Defence Association",
     logo: "/naudi.avif",
     description: "National Association of Ukrainian Defence Industry representing key sector stakeholders."
+  },
+  { 
+    name: "TARGET", 
+    category: "Defence Solutions",
+    logo: "/Target-Logo-01.svg",
+    description: "Leading provider of comprehensive defence solutions and strategic military support systems."
+  },
+  { 
+    name: "Comand.AI", 
+    category: "AI Technology",
+    logo: "/666d7a08d48d27692185122e_Logo white.svg",
+    description: "Advanced artificial intelligence command and control systems for modern defence operations."
+  },
+  { 
+    name: "Nebo Peremogy", 
+    category: "Defence Innovation",
+    logo: "/Logo.svg",
+    description: "Innovative defence technology company specializing in cutting-edge military solutions and systems."
+  },
+  { 
+    name: "Alliance Defence", 
+    category: "Defence Alliance",
+    logo: "/alliance_defense.avif",
+    description: "Strategic defence alliance providing comprehensive security solutions and collaborative defence initiatives."
   }
 ];
 
@@ -125,7 +149,11 @@ export default function PartnersPreviewSection() {
                       <img 
                         src={PARTNERS[currentIndex].logo} 
                         alt={PARTNERS[currentIndex].name}
-                        className="object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
+                        className={`object-contain filter group-hover:scale-110 transition-transform duration-300 ${
+                          PARTNERS[currentIndex].name === 'Alliance Defence' 
+                            ? 'saturate-0' 
+                            : 'brightness-0 invert'
+                        }`}
                         style={{
                           width: 'calc(6rem + 1.5vw)',
                           height: 'calc(6rem + 1.5vw)'
@@ -203,7 +231,11 @@ export default function PartnersPreviewSection() {
                   <img 
                     src={partner.logo} 
                     alt={partner.name}
-                    className="w-full h-full object-contain filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
+                    className={`w-full h-full object-contain filter group-hover:scale-110 transition-transform duration-300 ${
+                      partner.name === 'Alliance Defence' 
+                        ? 'saturate-0' 
+                        : 'brightness-0 invert'
+                    }`}
                     style={{
                       maxWidth: 'calc(100% - 1.5rem)', // Account for padding
                       maxHeight: 'calc(100% - 1.5rem)'

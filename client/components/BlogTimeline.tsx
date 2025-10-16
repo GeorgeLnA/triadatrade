@@ -1,96 +1,111 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { cn } from "@/lib/utils"
-import Reveal from "@/components/ui/Reveal"
+import { useState } from "react"
 
 export interface TimelineEntry {
   title: string
-  content: React.ReactNode
+  date: string
+  description: string
+  image?: string
 }
 
-interface TimelineProps {
+interface BlogTimelineProps {
   data: TimelineEntry[]
-  className?: string
 }
 
-// Timeline adapted to project design tokens (scout palette + fonts)
-export function BlogTimeline({ data, className }: TimelineProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [height, setHeight] = useState(0)
-
-  useEffect(() => {
-    if (ref.current) {
-      const rect = ref.current.getBoundingClientRect()
-      setHeight(rect.height)
-    }
-  }, [ref])
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 10%", "end 50%"],
-  })
-
-  const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height])
-  const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1])
+export function BlogTimeline({ data }: BlogTimelineProps) {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
-    <div ref={containerRef} className={cn("w-full bg-scout-dark font-sans md:px-10", className)}>
-      <Reveal variant="slide-up">
-        <div className="max-w-7xl mx-auto pt-20 pb-2 px-4 md:px-8 lg:px-10">
-          <h2 className="text-3xl md:text-6xl mb-2 text-scout-text-white font-bold font-teko text-center">
-            OUR BLOG
-          </h2>
-        </div>
-      </Reveal>
+    <div
+      className="relative z-10 w-full mx-auto py-20"
+      style={{
+        marginLeft: '70px',
+        marginRight: '70px',
+        maxWidth: 'calc(100vw - 140px)' // 70px left + 70px right
+      }}
+    >
+      {/* Section Title */}
+      <h2 
+        className="font-bold text-scout-text-white mb-16 text-center font-teko"
+        style={{
+          fontSize: 'calc(1.5rem + 2vw)' // Scales with container width
+        }}
+      >
+        LATEST INSIGHTS
+      </h2>
 
-      <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
-        {data.map((item, index) => (
-          <Reveal key={index} delayMs={index * 100}>
-            <div className="flex justify-start pt-6 md:pt-12 md:gap-10">
-            <div className="sticky flex flex-col md:flex-row z-20 items-center top-40 self-center max-w-xs lg:max-w-sm md:w-full">
-              <div className="h-10 absolute left-3 md:left-3 top-0 w-10 rounded-full bg-transparent flex items-center justify-center">
-                <div className="h-5 w-5 rounded-full bg-scout-green border-2 border-scout-border shadow-lg shadow-scout-green/30" />
-              </div>
-              <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-scout-text-white/70 font-teko">
-                {item.title}
-              </h3>
-            </div>
-
-            <div className="relative pl-20 pr-4 md:pl-4 w-full">
-              <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-scout-text-white/70 font-teko">
-                {item.title}
-              </h3>
-              <div className="[&_img]:border [&_img]:border-scout-border [&_img]:rounded-lg [&_.card]:bg-scout-card-bg [&_.card]:border [&_.card]:border-scout-border [&_.card]:rounded-lg">
-                {item.content}
-              </div>
-            </div>
-            </div>
-          </Reveal>
-        ))}
-        
-        {/* Vertical progress line with proper transforms */}
-        <div
-          style={{
-            height: height + "px",
-          }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[3px] bg-gradient-to-b from-scout-border/20 via-scout-border/40 to-scout-border/20 rounded-full"
-        >
-          <motion.div
+      {/* Grid of Blog Cards */}
+      <div 
+        className="grid gap-8"
+        style={{
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 'calc(1.5rem + 1vw)'
+        }}
+      >
+        {data.map((entry, index) => (
+          <div 
+            key={index}
+            className={`bg-scout-card-bg border rounded-lg transition-all duration-300 ${
+              hoveredIndex === index 
+                ? 'border-scout-green/50 shadow-lg' 
+                : 'border-scout-border'
+            }`}
             style={{
-              height: heightTransform,
-              opacity: opacityTransform,
+              padding: 'calc(1.5rem + 1vw)'
             }}
-            className="absolute inset-x-0 top-0 w-[3px] bg-gradient-to-t from-scout-green via-scout-green/80 to-scout-green/40 rounded-full shadow-lg shadow-scout-green/20"
-          />
-        </div>
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
+            {/* Image (if provided) */}
+            {entry.image && (
+              <div className="mb-4 overflow-hidden rounded-lg">
+                <img 
+                  src={entry.image} 
+                  alt={entry.title}
+                  className="w-full object-cover transition-transform duration-300 hover:scale-105"
+                  style={{
+                    height: 'calc(10rem + 5vw)'
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Date */}
+            <div 
+              className="text-scout-green font-teko mb-2"
+              style={{
+                fontSize: 'calc(0.875rem + 0.5vw)' // Scales with container width
+              }}
+            >
+              {entry.date}
+            </div>
+
+            {/* Title */}
+            <h3 
+              className="font-bold text-scout-text-white mb-3 font-teko"
+              style={{
+                fontSize: 'calc(1rem + 0.75vw)' // Scales with container width
+              }}
+            >
+              {entry.title}
+            </h3>
+
+            {/* Description */}
+            <p 
+              className="text-scout-text-muted font-metropolis leading-relaxed"
+              style={{
+                fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
+              }}
+            >
+              {entry.description}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   )
 }
 
 export default BlogTimeline
-
 

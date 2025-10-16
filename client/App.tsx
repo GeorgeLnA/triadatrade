@@ -8,16 +8,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import WhoWeAre from "./pages/WhoWeAre";
-import VisionMission from "./pages/VisionMission";
 import DefenceSecurity from "./pages/DefenceSecurity";
 import LegalFinancing from "./pages/LegalFinancing";
-import Partners from "./pages/Partners";
-import Team from "./pages/Team";
-import Blog from "./pages/Blog";
-import Contact from "./pages/Contact";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
+import Activities from "./pages/Activities";
 import NotFound from "./pages/NotFound";
 // import CursorDemo from "./components/CursorDemo"; // Removed in production
 import ScrollRuler from "./components/ScrollRuler";
@@ -136,18 +129,6 @@ const App = () => {
               <Index />
             </>
           } />
-          <Route path="/who-we-are" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <WhoWeAre />
-            </>
-          } />
-          <Route path="/vision-mission" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <VisionMission />
-            </>
-          } />
           <Route path="/activities/defence-security" element={
             <>
               <ScrollToTop isMainPage={false} />
@@ -160,40 +141,10 @@ const App = () => {
               <LegalFinancing />
             </>
           } />
-          <Route path="/partners" element={
+          <Route path="/activities" element={
             <>
               <ScrollToTop isMainPage={false} />
-              <Partners />
-            </>
-          } />
-          <Route path="/team" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <Team />
-            </>
-          } />
-          <Route path="/blog" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <Blog />
-            </>
-          } />
-          <Route path="/contact" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <Contact />
-            </>
-          } />
-          <Route path="/privacy-policy" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <PrivacyPolicy />
-            </>
-          } />
-          <Route path="/terms-of-service" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <TermsOfService />
+              <Activities />
             </>
           } />
           {/* Demo route removed for production cleanup */}

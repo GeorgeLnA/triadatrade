@@ -7,7 +7,7 @@ const SENIOR_LEADERS = [
     name: "Yaroslav Yakymov",
     role: "Chief Executive Officer",
     initials: "YY",
-    image: "/yaroslav_yakymov_marsel_nikitin_mobile.jpg",
+    image: "/y.jpeg",
     description: "Leading strategic vision and overall company direction with extensive experience in defence sector partnerships.",
     skills: ["Strategic Planning", "Defence Partnerships", "Leadership"],
     experience: "15+ years",
@@ -18,7 +18,7 @@ const SENIOR_LEADERS = [
     name: "Marsel Nikitin", 
     role: "Chief Revenue Officer",
     initials: "MN",
-    image: "/yaroslav_yakymov_marsel_nikitin_mobile.jpg",
+    image: "/m.jpeg",
     description: "Driving revenue growth and business development initiatives across international markets.",
     skills: ["Revenue Growth", "Business Development", "Market Strategy"],
     experience: "12+ years",
@@ -73,10 +73,10 @@ const TEAM_MEMBERS = [
   },
   {
     id: "international",
-    name: "Oliver Morley",
+    name: "Maksym Obod",
     role: "International Relations", 
-    initials: "OM",
-    image: "/oliver_morley.jpg",
+    initials: "MO",
+    image: "/maks.jpeg",
     description: "Managing international partnerships and fostering relationships with global stakeholders.",
     skills: ["International Relations", "Partnership Development", "Cross-Cultural Communication"],
     experience: "13+ years",
@@ -87,7 +87,7 @@ const TEAM_MEMBERS = [
     name: "Denis Sviatokum",
     role: "Commercial Agent", 
     initials: "DS",
-    image: "/denis_sviatokum.jpg",
+    image: "/d.jpeg",
     description: "Facilitating commercial transactions and managing client relationships across various markets.",
     skills: ["Commercial Operations", "Client Relations", "Sales Strategy"],
     experience: "7+ years",
@@ -163,11 +163,14 @@ export default function TeamPreviewSection() {
                 >
                   <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105">
                   {/* Image Container */}
-                  <div className="relative h-64 overflow-hidden">
+                  <div className="relative h-80 overflow-hidden">
                     <img 
                       src={member.image} 
                       alt={member.name}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${
+                        member.id === 'cro' ? 'object-top' : 'object-center'
+                      }`}
+                      style={member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : { objectPosition: 'center 10%' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
                     
@@ -252,11 +255,14 @@ export default function TeamPreviewSection() {
               >
                 <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105 h-full flex flex-col">
                 {/* Image Container */}
-                <div className="relative h-48 overflow-hidden flex-shrink-0">
+                <div className="relative h-64 overflow-hidden flex-shrink-0">
                   <img 
                     src={member.image} 
                     alt={member.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${
+                      member.id === 'cro' ? 'object-top' : 'object-center'
+                    }`}
+                    style={member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : { objectPosition: 'center 10%' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
                   

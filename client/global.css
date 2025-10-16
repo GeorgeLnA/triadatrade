@@ -499,6 +499,53 @@ header img {
     animation-delay: 2.7s; /* Appears when center logo finishes (1.8s + 0.9s) */
   }
 
+  /* Force final header/border state on Activities page */
+  .activities-no-anim body::before {
+    animation: none !important;
+    left: 43px !important;
+    transform: translateX(0) !important;
+  }
+  .activities-no-anim body::after {
+    animation: none !important;
+    left: calc(100% - 43px) !important;
+    transform: translateX(0) !important;
+  }
+  .activities-no-anim html::before {
+    animation: none !important;
+    top: 80px !important; /* Position at bottom of header */
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-50%) rotate(90deg) !important;
+  }
+  .activities-no-anim html::after {
+    animation: none !important;
+    top: calc(100vh - 43px) !important; /* Position with 43px margin from bottom */
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-50%) rotate(90deg) !important;
+  }
+  
+  /* More specific overrides to ensure horizontal lines are fixed */
+  html.activities-no-anim::before {
+    animation: none !important;
+    top: 80px !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-50%) rotate(90deg) !important;
+  }
+  html.activities-no-anim::after {
+    animation: none !important;
+    top: calc(100vh - 43px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-50%) rotate(90deg) !important;
+  }
+  .activities-no-anim header img {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .activities-no-anim header a:not([href="/"]) {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    animation: none !important;
+  }
+
   @keyframes showHeaderLogo {
     0% {
       opacity: 0;
@@ -745,6 +792,19 @@ header img {
     transform: translateY(20px);
     animation: fadeInQuote 1s ease-out forwards;
     animation-delay: 3.5s; /* After main content */
+  }
+
+  /* Disable animations on Activities page only */
+  .activities-no-anim * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .activities-no-anim .hero-video,
+  .activities-no-anim .hero-content,
+  .activities-no-anim .hero-quote {
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   @keyframes fadeInVideo {

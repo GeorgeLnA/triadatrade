@@ -28,12 +28,12 @@ export default function WhoWeAreSection() {
           {/* Portrait - Scales proportionally with container */}
           <div className="order-1 lg:order-1 lg:col-span-4">
             <Reveal variant="slide-right">
-              <div className="relative mx-auto lg:mx-0 w-full">
+              <div className="relative mx-auto lg:ml-auto lg:mr-0 w-[87.5%]">
                 {/* Image Container */}
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <img 
-                    src="/yaroslav_yakymov_marsel_nikitin_mobile.jpg" 
-                    alt="Yaroslav Yakymov and Marsel Nikitin - Triada Trade Leadership"
+                    src="/triada.jpg" 
+                    alt="Triada Trade Team"
                     className="w-full h-full object-cover object-center"
                   />
                   
@@ -50,16 +50,16 @@ export default function WhoWeAreSection() {
           {/* Content - Dynamically fills remaining space */}
           <div className="order-2 lg:order-2 lg:col-span-8">
             <Reveal variant="slide-left" delayMs={120}>
-              <div className="w-full">
+              <div className="w-full lg:-ml-8">
               
               {/* Main Content */}
-              <div className="space-y-8">
+              <div className="space-y-4">
                 {/* First paragraph - Scales with container width */}
                 <div className="prose prose-invert max-w-none">
                   <p 
-                    className="text-scout-text-muted leading-relaxed font-metropolis w-full"
+                    className="text-scout-text-muted leading-relaxed font-teko w-full"
                     style={{
-                      fontSize: 'calc(1rem + 1.5vw)' // Scales directly with viewport width
+                      fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
                     }}
                   >
                     At Triada Trade, we pride ourselves on being a leading provider in the defense sector, renowned for our commitment to excellence, innovation, and integrity. Our business model is built on a foundation of collaboration and adaptability, allowing us to respond swiftly to the evolving needs of our clients and the industry.
@@ -70,12 +70,12 @@ export default function WhoWeAreSection() {
                 <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
                   isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
                 }`}>
-                  <div className="space-y-8">
+                  <div className="space-y-4">
                     <div className="prose prose-invert max-w-none">
                       <p 
-                        className="text-scout-text-muted leading-relaxed font-metropolis w-full"
+                        className="text-scout-text-muted leading-relaxed font-teko w-full"
                         style={{
-                          fontSize: 'calc(1rem + 1.5vw)' // Scales directly with viewport width
+                          fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
                         }}
                       >
                         With years of experience and a proven track record, Triada Trade has established a stellar reputation among defense contractors and governmental agencies. We are recognized for delivering high-quality products and services that exceed expectations, fostering long-lasting relationships with our clients.
@@ -84,9 +84,9 @@ export default function WhoWeAreSection() {
                     
                     <div className="prose prose-invert max-w-none">
                       <p 
-                        className="text-scout-text-muted leading-relaxed font-metropolis w-full"
+                        className="text-scout-text-muted leading-relaxed font-teko w-full"
                         style={{
-                          fontSize: 'calc(1rem + 1.5vw)' // Scales directly with viewport width
+                          fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
                         }}
                       >
                         Our extensive network of partnerships with key stakeholders—including government entities, industry leaders, and defense organizations—enables us to stay at the forefront of technological advancements. These connections not only enhance our capabilities but also allow us to provide seamless solutions tailored to the specific requirements of our clients.
@@ -95,9 +95,9 @@ export default function WhoWeAreSection() {
                     
                     <div className="prose prose-invert max-w-none">
                       <p 
-                        className="text-scout-text-muted leading-relaxed font-metropolis w-full"
+                        className="text-scout-text-muted leading-relaxed font-teko w-full"
                         style={{
-                          fontSize: 'calc(1rem + 1.5vw)' // Scales directly with viewport width
+                          fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
                         }}
                       >
                         Trust is the cornerstone of our operations. We understand the sensitive nature of the defense industry and are committed to conducting our business with the highest ethical standards. Our clients can rely on us for transparency, accountability, and unwavering support, knowing that their missions are in capable hands.
@@ -107,7 +107,7 @@ export default function WhoWeAreSection() {
                 </div>
                 
                 {/* Expand/Collapse Button - Scales proportionally */}
-                <div>
+                <div className="mt-2">
                   <button
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="group inline-flex items-center gap-3 px-8 py-4 bg-scout-green/10 border border-scout-green/30 rounded-lg text-scout-text-white font-metropolis text-lg hover:bg-scout-green/20 hover:border-scout-green/50 transition-all duration-300"

@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 
-export default function HeroSection() {
+type HeroSectionProps = { isHidden?: boolean };
+
+export default function HeroSection({ isHidden = false }: HeroSectionProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
@@ -9,6 +11,7 @@ export default function HeroSection() {
   const [showContent, setShowContent] = useState(false);
   const [showInteractive, setShowInteractive] = useState(false);
   const [scrollOpacity, setScrollOpacity] = useState(1);
+  const finalOpacity = isHidden ? 0 : scrollOpacity;
   
   const words = ['Strategy', 'Framework', 'Execution'];
 
@@ -28,6 +31,8 @@ export default function HeroSection() {
       clearTimeout(interactiveTimer);
     };
   }, []);
+
+  // Remove timing-based fade - will be controlled by scroll position in Index.tsx
 
   useEffect(() => {
     // Only start the text cycle after interactive elements are shown
@@ -59,38 +64,25 @@ export default function HeroSection() {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, currentWordIndex, words, showInteractive]);
 
+  // Fade hero out smoothly within first ~120% of viewport scroll; parent can also hide via isHidden
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
-      
-      // Calculate when to hide hero based on 3rd section position
-      // Assuming each section is roughly viewport height, 3rd section starts around 3 * viewport height
-      const thirdSectionStart = windowHeight * 3;
-      const thirdSectionEnd = windowHeight * 4; // End of 3rd section
-      
-      if (scrollY < thirdSectionStart) {
-        // Before 3rd section - hero visible
-        setScrollOpacity(1);
-      } else if (scrollY > thirdSectionEnd) {
-        // Past 3rd section - hero hidden
-        setScrollOpacity(0);
-      } else {
-        // In 3rd section - gradual fade based on position within section
-        const fadeProgress = (scrollY - thirdSectionStart) / (thirdSectionEnd - thirdSectionStart);
-        setScrollOpacity(1 - fadeProgress);
-      }
+    const onScroll = () => {
+      const y = window.scrollY;
+      const h = window.innerHeight;
+      const fadeEnd = Math.max(1, h * 1.2); // Changed from 0.9 to 1.2 for much later fade
+      const t = Math.min(Math.max(y / fadeEnd, 0), 1);
+      setScrollOpacity(1 - t);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
     <section 
       className="fixed inset-0 w-full h-screen z-10 transition-opacity duration-500" 
       style={{ 
-        opacity: scrollOpacity,
+        opacity: finalOpacity,
         backgroundColor: '#050612'
       }}
     >
@@ -125,7 +117,7 @@ export default function HeroSection() {
         style={{ 
           mixBlendMode: 'difference', 
           transform: showContent ? 'translateY(-50%)' : 'translateY(-50%) translateY(30px)',
-          opacity: showContent ? scrollOpacity : 0
+          opacity: showContent ? finalOpacity : 0
         }}
       >
         <div className="w-full h-full flex items-center justify-center">
@@ -144,7 +136,7 @@ export default function HeroSection() {
         className="absolute bottom-24 left-1/2 z-10 transition-all duration-500" 
         style={{ 
           transform: showInteractive ? 'translateX(calc(-50% + 1px)) translateY(-12px)' : 'translateX(calc(-50% + 1px)) translateY(calc(18px))',
-          opacity: showInteractive ? scrollOpacity : 0,
+          opacity: showInteractive ? finalOpacity : 0,
           mixBlendMode: 'difference'
         }}
       >
@@ -163,7 +155,7 @@ export default function HeroSection() {
         className="absolute bottom-16 left-1/2 z-10 transition-all duration-500" 
         style={{ 
           transform: showInteractive ? 'translateX(-50%)' : 'translateX(-50%) translateY(30px)',
-          opacity: showInteractive ? scrollOpacity : 0,
+          opacity: showInteractive ? finalOpacity : 0,
           mixBlendMode: 'difference'
         }}
       >

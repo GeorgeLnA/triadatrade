@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
 
 export default function StrategicStakeholdersSection() {
@@ -51,11 +52,39 @@ export default function StrategicStakeholdersSection() {
       logo: "/national_guard.avif",
       alt: "National Guard of Ukraine",
       name: "National Guard of\nUkraine"
+    },
+    {
+      logo: "/omega Background Removed.png",
+      alt: "Omega Defense Systems",
+      name: "Omega Defense\nSystems"
     }
   ];
 
   // Duplicate stakeholders for seamless loop
   const duplicatedStakeholders = [...stakeholders, ...stakeholders];
+
+  // Animate stakeholders along a horizontal oval path on desktop
+  const [rotationDeg, setRotationDeg] = useState(0);
+  const animationRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const speedDegPerSec = 8; // adjust to control orbit speed
+
+    const animate = (timestamp: number) => {
+      if (startTimeRef.current == null) startTimeRef.current = timestamp;
+      const elapsedMs = timestamp - startTimeRef.current;
+      const angle = (elapsedMs / 1000) * speedDegPerSec;
+      setRotationDeg(angle % 360);
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      startTimeRef.current = null;
+    };
+  }, []);
 
   return (
     <section className="w-full py-20 bg-scout-dark relative">
@@ -79,11 +108,21 @@ export default function StrategicStakeholdersSection() {
                   key={index} 
                   className="flex-shrink-0 flex items-center justify-center min-w-[100px]"
                 >
-                  <div className="w-20 h-20 flex items-center justify-center p-2">
+                  <div 
+                    className="flex items-center justify-center p-2"
+                    style={{
+                      width: 'calc(4rem + 2vw)',
+                      height: 'calc(4rem + 2vw)'
+                    }}
+                  >
                     <img 
                       src={stakeholder.logo} 
                       alt={stakeholder.alt}
                       className="max-w-full max-h-full object-contain"
+                      style={{
+                        filter: stakeholder.logo === '/omega Background Removed.png' ? 'brightness(0) invert(1)' : 'hue-rotate(0deg) saturate(0) brightness(1)',
+                        transform: stakeholder.logo === '/omega Background Removed.png' ? 'rotate(0deg) rotate(-360deg)' : 'none'
+                      }}
                       onError={(e) => {
                         // Fallback to placeholder if image doesn't exist
                         e.currentTarget.src = "/placeholder.svg";
@@ -110,13 +149,15 @@ export default function StrategicStakeholdersSection() {
               </div>
             </div>
 
-            {/* Spinning Circular Stakeholder Logos */}
-            <div className="absolute inset-0 animate-spin-slow">
+            {/* Horizontal Oval Stakeholder Logos */}
+            <div className="absolute inset-0">
               {stakeholders.map((stakeholder, index) => {
-                const angle = (index * 360) / stakeholders.length;
-                const radius = 220; // Distance from center
-                const x = Math.cos((angle * Math.PI) / 180) * radius;
-                const y = Math.sin((angle * Math.PI) / 180) * radius;
+                const baseAngle = (index * 360) / stakeholders.length;
+                const angle = baseAngle + rotationDeg;
+                const radiusX = 350; // horizontal radius (wider)
+                const radiusY = 220; // vertical radius (narrower)
+                const x = Math.cos((angle * Math.PI) / 180) * radiusX;
+                const y = Math.sin((angle * Math.PI) / 180) * radiusY;
                 
                 return (
                   <div
@@ -130,12 +171,19 @@ export default function StrategicStakeholdersSection() {
                   >
                     {/* Logo with counter-rotation */}
                     <div 
-                      className="w-24 h-24 flex items-center justify-center p-3 animate-spin-reverse"
+                      className="flex items-center justify-center p-3"
+                      style={{
+                        width: 'calc(5rem + 2.5vw)',
+                        height: 'calc(5rem + 2.5vw)'
+                      }}
                     >
                       <img 
                         src={stakeholder.logo} 
                         alt={stakeholder.alt}
                         className="max-w-full max-h-full object-contain"
+                        style={{
+                          filter: stakeholder.logo === '/omega Background Removed.png' ? 'brightness(0) invert(1)' : 'hue-rotate(0deg) saturate(0) brightness(1)'
+                        }}
                         onError={(e) => {
                           // Fallback to placeholder if image doesn't exist
                           e.currentTarget.src = "/placeholder.svg";
