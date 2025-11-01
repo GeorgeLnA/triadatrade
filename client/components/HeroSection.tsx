@@ -80,7 +80,7 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
 
   return (
     <section 
-      className="fixed inset-0 w-full h-screen z-10 transition-opacity duration-500" 
+      className="fixed inset-0 w-full h-screen z-10 transition-opacity duration-500 pointer-events-none" 
       style={{ 
         opacity: finalOpacity,
         backgroundColor: '#050612'
@@ -152,17 +152,21 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
 
       {/* CTA Button - Center */}
       <div 
-        className="absolute bottom-16 left-1/2 z-10 transition-all duration-500" 
+        className="fixed bottom-16 left-1/2 transition-all duration-500 pointer-events-auto" 
         style={{ 
           transform: showInteractive ? 'translateX(-50%)' : 'translateX(-50%) translateY(30px)',
           opacity: showInteractive ? finalOpacity : 0,
-          mixBlendMode: 'difference'
+          mixBlendMode: 'difference',
+          zIndex: 9999
         }}
       >
           <Button 
             size="lg" 
-            className="bg-white hover:bg-white/90 text-black font-teko px-10 py-5 text-xl rounded-none transition-all duration-200 transform hover:scale-105 cursor-pointer"
-            onClick={(e) => e.preventDefault()}
+            className="bg-white hover:bg-white/90 text-black font-teko px-10 py-5 text-xl rounded-none transition-all duration-200 transform hover:scale-105 cursor-pointer pointer-events-auto"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = '/activities';
+            }}
           >
             Explore our activities
           </Button>

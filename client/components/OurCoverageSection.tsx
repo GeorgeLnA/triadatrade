@@ -1,5 +1,4 @@
 import RotatingEarth from "@/components/ui/wireframe-dotted-globe";
-import GlobalCoverageSummary from "@/components/GlobalCoverageSummary";
 import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
 
@@ -262,9 +261,6 @@ export default function OurCoverageSection() {
         </div>
 
       </div>
-
-      {/* Global Coverage Summary - positioned under the globe */}
-      <GlobalCoverageSummary />
     </section>
   );
 }

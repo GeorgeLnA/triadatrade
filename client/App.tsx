@@ -8,8 +8,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import DefenceSecurity from "./pages/DefenceSecurity";
-import LegalFinancing from "./pages/LegalFinancing";
 import Activities from "./pages/Activities";
 import NotFound from "./pages/NotFound";
 // import CursorDemo from "./components/CursorDemo"; // Removed in production
@@ -99,6 +97,11 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
 const App = () => {
   const [heroAnimationsComplete, setHeroAnimationsComplete] = useState(false);
 
+  useEffect(() => {
+    // Hide cursor via JavaScript
+    document.documentElement.style.cursor = 'none';
+  }, []);
+
   return (
     <LoadingContext.Provider value={{ heroAnimationsComplete, setHeroAnimationsComplete }}>
       <QueryClientProvider client={queryClient}>
@@ -127,18 +130,6 @@ const App = () => {
             <>
               <ScrollToTop isMainPage={true} />
               <Index />
-            </>
-          } />
-          <Route path="/activities/defence-security" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <DefenceSecurity />
-            </>
-          } />
-          <Route path="/activities/legal-financing" element={
-            <>
-              <ScrollToTop isMainPage={false} />
-              <LegalFinancing />
             </>
           } />
           <Route path="/activities" element={

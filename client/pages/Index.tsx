@@ -40,7 +40,6 @@ const blogTimelineData: TimelineEntry[] = [
 export default function Index() {
   const [showWaves, setShowWaves] = useState(true); // Start visible during loading
   const [scrollStarted, setScrollStarted] = useState(false);
-  const [showFooter, setShowFooter] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const partnersSectionRef = useRef<HTMLDivElement>(null);
   const videoSectionRef = useRef<HTMLDivElement>(null);
@@ -55,19 +54,12 @@ export default function Index() {
       setHeroAnimationsComplete(true); // Enable custom cursor after hero animations complete
     }, 3000);
 
-    // Track scroll to fade in waves and show footer
+    // Track scroll to fade in waves
     const handleScroll = () => {
       if (window.scrollY > 300) { // Start fading in after scrolling 300px
         setScrollStarted(true);
       } else {
         setScrollStarted(false);
-      }
-      
-      // Show footer after scrolling past partners section using intersection observer
-      if (partnersSectionRef.current) {
-        const rect = partnersSectionRef.current.getBoundingClientRect();
-        const isPastPartners = rect.bottom < 0; // Section is completely above viewport
-        setShowFooter(isPastPartners);
       }
     };
 
@@ -134,12 +126,10 @@ export default function Index() {
       {/* Hero Section - Fixed positioned for parallax effect */}
       <HeroSection isHidden={showVideo} />
       
-      {/* Main Content - Scrolls over hero and video, then reveals footer */}
+      {/* Main Content - Scrolls over hero and video */}
       <main 
-        className="relative w-full z-20 transition-all duration-500"
-        style={{
-          marginBottom: showFooter ? '0' : '0'
-        }}
+        className="relative w-full z-20"
+        style={{ pointerEvents: 'none' }}
       >
         {/* Particle Waves Background - Fixed for entire main content */}
         <div 
@@ -160,15 +150,15 @@ export default function Index() {
         </div>
         
         {/* Spacer to account for hero height */}
-        <div className="h-screen" />
+        <div className="h-screen pointer-events-none" />
 
             {/* Who We Are Section - Dark blue background */}
-            <div id="who-we-are" ref={whoWeAreSectionRef} style={{backgroundColor: '#050612'}}>
+            <div id="who-we-are" ref={whoWeAreSectionRef} style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
               <WhoWeAreSection />
             </div>
 
         {/* Defence Programs Section - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
+        <div style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <DefenceProgramsSection />
         </div>
 
@@ -176,7 +166,7 @@ export default function Index() {
 
 
         {/* Invisible Diagram Section (Video Parallax) - Transparent for video visibility */}
-        <section ref={videoSectionRef} className="w-full py-20 sm:py-32 md:py-48 lg:py-80 bg-transparent relative">
+        <section ref={videoSectionRef} className="w-full py-20 sm:py-32 md:py-48 lg:py-80 bg-transparent relative" style={{ pointerEvents: 'auto' }}>
           {/* Text Content - Responsive Layout */}
           <div className="absolute inset-0 flex items-center z-10 px-4 sm:px-6 md:px-12 lg:pl-28">
             <div className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
@@ -303,53 +293,42 @@ export default function Index() {
         </section>
         
         {/* Quote Section - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
+        <div style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <QuoteSection />
         </div>
 
         {/* Quote Section 2 - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
+        <div style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <QuoteSection2 />
         </div>
 
         {/* Quote Section 3 - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
+        <div style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <QuoteSection3 />
         </div>
 
 
         {/* Trusted By Industry Leaders (Partners) - Black background */}
-        <div id="partners" ref={partnersSectionRef} style={{backgroundColor: '#050612'}}>
+        <div id="partners" ref={partnersSectionRef} style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <PartnersPreviewSection />
         </div>
 
         {/* Strategic Defence Stakeholders - Black background */}
-        <div style={{backgroundColor: '#050612'}}>
+        <div style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <StrategicStakeholdersSection />
         </div>
 
         {/* Meet Our Team - Black background */}
-        <div id="team" style={{backgroundColor: '#050612'}}>
+        <div id="team" style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <TeamPreviewSection />
         </div>
 
         {/* Blog Timeline Section - Black background */}
-        <div id="contact" style={{backgroundColor: '#050612'}}>
+        <div id="contact" style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <BlogTimeline data={blogTimelineData} />
         </div>
-
-        {/* Simple sticky curtain that makes the blog appear to uncover the footer */}
-        <div
-          aria-hidden="true"
-          className="sticky bottom-0 z-10 pointer-events-none"
-          style={{
-            height: '40vh',
-            backgroundColor: '#050612'
-          }}
-        />
       </main>
 
-      {/* Footer - Normal flow, fully clickable, not covered */}
       <Footer />
     </div>
   );

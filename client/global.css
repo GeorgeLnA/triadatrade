@@ -149,6 +149,7 @@ html, body {
 @layer base {
   * {
     @apply border-border;
+    cursor: none !important;
   }
 
   html, body {
