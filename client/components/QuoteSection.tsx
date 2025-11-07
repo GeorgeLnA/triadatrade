@@ -1,4 +1,5 @@
 import Reveal from "@/components/ui/Reveal";
+import { PixelButton } from "@/components/ui/PixelButton";
 
 export default function QuoteSection() {
   return (
@@ -11,7 +12,7 @@ export default function QuoteSection() {
       </div>
 
       <div 
-        className="relative z-2 w-full mx-auto py-16"
+        className="relative z-2 w-full mx-auto pt-32 pb-16 sm:pt-40 sm:pb-20 md:pt-48 md:pb-24"
         style={{
           marginLeft: '70px',
           marginRight: '70px',
@@ -89,14 +90,13 @@ export default function QuoteSection() {
 
               {/* Read Full Letter Button */}
               <div className="mt-2">
-                <button 
-                  className="bg-scout-card-bg/60 border border-scout-border/40 hover:border-scout-green/60 text-scout-text-white hover:text-scout-green px-8 py-3 rounded-lg transition-all duration-300 font-teko backdrop-blur-sm hover:bg-scout-green/10"
-                  style={{
-                    fontSize: 'calc(1rem + 0.5vw)' // Scales with container width
-                  }}
+                <PixelButton
+                  type="button"
+                  className="bg-scout-card-bg/60 border border-scout-border/40 px-8 py-3 rounded-lg transition-all duration-300 font-teko text-scout-text-white hover:border-scout-green/60 hover:bg-scout-green/10 backdrop-blur-sm tracking-wide"
+                  style={{ fontSize: 'calc(1rem + 0.5vw)' }}
                 >
                   READ FULL LETTER
-                </button>
+                </PixelButton>
               </div>
               </div>
             </Reveal>

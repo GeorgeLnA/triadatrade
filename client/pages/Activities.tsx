@@ -1,10 +1,9 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import OurCoverageSection from "@/components/OurCoverageSection";
-import Reveal from "@/components/ui/Reveal";
 import { ALL_SERVICES } from "@/components/DefenceProgramsSection";
 import { useEffect, useRef, useState } from "react";
 import { useLoading } from "@/App";
+import { IpadGlobeWrapper } from "@/components/ui/ipad-globe-wrapper";
 
 export default function Activities() {
   const defence = ALL_SERVICES.filter(s => s.category === 'defence');
@@ -189,7 +188,7 @@ export default function Activities() {
             </div>
 
             {/* Tabs */}
-            <div role="tablist" aria-label="Civil Programs" className="grid grid-cols-2 gap-0 mb-6">
+            <div role="tablist" aria-label="Civil Programs" className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
               {legal.map((svc, i) => {
                 const isActive = i === activeCivilIdx;
                 return (
@@ -200,10 +199,7 @@ export default function Activities() {
                     aria-controls={`civil-panel-${i}`}
                     id={`civil-tab-${i}`}
                     onClick={() => setActiveCivilIdx(i)}
-                    className={
-                      `w-full px-4 py-3 rounded-none border-r border-b border-t-0 ${i === 0 ? 'border-l' : 'border-l-0'} ${isActive ? 'bg-white text-black border-white/80' : 'bg-transparent text-white border-white/40'} ` +
-                      `font-teko text-xl tracking-wide`
-                    }
+                    className={`w-full px-4 py-3 rounded-lg border ${isActive ? 'bg-white text-black border-white/80' : 'bg-transparent text-white border-white/40'} font-teko text-xl tracking-wide`}
                   >
                     <span className="block leading-none">{svc.title}</span>
                     {svc.subtitle && (
@@ -261,9 +257,9 @@ export default function Activities() {
         </section>
 
         {/* Globe after services */}
-        <div style={{ backgroundColor: '#050612' }}>
-          <OurCoverageSection />
-        </div>
+        <section className="w-full" style={{ backgroundColor: '#050612' }}>
+          <IpadGlobeWrapper className="pointer-events-auto" />
+        </section>
       </main>
 
       <Footer />

@@ -5,7 +5,6 @@ import { useState } from "react"
 export interface TimelineEntry {
   title: string
   date: string
-  description: string
   image?: string
 }
 
@@ -18,11 +17,13 @@ export function BlogTimeline({ data }: BlogTimelineProps) {
 
   return (
     <div
-      className="relative z-10 w-full mx-auto py-20"
+      className="relative z-10 w-full mx-auto"
       style={{
         marginLeft: '70px',
         marginRight: '70px',
-        maxWidth: 'calc(100vw - 140px)' // 70px left + 70px right
+        maxWidth: 'calc(100vw - 140px)', // 70px left + 70px right
+        paddingTop: '7.5rem',
+        paddingBottom: '7.5rem'
       }}
     >
       {/* Section Title */}
@@ -92,14 +93,7 @@ export function BlogTimeline({ data }: BlogTimelineProps) {
             </h3>
 
             {/* Description */}
-            <p 
-              className="text-scout-text-muted font-metropolis leading-relaxed"
-              style={{
-                fontSize: 'calc(0.8125rem + 0.375vw)' // Scales with container width
-              }}
-            >
-              {entry.description}
-            </p>
+            <div className="h-0" />
           </div>
         ))}
       </div>

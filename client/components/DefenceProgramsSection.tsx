@@ -4,42 +4,63 @@ import Reveal from "@/components/ui/Reveal"
 export const ALL_SERVICES = [
   {
     id: "defence-1",
-    title: "Office of Trade Representatives",
-    subtitle: "OTR",
-    description: "Identifying local partners, conducting technology testing & validation, liaising with authorities, establishing production facilities, and managing projects in the framework of the aid programs.",
-    services: ["Partner Identification", "Technology Testing", "Authority Liaison", "Production Facilities", "Project Management"],
+    title: "R&D / Technical Consulting",
+    subtitle: "R&D / TC",
+    description: "Deep technical expertise to score readiness levels, chart product development, and guide teams from ideation through rigorous audits to a deployable MVP.",
+    services: [
+      "Technical expertise & TRL / MRL / IRL / SRL assessments",
+      "Product development roadmaps",
+      "Team leadership from idea to MVP",
+      "Comprehensive technical audit"
+    ],
     category: "defence"
   },
   {
     id: "defence-2", 
-    title: "Triada Export Agency",
-    subtitle: "TEA",
-    description: "We are dedicated to showcasing Ukraine's defense capabilities to the international community. Our mission involves presenting Ukrainian defense companies and their innovations to global markets, emphasizing their expertise and contributions.",
-    services: ["Global Market Presentation", "Partnership Building", "International Recognition", "Innovation Showcase"],
+    title: "Sales & Feedback Analytics",
+    subtitle: "SFA",
+    description: "Data-driven promotion campaigns and operational analytics that connect defence programmes with the Ministry of Defence and allied partners.",
+    services: [
+      "Promotion across the defence sector for MOD and international partners",
+      "End-user feedback collection",
+      "Request discovery and fulfilment"
+    ],
     category: "defence"
   },
   {
     id: "defence-3",
-    title: "Training & Technical Support",
-    subtitle: "TTS",
-    description: "In close cooperation with veterans and current combatants, our company has created a special program that combines the necessary structure and expertise with the opportunity for businesses in the defense cluster to take their technologies to a new level.",
-    services: ["System Integration", "Technical Training", "Veteran Collaboration", "Technology Advancement"],
+    title: "HR & Technical Talent Management",
+    subtitle: "HTTM",
+    description: "Specialist recruitment and team orchestration that secure the right engineering, operational, and advisory talent for complex defence initiatives.",
+    services: [
+      "Specialized talent acquisition",
+      "Outsourcing-ready expert database",
+      "Project team formation"
+    ],
     category: "defence"
   },
   {
     id: "legal-1",
-    title: "Press & Consulting Services",
-    subtitle: "PCS",
-    description: "Comprehensive press and consulting services providing market insights, analytical reports, and strategic intelligence to support informed decision-making in the defense sector.",
-    services: ["Market Insights", "Weekly Digests", "Analytical Reports", "OSINT"],
+    title: "GR & Codification",
+    subtitle: "GRC",
+    description: "Regulatory navigation and market-entry enablement that keep manufacturing programmes compliant across NATO-aligned jurisdictions.",
+    services: [
+      "Registration of production sites and products",
+      "EU and US market entry support",
+      "NATO (NSN) certification and codification"
+    ],
     category: "legal"
   },
   {
     id: "legal-2",
-    title: "Legal & Financing Services",
-    subtitle: "LFS",
-    description: "Expert legal and financial services ensuring compliance, risk management, and strategic financial guidance for defense sector operations and international partnerships.",
-    services: ["Counterparty Verification & Risk Management", "Legal Support & Document Legalization", "Consulting on Controlled Foreign Companies (CFCs)", "Intellectual Property Rights Legislation"],
+    title: "Strategic Allied Support",
+    subtitle: "SAS",
+    description: "We work so that Ukraine and its partners gain a technological edge, ensuring every miltech creator or investor has a strong technical, strategic, and corporate ally.",
+    services: [
+      "Technological advantage for Ukraine and allies",
+      "Support for miltech creators and investors",
+      "Integrated technical, strategic, and corporate guidance"
+    ],
     category: "legal"
   }
 ]
@@ -332,30 +353,9 @@ export default function DefenceProgramsSection() {
             </div>
           </div>
         </div>
+        <div className="mt-16" />
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="inline-flex flex-col sm:flex-row items-center gap-6 p-6 border border-scout-border/40 rounded-xl bg-scout-card-bg/60 backdrop-blur-sm">
-            <span 
-              className="text-scout-text-white font-teko"
-              style={{
-                fontSize: 'calc(0.875rem + 0.25vw)' // Scales with container width
-              }}
-            >
-              Ready to strengthen Ukraine's defense capabilities?
-            </span>
-            <button 
-              className="px-6 py-3 border border-scout-green/60 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:bg-scout-green/10 hover:border-scout-green"
-              style={{
-                fontSize: 'calc(0.75rem + 0.125vw)' // Scales with container width
-              }}
-            >
-              Start Partnership
-            </button>
-          </div>
-        </div>
       </div>
     </section>
   )
 }
-

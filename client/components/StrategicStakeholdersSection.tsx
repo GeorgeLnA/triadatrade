@@ -1,199 +1,172 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Reveal from "@/components/ui/Reveal";
+import SphereImageGrid, {
+  type ImageData
+} from "@/components/ui/SphereImageGrid";
+
+const STAKEHOLDER_IMAGES: ImageData[] = [
+  {
+    id: "mod-ukraine",
+    src: "/mod_ukraine.avif",
+    alt: "Ministry of Defense of Ukraine",
+    title: "Ministry of Defense of Ukraine",
+    description:
+      "Leads strategic planning, procurement, and coordination of Ukraine's national defence capabilities, ensuring armed forces readiness across all domains."
+  },
+  {
+    id: "mia-ukraine",
+    src: "/mia_ukraine.avif",
+    alt: "Ministry of Internal Affairs of Ukraine",
+    title: "Ministry of Internal Affairs",
+    description:
+      "Oversees internal security, national police operations, and emergency response networks that protect civilians and critical infrastructure."
+  },
+  {
+    id: "msi-ukraine",
+    src: "/msi_ukraine.avif",
+    alt: "Ministry of Strategic Industries of Ukraine",
+    title: "Ministry of Strategic Industries",
+    description:
+      "Drives innovation and industrial partnerships that supply advanced defence technologies and manufacturing capacity."
+  },
+  {
+    id: "general-staff",
+    src: "/general_staff.avif",
+    alt: "General Staff of the Armed Forces of Ukraine",
+    title: "General Staff of the Armed Forces",
+    description:
+      "Coordinates joint operations, intelligence, and strategic command for Ukraine’s unified military effort."
+  },
+  {
+    id: "land-forces",
+    src: "/land_forces.avif",
+    alt: "Land Forces Command",
+    title: "Land Forces Command",
+    description:
+      "Manages ground operations, equipment sustainment, and frontline readiness for land-based defence formations."
+  },
+  {
+    id: "air-forces",
+    src: "/air_forces.avif",
+    alt: "Air Forces Command",
+    title: "Air Forces Command",
+    description:
+      "Provides air superiority, integrated air defence, and rapid response aviation support across the theatre."
+  },
+  {
+    id: "naval-forces",
+    src: "/naval_forces.avif",
+    alt: "Naval Forces Command",
+    title: "Naval Forces Command",
+    description:
+      "Secures maritime approaches, coastal infrastructure, and strategic waterways with modern naval assets."
+  },
+  {
+    id: "uav-forces",
+    src: "/uav_forces.avif",
+    alt: "UAV Forces Command",
+    title: "UAV Forces Command",
+    description:
+      "Integrates unmanned aerial systems for reconnaissance, strike support, and rapid intelligence-sharing."
+  },
+  {
+    id: "special-forces",
+    src: "/special_forces.avif",
+    alt: "Special Operation Forces",
+    title: "Special Operation Forces",
+    description:
+      "Conducts precision missions, counter-terrorism, and high-impact operations in multi-domain environments."
+  },
+  {
+    id: "national-guard",
+    src: "/national_guard.avif",
+    alt: "National Guard of Ukraine",
+    title: "National Guard of Ukraine",
+    description:
+      "Supports territorial defence, public security, and humanitarian response alongside the armed forces."
+  },
+  {
+    id: "omega-defense",
+    src: "/omega Background Removed.png",
+    alt: "Omega Defense Systems",
+    title: "Omega Defense Systems",
+    imageStyles: {
+      filter: "brightness(0) invert(1)"
+    },
+    description:
+      "Delivers mission-ready solutions and specialized support capabilities to reinforce allied defence programmes."
+  }
+];
+
+const CLONE_MULTIPLIER = 3;
+
+const SPHERE_IMAGES: ImageData[] = Array.from({ length: CLONE_MULTIPLIER }, (_, cloneIndex) =>
+  STAKEHOLDER_IMAGES.map(image => ({
+    ...image,
+    id: `${image.id}-clone-${cloneIndex}`
+  }))
+).flat();
 
 export default function StrategicStakeholdersSection() {
-  const stakeholders = [
-    {
-      logo: "/mod_ukraine.avif",
-      alt: "Ministry of Defense of Ukraine",
-      name: "Ministry of Defense\nof Ukraine"
-    },
-    {
-      logo: "/mia_ukraine.avif",
-      alt: "Ministry of Internal Affairs of Ukraine",
-      name: "Ministry of Internal\nAffairs of Ukraine"
-    },
-    {
-      logo: "/msi_ukraine.avif",
-      alt: "Ministry of Strategic Industries of Ukraine",
-      name: "Ministry of Strategic\nIndustries of Ukraine"
-    },
-    {
-      logo: "/general_staff.avif",
-      alt: "General Staff of the Armed Forces of Ukraine",
-      name: "General Staff of the\nArmed Forces of Ukraine"
-    },
-    {
-      logo: "/land_forces.avif",
-      alt: "Land Forces Command",
-      name: "Land Forces\nCommand"
-    },
-    {
-      logo: "/air_forces.avif",
-      alt: "Air Forces Command",
-      name: "Air Forces\nCommand"
-    },
-    {
-      logo: "/naval_forces.avif",
-      alt: "Naval Forces Command",
-      name: "Naval Forces\nCommand"
-    },
-    {
-      logo: "/uav_forces.avif",
-      alt: "UAV Forces Command",
-      name: "UAV Forces\nCommand"
-    },
-    {
-      logo: "/special_forces.avif",
-      alt: "Special Operation Forces",
-      name: "Special Operation\nForces"
-    },
-    {
-      logo: "/national_guard.avif",
-      alt: "National Guard of Ukraine",
-      name: "National Guard of\nUkraine"
-    },
-    {
-      logo: "/omega Background Removed.png",
-      alt: "Omega Defense Systems",
-      name: "Omega Defense\nSystems"
-    }
-  ];
-
-  // Duplicate stakeholders for seamless loop
-  const duplicatedStakeholders = [...stakeholders, ...stakeholders];
-
-  // Animate stakeholders along a horizontal oval path on desktop
-  const [rotationDeg, setRotationDeg] = useState(0);
-  const animationRef = useRef<number | null>(null);
-  const startTimeRef = useRef<number | null>(null);
+  const [containerSize, setContainerSize] = useState(420);
 
   useEffect(() => {
-    const speedDegPerSec = 8; // adjust to control orbit speed
-
-    const animate = (timestamp: number) => {
-      if (startTimeRef.current == null) startTimeRef.current = timestamp;
-      const elapsedMs = timestamp - startTimeRef.current;
-      const angle = (elapsedMs / 1000) * speedDegPerSec;
-      setRotationDeg(angle % 360);
-      animationRef.current = requestAnimationFrame(animate);
+    const computeSize = () => {
+      const width = window.innerWidth || 1280;
+      const horizontalPadding = width < 768 ? 48 : 160;
+      const maxPossible = width - horizontalPadding;
+      const clamped = Math.max(300, Math.min(maxPossible, width < 768 ? 410 : 600));
+      setContainerSize(Math.round(clamped * 0.85));
     };
 
-    animationRef.current = requestAnimationFrame(animate);
+    computeSize();
+    window.addEventListener("resize", computeSize);
+
     return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-      startTimeRef.current = null;
+      window.removeEventListener("resize", computeSize);
     };
   }, []);
 
   return (
-    <section className="w-full py-20 bg-scout-dark relative">
+    <section
+      className="relative w-full bg-scout-dark"
+      style={{ paddingTop: '7.5rem', paddingBottom: '7.5rem' }}
+    >
       <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Title */}
+        <div className="mx-auto max-w-5xl">
           <Reveal variant="slide-up">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-scout-text-white mb-6 font-teko">
-                STRATEGIC DEFENCE STAKEHOLDERS
+            <div className="mb-16 text-center">
+              <h2 className="font-teko text-4xl font-bold uppercase text-scout-text-white md:text-5xl">
+                Strategic Defence Stakeholders
               </h2>
             </div>
           </Reveal>
 
-          {/* Mobile: Horizontal Strip */}
-          <Reveal>
-            <div className="md:hidden relative overflow-hidden">
-              <div className="flex gap-4 animate-scroll-seamless">
-              {duplicatedStakeholders.map((stakeholder, index) => (
-                <div 
-                  key={index} 
-                  className="flex-shrink-0 flex items-center justify-center min-w-[100px]"
-                >
-                  <div 
-                    className="flex items-center justify-center p-2"
-                    style={{
-                      width: 'calc(4rem + 2vw)',
-                      height: 'calc(4rem + 2vw)'
-                    }}
-                  >
-                    <img 
-                      src={stakeholder.logo} 
-                      alt={stakeholder.alt}
-                      className="max-w-full max-h-full object-contain"
-                      style={{
-                        filter: stakeholder.logo === '/omega Background Removed.png' ? 'brightness(0) invert(1)' : 'hue-rotate(0deg) saturate(0) brightness(1)',
-                        transform: stakeholder.logo === '/omega Background Removed.png' ? 'rotate(0deg) rotate(-360deg)' : 'none'
-                      }}
-                      onError={(e) => {
-                        // Fallback to placeholder if image doesn't exist
-                        e.currentTarget.src = "/placeholder.svg";
-                      }}
+          <Reveal variant="fade" delayMs={120}>
+            <div className="mx-auto flex w-full max-w-[680px] items-center justify-center">
+              <div className="relative flex items-center justify-center">
+                <SphereImageGrid
+                  className="relative z-10 mx-auto"
+                  images={SPHERE_IMAGES}
+                  containerSize={containerSize}
+                  sphereRadius={containerSize * 0.46}
+                  dragSensitivity={0.52}
+                  baseImageScale={0.23}
+                  hoverScale={1.04}
+                  autoRotate
+                  autoRotateSpeed={0.2}
+                  centerOverlay={
+                    <img
+                      src="/TT logo.png"
+                      alt="Triada Trade"
+                      className="h-full w-full object-contain"
+                      loading="lazy"
                     />
-                  </div>
-                </div>
-              ))}
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Desktop: Circular Layout Container */}
-          <Reveal variant="fade" delayMs={100}>
-            <div className="hidden md:block relative w-full h-[600px] flex items-center justify-center">
-            {/* Center Logo - Triada Trade */}
-            <div className="absolute z-20 flex items-center justify-center" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-              <div className="w-40 h-40 flex items-center justify-center p-5">
-                <img 
-                  src="/TT logo.png" 
-                  alt="Triada Trade"
-                  className="w-full h-full object-contain"
+                  }
+                  centerOverlayClassName="flex h-[30%] w-[30%] items-center justify-center"
+                  centerOverlayZIndex={1000}
                 />
               </div>
-            </div>
-
-            {/* Horizontal Oval Stakeholder Logos */}
-            <div className="absolute inset-0">
-              {stakeholders.map((stakeholder, index) => {
-                const baseAngle = (index * 360) / stakeholders.length;
-                const angle = baseAngle + rotationDeg;
-                const radiusX = 350; // horizontal radius (wider)
-                const radiusY = 220; // vertical radius (narrower)
-                const x = Math.cos((angle * Math.PI) / 180) * radiusX;
-                const y = Math.sin((angle * Math.PI) / 180) * radiusY;
-                
-                return (
-                  <div
-                    key={index}
-                    className="absolute flex items-center justify-center"
-                    style={{
-                      transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
-                      left: '50%',
-                      top: '50%'
-                    }}
-                  >
-                    {/* Logo with counter-rotation */}
-                    <div 
-                      className="flex items-center justify-center p-3"
-                      style={{
-                        width: 'calc(5rem + 2.5vw)',
-                        height: 'calc(5rem + 2.5vw)'
-                      }}
-                    >
-                      <img 
-                        src={stakeholder.logo} 
-                        alt={stakeholder.alt}
-                        className="max-w-full max-h-full object-contain"
-                        style={{
-                          filter: stakeholder.logo === '/omega Background Removed.png' ? 'brightness(0) invert(1)' : 'hue-rotate(0deg) saturate(0) brightness(1)'
-                        }}
-                        onError={(e) => {
-                          // Fallback to placeholder if image doesn't exist
-                          e.currentTarget.src = "/placeholder.svg";
-                        }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
             </div>
           </Reveal>
         </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Reveal from "@/components/ui/Reveal";
+import { PixelButton } from "@/components/ui/PixelButton";
 
 export default function WhoWeAreSection() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -108,7 +109,8 @@ export default function WhoWeAreSection() {
                 
                 {/* Expand/Collapse Button - Scales proportionally */}
                 <div className="mt-2">
-                  <button
+                  <PixelButton
+                    type="button"
                     onClick={() => setIsExpanded(!isExpanded)}
                     className="group inline-flex items-center gap-3 px-8 py-4 bg-scout-green/10 border border-scout-green/30 rounded-lg text-scout-text-white font-metropolis text-lg hover:bg-scout-green/20 hover:border-scout-green/50 transition-all duration-300"
                   >
@@ -121,7 +123,7 @@ export default function WhoWeAreSection() {
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </button>
+                  </PixelButton>
                 </div>
               </div>
               

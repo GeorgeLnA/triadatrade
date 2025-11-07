@@ -43,7 +43,7 @@ const TEAM_MEMBERS = [
     name: "Oleksandra Nikitina",
     role: "Taxation Expert", 
     initials: "ON",
-    image: "/oleksandra_nikitina.jpg",
+    image: "/oleksandra_nikitina_bw.jpg",
     description: "Providing expert guidance on complex taxation matters and ensuring regulatory compliance.",
     skills: ["Tax Planning", "Regulatory Compliance", "International Tax"],
     experience: "8+ years",
@@ -128,7 +128,10 @@ export default function TeamPreviewSection() {
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
 
   return (
-    <section className="w-full py-20 bg-scout-dark">
+    <section
+      className="w-full bg-scout-dark"
+      style={{ paddingTop: '7.5rem', paddingBottom: '7.5rem' }}
+    >
       <div 
         className="relative z-10 w-full mx-auto"
         style={{
@@ -173,20 +176,6 @@ export default function TeamPreviewSection() {
                       style={member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : { objectPosition: 'center 10%' }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
-                    
-                    {/* Experience Badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="bg-scout-green/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                        <span className="text-scout-dark font-teko text-sm font-bold">{member.experience}</span>
-                      </div>
-                    </div>
-
-                    {/* Senior Badge */}
-                    <div className="absolute top-4 left-4">
-                      <div className="bg-scout-green/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                        <span className="text-scout-dark font-teko text-sm font-bold">SENIOR</span>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Content */}
@@ -224,17 +213,7 @@ export default function TeamPreviewSection() {
                         {member.description}
                       </p>
                     </div>
-
-                    {/* View Profile Button - Shows on hover */}
-                    <div className={`transition-all duration-300 ${
-                      hoveredMember === member.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                    }`}>
-                      <div className="pt-6 border-t border-scout-border/20">
-                        <button className="w-full px-6 py-3 border border-scout-border/40 rounded-lg text-scout-text-white font-teko font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
-                          View Profile
-                        </button>
-                      </div>
-                    </div>
+                    <div className="pt-6" />
                   </div>
                 </div>
               </div>
@@ -265,22 +244,6 @@ export default function TeamPreviewSection() {
                     style={member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : { objectPosition: 'center 10%' }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
-                  
-                  {/* Experience Badge */}
-                  <div className="absolute top-4 right-4">
-                    <div className="bg-scout-green/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <span className="text-scout-dark font-teko text-xs font-bold">{member.experience}</span>
-                    </div>
-                  </div>
-
-                  {/* Category Badge */}
-                  <div className="absolute top-4 left-4">
-                    <div className="bg-scout-card-bg/80 backdrop-blur-sm px-3 py-1 rounded-full border border-scout-border/40">
-                      <span className="text-scout-text-white font-metropolis text-xs font-medium uppercase tracking-wider">
-                        {member.category}
-                      </span>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Content */}
@@ -318,17 +281,7 @@ export default function TeamPreviewSection() {
                       {member.description}
                     </p>
                   </div>
-
-                  {/* View Profile Button - Shows on hover */}
-                  <div className={`transition-all duration-300 flex-shrink-0 ${
-                    hoveredMember === member.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                  }`}>
-                    <div className="pt-4 border-t border-scout-border/20">
-                      <button className="w-full px-4 py-2 border border-scout-border/40 rounded-lg text-scout-text-white font-teko text-sm font-medium transition-all duration-200 hover:border-scout-green/60 hover:bg-scout-green/10">
-                        View Profile
-                      </button>
-                    </div>
-                  </div>
+                  <div className="pt-4" />
                 </div>
               </div>
             </div>

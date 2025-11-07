@@ -808,6 +808,83 @@ header img {
     transform: none !important;
   }
 
+  .triada-pixel-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: inherit;
+    isolation: isolate;
+    transition: color 0.3s ease;
+  }
+
+  .triada-pixel-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .triada-pixel-label {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: inherit;
+    justify-content: inherit;
+    gap: inherit;
+    column-gap: inherit;
+    row-gap: inherit;
+    transition: opacity 0.3s ease;
+  }
+
+  .triada-pixel-label--hover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    color: var(--pixel-contrast-color, currentColor);
+    gap: inherit;
+    column-gap: inherit;
+    row-gap: inherit;
+  }
+
+  .triada-pixel-label--hover > * {
+    color: inherit !important;
+  }
+
+  .triada-pixel {
+    position: absolute;
+    width: var(--pixel-size, 10px);
+    height: var(--pixel-size, 10px);
+    background: var(--pixel-color, #65ffbf);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .triada-pixel-btn:hover .triada-pixel-label--base {
+    opacity: 0;
+  }
+
+  .triada-pixel-btn:hover .triada-pixel-label--hover {
+    opacity: 1;
+  }
+
+  .triada-pixel-btn:hover .triada-pixel {
+    opacity: 1;
+  }
+
+  .triada-pixel-btn:hover {
+    color: var(--pixel-contrast-color, currentColor);
+  }
+
   @keyframes fadeInVideo {
     0% {
       opacity: 0;

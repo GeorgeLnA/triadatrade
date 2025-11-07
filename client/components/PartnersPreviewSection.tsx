@@ -108,7 +108,10 @@ export default function PartnersPreviewSection() {
   }, [currentIndex]);
 
   return (
-    <section className="w-full py-20 bg-scout-dark">
+    <section
+      className="w-full bg-scout-dark"
+      style={{ paddingTop: '7.5rem', paddingBottom: '7.5rem' }}
+    >
       <div 
         className="relative z-10 w-full mx-auto"
         style={{
@@ -149,11 +152,22 @@ export default function PartnersPreviewSection() {
                       <img 
                         src={PARTNERS[currentIndex].logo} 
                         alt={PARTNERS[currentIndex].name}
-                        className={`object-contain filter group-hover:scale-110 transition-transform duration-300 ${
-                          PARTNERS[currentIndex].name === 'Alliance Defence' 
-                            ? 'saturate-0' 
-                            : 'brightness-0 invert'
+                        className={`object-contain transition-transform duration-300 group-hover:scale-110 ${
+                          ["Kord Defence", "Octava Capital", "TARGET"].includes(
+                            PARTNERS[currentIndex].name
+                          )
+                            ? "brightness-0 invert"
+                            : ""
                         }`}
+                        style={{
+                          filter: ["Kord Defence", "Octava Capital", "TARGET"].includes(
+                            PARTNERS[currentIndex].name
+                          )
+                            ? undefined
+                            : "contrast(130%) brightness(1.25)",
+                          width: "calc(6rem + 1.5vw)",
+                          height: "calc(6rem + 1.5vw)"
+                        }}
                         style={{
                           width: 'calc(6rem + 1.5vw)',
                           height: 'calc(6rem + 1.5vw)'
@@ -200,52 +214,56 @@ export default function PartnersPreviewSection() {
 
         {/* Partners Grid - Logo Focus */}
         <Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          {PARTNERS.map((partner, index) => (
-            <div 
-              key={partner.name}
-              className={`group relative cursor-pointer transition-all duration-300 ${
-                index === currentIndex ? 'scale-110' : 'hover:scale-105'
-              }`}
-              onClick={() => setCurrentIndex(index)}
-            >
-              <div className={`bg-scout-card-bg/60 border rounded-xl backdrop-blur-sm transition-all duration-300 relative ${
-                index === currentIndex 
-                  ? 'border-scout-green/60 bg-scout-green/10' 
-                  : 'border-scout-border/40 hover:border-scout-green/40'
-              }`}>
-                {/* Progress Indicator - Only on selected card */}
-                {index === currentIndex && (
-                  <div className="absolute top-2 left-2 right-2 h-1 bg-scout-dark/80 overflow-hidden">
-                    <div 
-                      className={`h-full bg-white ${
-                        progress >= 100 ? 'rounded-r-full' : ''
+          <div className="grid grid-cols-2 gap-5 md:grid-cols-5">
+            {PARTNERS.map((partner, index) => (
+              <div
+                key={partner.name}
+                className={`group relative cursor-pointer transition-transform duration-300 ${
+                  index === currentIndex ? "scale-[1.04]" : "hover:scale-[1.03]"
+                }`}
+                onClick={() => setCurrentIndex(index)}
+              >
+                <div
+                  className={`relative rounded-xl border backdrop-blur-sm transition-all duration-300 ${
+                    index === currentIndex
+                      ? "border-scout-green/60 bg-scout-green/10"
+                      : "border-scout-border/40 bg-scout-card-bg/60 hover:border-scout-green/40"
+                  }`}
+                >
+                  {index === currentIndex && (
+                    <div className="absolute left-2 right-2 top-2 h-1 overflow-hidden rounded-full bg-scout-dark/80">
+                      <div
+                        className={`h-full rounded-full bg-white ${
+                          progress >= 100 ? "rounded-r-full" : ""
+                        }`}
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex aspect-[5/4] items-center justify-center p-6">
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className={`h-full w-full object-contain transition-transform duration-300 group-hover:scale-110 ${
+                        ["Kord Defence", "Octava Capital", "TARGET"].includes(partner.name)
+                          ? "brightness-0 invert"
+                          : ""
                       }`}
-                      style={{ width: `${progress}%` }}
+                      style={{
+                        maxWidth: "calc(100% - 1.5rem)",
+                        maxHeight: "calc(100% - 1.5rem)",
+                        filter: ["Kord Defence", "Octava Capital", "TARGET"].includes(
+                          partner.name
+                        )
+                          ? undefined
+                          : "contrast(130%) brightness(1.25)"
+                      }}
                     />
                   </div>
-                )}
-
-                {/* Logo Container */}
-                <div className="aspect-square p-6 flex items-center justify-center">
-                  <img 
-                    src={partner.logo} 
-                    alt={partner.name}
-                    className={`w-full h-full object-contain filter group-hover:scale-110 transition-transform duration-300 ${
-                      partner.name === 'Alliance Defence' 
-                        ? 'saturate-0' 
-                        : 'brightness-0 invert'
-                    }`}
-                    style={{
-                      maxWidth: 'calc(100% - 1.5rem)', // Account for padding
-                      maxHeight: 'calc(100% - 1.5rem)'
-                    }}
-                  />
                 </div>
-
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         </Reveal>
 

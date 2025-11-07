@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
+import { PixelButton } from "@/components/ui/PixelButton";
 
 type HeaderProps = { staticFinal?: boolean; hideLogo?: boolean };
 
@@ -40,21 +40,34 @@ export default function Header({ staticFinal = false, hideLogo = false }: Header
         <div className="flex items-center gap-6">
           {/* Navigation Links - All styled like Blog button */}
           <div className="flex items-center gap-3">
-            <a href="#who-we-are" className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl hover:bg-white/10 transition-colors">
+            <PixelButton
+              as="a"
+              href="#who-we-are"
+              className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl transition-colors duration-300 hover:bg-white/10 hover:border-white"
+            >
               Who we are
-            </a>
-            <a href="#partners" className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl hover:bg-white/10 transition-colors">
+            </PixelButton>
+            <PixelButton
+              as="a"
+              href="#partners"
+              className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl transition-colors duration-300 hover:bg-white/10 hover:border-white"
+            >
               Partners
-            </a>
-            <a href="#team" className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl hover:bg-white/10 transition-colors">
+            </PixelButton>
+            <PixelButton
+              as="a"
+              href="#team"
+              className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl transition-colors duration-300 hover:bg-white/10 hover:border-white"
+            >
               Our Team
-            </a>
-            <a 
-              href="#contact" 
-              className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl hover:bg-white/10 transition-colors"
+            </PixelButton>
+            <PixelButton
+              as="a"
+              href="#contact"
+              className="px-4 py-2 border border-white/70 rounded-lg text-white font-teko text-xl transition-colors duration-300 hover:bg-white/10 hover:border-white"
             >
               Blog
-            </a>
+            </PixelButton>
           </div>
         </div>
       </div>
