@@ -44,49 +44,19 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
       history.scrollRestoration = 'manual';
     }
     
-    // Only block scrolling on main page (loading animation duration)
     if (isMainPage) {
-      const preventScroll = (e: Event) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      };
-      
-      // Add scroll blocking to multiple elements
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-      
-      // Add event listeners to prevent scrolling
-      document.addEventListener('wheel', preventScroll, { passive: false });
-      document.addEventListener('touchmove', preventScroll, { passive: false });
-      document.addEventListener('keydown', (e) => {
-        if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) {
-          e.preventDefault();
-        }
-      });
-      
-      // Force scroll to top after a brief delay to override any restoration
-      setTimeout(() => {
+      const forceScrollTop = () => {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      }, 0);
-      
-      // Re-enable scrolling after 3 seconds
-      const enableScrollTimer = setTimeout(() => {
-        document.body.style.overflow = 'auto';
-        document.documentElement.style.overflow = 'auto';
-        document.removeEventListener('wheel', preventScroll);
-        document.removeEventListener('touchmove', preventScroll);
-      }, 3000);
-      
-      // Cleanup function
+      };
+
+      forceScrollTop();
+
+      const restoreTimer = setTimeout(forceScrollTop, 0);
+
       return () => {
-        clearTimeout(enableScrollTimer);
-        document.body.style.overflow = 'auto';
-        document.documentElement.style.overflow = 'auto';
-        document.removeEventListener('wheel', preventScroll);
-        document.removeEventListener('touchmove', preventScroll);
+        clearTimeout(restoreTimer);
       };
     }
   }, [isMainPage]);
