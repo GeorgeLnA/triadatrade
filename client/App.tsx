@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 // import CursorDemo from "./components/CursorDemo"; // Removed in production
 import ScrollRuler from "./components/ScrollRuler";
 import TargetCursor from "./components/TargetCursor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Context for managing loading states across the app
 interface LoadingContextType {
@@ -55,6 +56,45 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
 
       const restoreTimer = setTimeout(forceScrollTop, 0);
 
+      if (!isMobile) {
+        const preventScroll = (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        };
+
+        const preventKeyScroll = (e: KeyboardEvent) => {
+          if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) {
+            e.preventDefault();
+          }
+        };
+
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        document.addEventListener('wheel', preventScroll, { passive: false });
+        document.addEventListener('touchmove', preventScroll, { passive: false });
+        document.addEventListener('keydown', preventKeyScroll, { passive: false } as AddEventListenerOptions);
+
+        const enableScrollTimer = setTimeout(() => {
+          document.body.style.overflow = 'auto';
+          document.documentElement.style.overflow = 'auto';
+          document.removeEventListener('wheel', preventScroll);
+          document.removeEventListener('touchmove', preventScroll);
+          document.removeEventListener('keydown', preventKeyScroll);
+        }, 3000);
+
+        return () => {
+          clearTimeout(restoreTimer);
+          clearTimeout(enableScrollTimer);
+          document.body.style.overflow = 'auto';
+          document.documentElement.style.overflow = 'auto';
+          document.removeEventListener('wheel', preventScroll);
+          document.removeEventListener('touchmove', preventScroll);
+          document.removeEventListener('keydown', preventKeyScroll);
+        };
+      }
+
       return () => {
         clearTimeout(restoreTimer);
       };
@@ -66,10 +106,28 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
 
 const App = () => {
   const [heroAnimationsComplete, setHeroAnimationsComplete] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Hide cursor via JavaScript
-    document.documentElement.style.cursor = 'none';
+    const root = document.documentElement;
+    const isTouchDevice =
+      (typeof window !== 'undefined' && 'ontouchstart' in window) ||
+      (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) ||
+      (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches);
+
+    if (isTouchDevice) {
+      root.style.cursor = 'auto';
+      return () => {
+        root.style.cursor = '';
+      };
+    }
+
+    root.style.cursor = 'none';
+
+    return () => {
+      root.style.cursor = '';
+    };
   }, []);
 
   return (
@@ -79,7 +137,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           {/* Only show custom cursor after hero animations complete */}
-          {heroAnimationsComplete && (
+          {heroAnimationsComplete && !isMobile && (
             <TargetCursor 
               targetSelector="button, a, [role='button'], img[alt*='logo' i], .logo, [data-logo='true'], .cursor-target, .scroll-ruler"
               spinDuration={4}
