@@ -32,6 +32,8 @@ const queryClient = new QueryClient();
 
 // Component to handle initial scroll position and block scrolling during loading
 function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
+  const isMobile = useIsMobile();
+  
   useEffect(() => {
     // Set initial scroll position to top without animation
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -99,7 +101,7 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
         clearTimeout(restoreTimer);
       };
     }
-  }, [isMainPage]);
+  }, [isMainPage, isMobile]);
 
   return null;
 }
