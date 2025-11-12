@@ -47,7 +47,7 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
       history.scrollRestoration = 'manual';
     }
     
-    if (isMainPage) {
+    if (isMainPage && !isMobile) {
       const forceScrollTop = () => {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         document.documentElement.scrollTop = 0;
@@ -58,47 +58,41 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
 
       const restoreTimer = setTimeout(forceScrollTop, 0);
 
-      if (!isMobile) {
-        const preventScroll = (e: Event) => {
+      const preventScroll = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      };
+
+      const preventKeyScroll = (e: KeyboardEvent) => {
+        if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) {
           e.preventDefault();
-          e.stopPropagation();
-          return false;
-        };
+        }
+      };
 
-        const preventKeyScroll = (e: KeyboardEvent) => {
-          if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) {
-            e.preventDefault();
-          }
-        };
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
 
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
+      document.addEventListener('wheel', preventScroll, { passive: false });
+      document.addEventListener('touchmove', preventScroll, { passive: false });
+      document.addEventListener('keydown', preventKeyScroll, { passive: false } as AddEventListenerOptions);
 
-        document.addEventListener('wheel', preventScroll, { passive: false });
-        document.addEventListener('touchmove', preventScroll, { passive: false });
-        document.addEventListener('keydown', preventKeyScroll, { passive: false } as AddEventListenerOptions);
-
-        const enableScrollTimer = setTimeout(() => {
-          document.body.style.overflow = 'auto';
-          document.documentElement.style.overflow = 'auto';
-          document.removeEventListener('wheel', preventScroll);
-          document.removeEventListener('touchmove', preventScroll);
-          document.removeEventListener('keydown', preventKeyScroll);
-        }, 3000);
-
-        return () => {
-          clearTimeout(restoreTimer);
-          clearTimeout(enableScrollTimer);
-          document.body.style.overflow = 'auto';
-          document.documentElement.style.overflow = 'auto';
-          document.removeEventListener('wheel', preventScroll);
-          document.removeEventListener('touchmove', preventScroll);
-          document.removeEventListener('keydown', preventKeyScroll);
-        };
-      }
+      const enableScrollTimer = setTimeout(() => {
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
+        document.removeEventListener('wheel', preventScroll);
+        document.removeEventListener('touchmove', preventScroll);
+        document.removeEventListener('keydown', preventKeyScroll);
+      }, 3000);
 
       return () => {
         clearTimeout(restoreTimer);
+        clearTimeout(enableScrollTimer);
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
+        document.removeEventListener('wheel', preventScroll);
+        document.removeEventListener('touchmove', preventScroll);
+        document.removeEventListener('keydown', preventKeyScroll);
       };
     }
   }, [isMainPage, isMobile]);
