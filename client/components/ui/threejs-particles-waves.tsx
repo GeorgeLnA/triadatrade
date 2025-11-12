@@ -41,6 +41,7 @@ export const ParticleWaves = ({
   const countRef = useRef(0);
   const mouseRef = useRef({ x: 0, y: 0 });
   const windowHalfRef = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+  const isMobileRef = useRef(false);
 
   const createParticleMaterial = (color: string) => {
     const canvas = document.createElement('canvas');
@@ -100,8 +101,12 @@ export const ParticleWaves = ({
   };
 
   const handleTouchMove = (event: TouchEvent) => {
+    // On mobile, don't update camera position - keep waves static
+    if (isMobileRef.current) {
+      return;
+    }
     if (event.touches.length === 1) {
-      event.preventDefault();
+      // Don't prevent default to allow scrolling on mobile
       mouseRef.current.x = event.touches[0].pageX - windowHalfRef.current.x;
       mouseRef.current.y = event.touches[0].pageY - windowHalfRef.current.y;
     }
@@ -122,9 +127,11 @@ export const ParticleWaves = ({
     
     animationRef.current = requestAnimationFrame(animate);
     
-    // Update camera
-    cameraRef.current.position.x += (mouseRef.current.x - cameraRef.current.position.x) * 0.05;
-    cameraRef.current.position.y += (-mouseRef.current.y - cameraRef.current.position.y) * 0.05;
+    // Update camera - only on desktop (mobile keeps waves static)
+    if (!isMobileRef.current) {
+      cameraRef.current.position.x += (mouseRef.current.x - cameraRef.current.position.x) * 0.05;
+      cameraRef.current.position.y += (-mouseRef.current.y - cameraRef.current.position.y) * 0.05;
+    }
     cameraRef.current.lookAt(sceneRef.current.position);
     
     // Update particles
@@ -157,6 +164,13 @@ export const ParticleWaves = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Detect mobile/touch device
+    const isTouchDevice =
+      (typeof window !== 'undefined' && 'ontouchstart' in window) ||
+      (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) ||
+      (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches);
+    isMobileRef.current = isTouchDevice;
+
     // Initialize Three.js
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.z = 1000;
@@ -180,7 +194,7 @@ export const ParticleWaves = ({
 
     // Event listeners
     document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('resize', handleResize);
 
     // Start animation

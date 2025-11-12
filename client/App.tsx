@@ -32,9 +32,13 @@ const queryClient = new QueryClient();
 
 // Component to handle initial scroll position and block scrolling during loading
 function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
-  const isMobile = useIsMobile();
-  
   useEffect(() => {
+    // Detect touch device directly to avoid initial undefined state
+    const isTouchDevice =
+      (typeof window !== 'undefined' && 'ontouchstart' in window) ||
+      (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) ||
+      (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches);
+    
     // Set initial scroll position to top without animation
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     
@@ -47,7 +51,19 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
       history.scrollRestoration = 'manual';
     }
     
-    if (isMainPage && !isMobile) {
+    // On mobile, ensure scrolling is always enabled
+    if (isTouchDevice) {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+      return () => {
+        // Ensure cleanup doesn't interfere
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      };
+    }
+    
+    // Only block scroll on desktop (non-touch devices)
+    if (isMainPage && !isTouchDevice) {
       const forceScrollTop = () => {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         document.documentElement.scrollTop = 0;
@@ -95,7 +111,7 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
         document.removeEventListener('keydown', preventKeyScroll);
       };
     }
-  }, [isMainPage, isMobile]);
+  }, [isMainPage]);
 
   return null;
 }
