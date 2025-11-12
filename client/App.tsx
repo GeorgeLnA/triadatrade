@@ -30,15 +30,9 @@ export const useLoading = () => useContext(LoadingContext);
 
 const queryClient = new QueryClient();
 
-// Component to handle initial scroll position and block scrolling during loading
-function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
+// Component to handle initial scroll position
+function ScrollToTop() {
   useEffect(() => {
-    // Detect touch device directly to avoid initial undefined state
-    const isTouchDevice =
-      (typeof window !== 'undefined' && 'ontouchstart' in window) ||
-      (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0) ||
-      (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches);
-    
     // Set initial scroll position to top without animation
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     
@@ -50,68 +44,7 @@ function ScrollToTop({ isMainPage = false }: { isMainPage?: boolean }) {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
-    
-    // On mobile, ensure scrolling is always enabled
-    if (isTouchDevice) {
-      document.body.style.overflow = 'auto';
-      document.documentElement.style.overflow = 'auto';
-      return () => {
-        // Ensure cleanup doesn't interfere
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-      };
-    }
-    
-    // Only block scroll on desktop (non-touch devices)
-    if (isMainPage && !isTouchDevice) {
-      const forceScrollTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-      };
-
-      forceScrollTop();
-
-      const restoreTimer = setTimeout(forceScrollTop, 0);
-
-      const preventScroll = (e: Event) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      };
-
-      const preventKeyScroll = (e: KeyboardEvent) => {
-        if ([32, 33, 34, 35, 36, 37, 38, 39, 40].includes(e.keyCode)) {
-          e.preventDefault();
-        }
-      };
-
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-
-      document.addEventListener('wheel', preventScroll, { passive: false });
-      document.addEventListener('touchmove', preventScroll, { passive: false });
-      document.addEventListener('keydown', preventKeyScroll, { passive: false } as AddEventListenerOptions);
-
-      const enableScrollTimer = setTimeout(() => {
-        document.body.style.overflow = 'auto';
-        document.documentElement.style.overflow = 'auto';
-        document.removeEventListener('wheel', preventScroll);
-        document.removeEventListener('touchmove', preventScroll);
-        document.removeEventListener('keydown', preventKeyScroll);
-      }, 3000);
-
-      return () => {
-        clearTimeout(restoreTimer);
-        clearTimeout(enableScrollTimer);
-        document.body.style.overflow = 'auto';
-        document.documentElement.style.overflow = 'auto';
-        document.removeEventListener('wheel', preventScroll);
-        document.removeEventListener('touchmove', preventScroll);
-        document.removeEventListener('keydown', preventKeyScroll);
-      };
-    }
-  }, [isMainPage]);
+  }, []);
 
   return null;
 }
@@ -168,13 +101,13 @@ const App = () => {
         <Routes>
           <Route path="/" element={
             <>
-              <ScrollToTop isMainPage={true} />
+              <ScrollToTop />
               <Index />
             </>
           } />
           <Route path="/activities" element={
             <>
-              <ScrollToTop isMainPage={false} />
+              <ScrollToTop />
               <Activities />
             </>
           } />
@@ -182,7 +115,7 @@ const App = () => {
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={
             <>
-              <ScrollToTop isMainPage={false} />
+              <ScrollToTop />
               <NotFound />
             </>
           } />

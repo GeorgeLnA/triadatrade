@@ -131,8 +131,12 @@ export const ParticleWaves = ({
     if (!isMobileRef.current) {
       cameraRef.current.position.x += (mouseRef.current.x - cameraRef.current.position.x) * 0.05;
       cameraRef.current.position.y += (-mouseRef.current.y - cameraRef.current.position.y) * 0.05;
+      cameraRef.current.lookAt(sceneRef.current.position);
+    } else {
+      // On mobile, maintain the tilt after lookAt
+      cameraRef.current.lookAt(sceneRef.current.position);
+      cameraRef.current.rotation.x = -0.05;
     }
-    cameraRef.current.lookAt(sceneRef.current.position);
     
     // Update particles
     let i = 0;
@@ -175,6 +179,12 @@ export const ParticleWaves = ({
     const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.z = 1000;
     camera.position.y = 800;
+    
+    // Tilt camera slightly on mobile
+    if (isTouchDevice) {
+      camera.rotation.x = -0.05;
+    }
+    
     cameraRef.current = camera;
 
     const scene = new THREE.Scene();
