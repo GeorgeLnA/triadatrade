@@ -169,7 +169,7 @@ export default function DefenceProgramsSection() {
       >
         {/* Section Header */}
         <Reveal variant="slide-up">
-          <div className="mb-10 md:mb-12">
+          <div className="mb-10 md:mb-12 text-center">
             <h2 
               className="font-bold text-scout-text-white font-teko mb-4 md:mb-8"
               style={{
