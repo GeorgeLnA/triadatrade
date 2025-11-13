@@ -11,7 +11,18 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
   const [showContent, setShowContent] = useState(false);
   const [showInteractive, setShowInteractive] = useState(false);
   const [scrollOpacity, setScrollOpacity] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
   const finalOpacity = isHidden ? 0 : scrollOpacity;
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   const words = ['Strategy', 'Framework', 'Execution'];
 
@@ -154,7 +165,9 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
       <div 
         className="fixed bottom-16 left-1/2 transition-all duration-500 pointer-events-auto" 
         style={{ 
-          transform: showInteractive ? 'translateX(-50%)' : 'translateX(-50%) translateY(30px)',
+          transform: isMobile 
+            ? 'translateX(-50%)' 
+            : (showInteractive ? 'translateX(-50%)' : 'translateX(-50%) translateY(30px)'),
           opacity: showInteractive ? finalOpacity : 0,
           mixBlendMode: 'difference',
           zIndex: 9999
