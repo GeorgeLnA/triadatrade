@@ -6,7 +6,7 @@ export default function WhoWeAreSection() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <section className="relative w-full min-h-screen flex items-center overflow-hidden">
+    <section className="relative w-full min-h-[85vh] md:min-h-screen flex items-center overflow-hidden" style={{ paddingBottom: 'clamp(0.5rem, 2vw, 0px)' }}>
       {/* Ultra-Premium Background - Transparent to show waves */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-scout-green/20 to-transparent mix-blend-difference"></div>
@@ -14,28 +14,28 @@ export default function WhoWeAreSection() {
         <div className="absolute bottom-1/4 left-1/3 w-px h-1/2 bg-gradient-to-b from-transparent via-scout-green/10 to-transparent mix-blend-difference"></div>
       </div>
 
-      {/* Dynamic container that's narrower than vertical lines - 70px margins */}
+      {/* Dynamic container - responsive margins for mobile */}
       <div 
-        className="relative z-10 w-full mx-auto py-24"
+        className="relative z-10 w-full mx-auto pt-8 md:pt-24 pb-1 md:pb-24 px-4 sm:px-6 md:px-8"
         style={{
-          marginLeft: '70px',
-          marginRight: '70px',
-          maxWidth: 'calc(100vw - 140px)' // 70px left + 70px right
+          marginLeft: 'clamp(1rem, 4vw, 70px)',
+          marginRight: 'clamp(1rem, 4vw, 70px)',
+          maxWidth: 'calc(100vw - clamp(2rem, 8vw, 140px))'
         }}
       >
         {/* Content grid that adapts to available width */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-24 items-start h-full">
           
           {/* Portrait - Scales proportionally with container */}
           <div className="order-1 lg:order-1 lg:col-span-4">
             <Reveal variant="slide-right">
-              <div className="relative mx-auto lg:ml-auto lg:mr-0 w-[87.5%]">
+              <div className="relative mx-auto lg:ml-auto lg:mr-0 w-full">
                 {/* Image Container */}
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative w-full overflow-hidden">
                   <img 
                     src="/triada.jpg" 
                     alt="Triada Trade Team"
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-auto object-contain"
                   />
                   
                   {/* Subtle Vignette */}
@@ -60,7 +60,7 @@ export default function WhoWeAreSection() {
                   <p 
                     className="text-scout-text-muted leading-relaxed font-teko w-full"
                     style={{
-                      fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
+                      fontSize: 'clamp(1.25rem, 4.5vw, calc(1rem + 1.3vw))' // Even larger text on mobile
                     }}
                   >
                     At Triada Trade, we pride ourselves on being a leading provider in the defense sector, renowned for our commitment to excellence, innovation, and integrity. Our business model is built on a foundation of collaboration and adaptability, allowing us to respond swiftly to the evolving needs of our clients and the industry.
@@ -76,7 +76,7 @@ export default function WhoWeAreSection() {
                       <p 
                         className="text-scout-text-muted leading-relaxed font-teko w-full"
                         style={{
-                          fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
+                          fontSize: 'clamp(1.25rem, 4.5vw, calc(1rem + 1.3vw))' // Even larger text on mobile
                         }}
                       >
                         With years of experience and a proven track record, Triada Trade has established a stellar reputation among defense contractors and governmental agencies. We are recognized for delivering high-quality products and services that exceed expectations, fostering long-lasting relationships with our clients.
@@ -87,7 +87,7 @@ export default function WhoWeAreSection() {
                       <p 
                         className="text-scout-text-muted leading-relaxed font-teko w-full"
                         style={{
-                          fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
+                          fontSize: 'clamp(1.25rem, 4.5vw, calc(1rem + 1.3vw))' // Even larger text on mobile
                         }}
                       >
                         Our extensive network of partnerships with key stakeholders—including government entities, industry leaders, and defense organizations—enables us to stay at the forefront of technological advancements. These connections not only enhance our capabilities but also allow us to provide seamless solutions tailored to the specific requirements of our clients.
@@ -98,7 +98,7 @@ export default function WhoWeAreSection() {
                       <p 
                         className="text-scout-text-muted leading-relaxed font-teko w-full"
                         style={{
-                          fontSize: 'calc(1rem + 1.3vw)' // Scales directly with viewport width
+                          fontSize: 'clamp(1.25rem, 4.5vw, calc(1rem + 1.3vw))' // Even larger text on mobile
                         }}
                       >
                         Trust is the cornerstone of our operations. We understand the sensitive nature of the defense industry and are committed to conducting our business with the highest ethical standards. Our clients can rely on us for transparency, accountability, and unwavering support, knowing that their missions are in capable hands.
@@ -112,7 +112,7 @@ export default function WhoWeAreSection() {
                   <PixelButton
                     type="button"
                     onClick={() => setIsExpanded(!isExpanded)}
-                    className="group inline-flex items-center gap-3 px-8 py-4 bg-scout-green/10 border border-scout-green/30 rounded-lg text-scout-text-white font-metropolis text-lg hover:bg-scout-green/20 hover:border-scout-green/50 transition-all duration-300"
+                    className="group inline-flex items-center gap-2 md:gap-3 px-4 md:px-8 py-3 md:py-4 bg-scout-green/10 border border-scout-green/30 rounded-lg text-scout-text-white font-metropolis text-sm md:text-lg hover:bg-scout-green/20 hover:border-scout-green/50 transition-all duration-300"
                   >
                     <span>{isExpanded ? 'Show Less' : 'Learn More'}</span>
                     <svg 

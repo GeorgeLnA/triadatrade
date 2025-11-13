@@ -235,7 +235,6 @@ export default function OurCoverageSection() {
                             fontSize: 'calc(0.75rem + 0.5vw)' // Scales with container width
                           }}
                         >
-                          <li>China: Beijing</li>
                         </ul>
                       )}
                       {regionPhase === 'Oceania' && (

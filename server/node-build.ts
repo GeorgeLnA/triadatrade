@@ -9,8 +9,15 @@ const port = process.env.PORT || 3000;
 const __dirname = import.meta.dirname;
 const distPath = path.join(__dirname, "../spa");
 
-// Serve static files
-app.use(express.static(distPath));
+// Serve static files with proper MIME types for PDFs
+app.use(express.static(distPath, {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.pdf')) {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'inline; filename="' + path.split('/').pop() + '"');
+    }
+  }
+}));
 
 // Handle React Router - serve index.html for all non-API routes
 app.get("*", (req, res) => {

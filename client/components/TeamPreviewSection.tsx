@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Reveal from "@/components/ui/Reveal";
 
 const SENIOR_LEADERS = [
@@ -28,17 +28,6 @@ const SENIOR_LEADERS = [
 
 const TEAM_MEMBERS = [
   {
-    id: "finance",
-    name: "Natali Boychenko",
-    role: "Financial Director", 
-    initials: "NB",
-    image: "/natali_boychenko.jpg",
-    description: "Overseeing financial operations and ensuring fiscal responsibility across all company activities.",
-    skills: ["Financial Management", "Budget Planning", "Risk Assessment"],
-    experience: "10+ years",
-    category: "leadership"
-  },
-  {
     id: "taxation",
     name: "Oleksandra Nikitina",
     role: "Taxation Expert", 
@@ -58,17 +47,6 @@ const TEAM_MEMBERS = [
     description: "Advising on production processes and ensuring operational efficiency across manufacturing operations.",
     skills: ["Production Management", "Process Optimization", "Quality Control"],
     experience: "9+ years",
-    category: "leadership"
-  },
-  {
-    id: "rd",
-    name: "Yurii Zozulya",
-    role: "R&D Provisioning", 
-    initials: "YZ",
-    image: "/yurii_zozulya.jpg",
-    description: "Leading research and development initiatives to drive innovation and technological advancement.",
-    skills: ["Research & Development", "Innovation", "Technology Strategy"],
-    experience: "11+ years",
     category: "leadership"
   },
   {
@@ -109,7 +87,7 @@ const TEAM_MEMBERS = [
     name: "Bohdan Popov",
     role: "Head of Analytical Department", 
     initials: "BP",
-    image: "/bohdan_popov.jpg",
+    image: "/WhatsApp Image 2025-11-12 at 11.53.51.jpeg",
     description: "Leading our analytical team in providing market insights, OSINT analysis, and strategic intelligence.",
     skills: ["OSINT Analysis", "Market Intelligence", "Strategic Analysis"],
     experience: "6+ years",
@@ -118,34 +96,44 @@ const TEAM_MEMBERS = [
 ];
 
 const STATS = [
-  { number: "50+", label: "Years Combined Experience" },
-  { number: "100+", label: "Successful Partnerships" },
-  { number: "15+", label: "Team Members" },
+  { number: "15+", label: "Active Projects" },
+  { number: "50+", label: "Successfully Completed" },
+  { number: "$300M+", label: "Attracted Investments" },
   { number: "100%", label: "Client Satisfaction" }
 ];
 
 export default function TeamPreviewSection() {
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <section
       className="w-full bg-scout-dark"
-      style={{ paddingTop: '7.5rem', paddingBottom: '7.5rem' }}
+      style={{ paddingTop: 'clamp(3rem, 12vw, 7.5rem)', paddingBottom: 'clamp(3rem, 12vw, 7.5rem)' }}
     >
       <div 
-        className="relative z-10 w-full mx-auto"
+        className="relative z-10 w-full mx-auto px-4 sm:px-6 md:px-8"
         style={{
-          marginLeft: '70px',
-          marginRight: '70px',
-          maxWidth: 'calc(100vw - 140px)' // 70px left + 70px right
+          marginLeft: 'clamp(1rem, 4vw, 70px)',
+          marginRight: 'clamp(1rem, 4vw, 70px)',
+          maxWidth: 'calc(100vw - clamp(2rem, 8vw, 140px))'
         }}
       >
         <Reveal variant="slide-up">
           <div className="text-center mb-16">
             <h2 
-              className="font-bold text-scout-text-white mb-6 font-teko"
+              className="font-bold text-scout-text-white mb-8 md:mb-16 font-teko"
               style={{
-                fontSize: 'calc(1.5rem + 2vw)' // Scales with container width
+                fontSize: 'clamp(1.75rem, 7vw, calc(1.5rem + 2vw))' // Even larger heading on mobile
               }}
             >
               MEET OUR EXPERT TEAM
@@ -156,7 +144,7 @@ export default function TeamPreviewSection() {
         {/* Senior Leaders - 2 cards at the top */}
         <Reveal>
           <div className="flex justify-center mb-16">
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl">
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 max-w-4xl">
               {SENIOR_LEADERS.map((member, index) => (
                 <div 
                   key={member.id}
@@ -166,33 +154,73 @@ export default function TeamPreviewSection() {
                 >
                   <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105">
                   {/* Image Container */}
-                  <div className="relative h-80 overflow-hidden">
+                  <div className="relative h-64 md:h-80 overflow-hidden">
                     <img 
                       src={member.image} 
                       alt={member.name}
-                      className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${
+                      className={`w-full h-full object-cover transition-transform duration-300 ${
                         member.id === 'cro' ? 'object-top' : 'object-center'
                       }`}
-                      style={member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : { objectPosition: 'center 10%' }}
+                      style={{
+                        ...(member.id === 'cro' 
+                          ? { objectPosition: isMobile ? 'center 0%' : 'center 10%' } 
+                          : member.id === 'ceo' 
+                          ? { objectPosition: 'center 50%' } 
+                          : member.id === 'international' 
+                          ? { objectPosition: 'center 30%' } 
+                          : member.id === 'commercial' 
+                          ? { objectPosition: 'center 0%' } 
+                          : member.id === 'finance' 
+                          ? { objectPosition: 'center 0%' } 
+                          : member.id === 'taxation' 
+                          ? { objectPosition: 'center 0%' } 
+                          : member.id === 'production' 
+                          ? { objectPosition: 'center 0%' } 
+                          : member.id === 'rd' 
+                          ? { objectPosition: 'center 0%' } 
+                          : { objectPosition: 'center 10%' }),
+                        transform: member.id === 'ceo' || member.id === 'cro' 
+                          ? (isMobile ? 'scale(1.8)' : 'scale(1.5)') 
+                          : 'scale(1)',
+                        ...(member.id === 'ceo' || member.id === 'cro' ? {} : {})
+                      }}
+                      onMouseEnter={(e) => {
+                        if (member.id === 'ceo' || member.id === 'cro') {
+                          e.currentTarget.style.transform = isMobile ? 'scale(2)' : 'scale(1.65)';
+                        } else {
+                          e.currentTarget.style.transform = 'scale(1.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (member.id === 'ceo' || member.id === 'cro') {
+                          e.currentTarget.style.transform = isMobile ? 'scale(1.8)' : 'scale(1.5)';
+                        } else {
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
                   </div>
 
                   {/* Content */}
-                  <div className="p-8">
-                    <div className="text-center mb-6">
+                  <div className="p-4 md:p-6 lg:p-8">
+                    <div className="flex flex-col items-center mb-4 md:mb-6">
                       <h3 
-                        className="font-bold text-scout-text-white mb-3 font-teko"
+                        className="font-bold text-scout-text-white mb-2 md:mb-3 font-teko text-center"
                         style={{
-                          fontSize: 'calc(1.25rem + 1vw)' // Scales with container width
+                          fontSize: 'clamp(1.5rem, 5vw, calc(1.25rem + 1vw))' // Even larger name text on mobile
                         }}
                       >
                         {member.name}
                       </h3>
                       <p 
-                        className="text-scout-text-muted font-metropolis leading-relaxed"
+                        className="text-scout-text-muted font-metropolis leading-relaxed block w-full"
                         style={{
-                          fontSize: 'calc(1rem + 0.5vw)' // Scales with container width
+                          fontSize: 'clamp(1.125rem, 3.5vw, calc(1rem + 0.5vw))', // Even larger role text on mobile
+                          textAlign: 'center',
+                          display: 'block',
+                          width: '100%',
+                          margin: '0 auto'
                         }}
                       >
                         {member.role}
@@ -205,9 +233,13 @@ export default function TeamPreviewSection() {
                       hoveredMember === member.id ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
                     }`}>
                       <p 
-                        className="text-scout-text-muted font-metropolis leading-relaxed mb-6"
+                        className="text-scout-text-muted font-metropolis leading-relaxed mb-4 md:mb-6 text-center block w-full"
                         style={{
-                          fontSize: 'calc(0.875rem + 0.25vw)' // Scales with container width
+                          fontSize: 'clamp(1.0625rem, 3vw, calc(0.875rem + 0.25vw))', // Even larger description text on mobile
+                          textAlign: 'center',
+                          display: 'block',
+                          width: '100%',
+                          margin: '0 auto'
                         }}
                       >
                         {member.description}
@@ -224,7 +256,7 @@ export default function TeamPreviewSection() {
 
         {/* Team Members - 8 cards below */}
         <Reveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-16">
             {TEAM_MEMBERS.map((member, index) => (
               <div 
                 key={member.id}
@@ -234,33 +266,40 @@ export default function TeamPreviewSection() {
               >
                 <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105 h-full flex flex-col">
                 {/* Image Container */}
-                <div className="relative h-64 overflow-hidden flex-shrink-0">
+                <div className="relative h-48 md:h-64 overflow-hidden flex-shrink-0">
                   <img 
                     src={member.image} 
                     alt={member.name}
                     className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${
                       member.id === 'cro' ? 'object-top' : 'object-center'
                     }`}
-                    style={member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : { objectPosition: 'center 10%' }}
+                    style={{
+                      ...(member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : member.id === 'analytics' ? { objectPosition: 'center 20%' } : { objectPosition: 'center 10%' }),
+                      ...(member.id === 'analytics' ? { filter: 'grayscale(100%)' } : {})
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
                 </div>
 
                 {/* Content */}
-                <div className="p-6 flex flex-col flex-grow">
-                  <div className="text-center mb-4 flex-shrink-0">
+                <div className="p-4 md:p-6 flex flex-col flex-grow">
+                  <div className="flex flex-col items-center mb-3 md:mb-4 flex-shrink-0">
                     <h3 
-                      className="font-bold text-scout-text-white mb-2 font-teko"
+                      className="font-bold text-scout-text-white mb-1.5 md:mb-2 font-teko text-center"
                       style={{
-                        fontSize: 'calc(1rem + 0.75vw)' // Scales with container width
+                        fontSize: 'clamp(1.375rem, 4.5vw, calc(1rem + 0.75vw))' // Even larger name text on mobile
                       }}
                     >
                       {member.name}
                     </h3>
                     <p 
-                      className="text-scout-text-muted font-metropolis leading-relaxed"
+                      className="text-scout-text-muted font-metropolis leading-relaxed block w-full"
                       style={{
-                        fontSize: 'calc(0.875rem + 0.25vw)' // Scales with container width
+                        fontSize: 'clamp(1.0625rem, 3vw, calc(0.875rem + 0.25vw))', // Even larger role text on mobile
+                        textAlign: 'center',
+                        display: 'block',
+                        width: '100%',
+                        margin: '0 auto'
                       }}
                     >
                       {member.role}
@@ -273,9 +312,13 @@ export default function TeamPreviewSection() {
                     hoveredMember === member.id ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
                   }`}>
                     <p 
-                      className="text-scout-text-muted font-metropolis leading-relaxed mb-4"
+                      className="text-scout-text-muted font-metropolis leading-relaxed mb-3 md:mb-4 text-center block w-full"
                       style={{
-                        fontSize: 'calc(0.75rem + 0.125vw)' // Scales with container width
+                        fontSize: 'clamp(1rem, 2.5vw, calc(0.75rem + 0.125vw))', // Even larger description text on mobile
+                        textAlign: 'center',
+                        display: 'block',
+                        width: '100%',
+                        margin: '0 auto'
                       }}
                     >
                       {member.description}
@@ -291,22 +334,28 @@ export default function TeamPreviewSection() {
 
         {/* Enhanced Stats */}
         <Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mb-8 md:mb-16">
             {STATS.map((stat, index) => (
               <div key={index} className="text-center group">
-                <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl p-6 backdrop-blur-sm hover:border-scout-green/40 transition-all duration-300 hover:scale-105">
+                <div 
+                  className="bg-scout-card-bg/60 border border-scout-border/40 rounded-lg md:rounded-xl p-4 md:p-6 backdrop-blur-sm hover:border-scout-green/40 transition-all duration-300 hover:scale-105 flex flex-col justify-center items-center"
+                  style={{
+                    minHeight: isMobile ? '140px' : 'auto',
+                    height: isMobile ? '140px' : 'auto'
+                  }}
+                >
                   <div 
-                    className="font-bold text-scout-green mb-2 font-teko group-hover:scale-110 transition-transform duration-200"
+                    className="font-bold text-scout-green mb-1.5 md:mb-2 font-teko group-hover:scale-110 transition-transform duration-200"
                     style={{
-                      fontSize: 'calc(2rem + 1.5vw)' // Scales with container width
+                      fontSize: 'clamp(2rem, 7vw, calc(2rem + 1.5vw))' // Even larger stat numbers on mobile
                     }}
                   >
                     {stat.number}
                   </div>
                   <div 
-                    className="text-scout-text-muted font-metropolis"
+                    className="text-scout-text-muted font-metropolis text-center"
                     style={{
-                      fontSize: 'calc(0.75rem + 0.25vw)' // Scales with container width
+                      fontSize: 'clamp(1rem, 2.5vw, calc(0.75rem + 0.25vw))' // Even larger stat labels on mobile
                     }}
                   >
                     {stat.label}

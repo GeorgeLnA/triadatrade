@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ALL_SERVICES } from "@/components/DefenceProgramsSection";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useLoading } from "@/App";
 import { IpadGlobeWrapper } from "@/components/ui/ipad-globe-wrapper";
 
@@ -11,8 +11,6 @@ export default function Activities() {
   const { setHeroAnimationsComplete } = useLoading();
   const inlineVideoRef = useRef<HTMLVideoElement>(null);
   const inlineVideoSectionRef = useRef<HTMLDivElement>(null);
-  const [activeDefenceIdx, setActiveDefenceIdx] = useState(0);
-  const [activeCivilIdx, setActiveCivilIdx] = useState(0);
 
   // Disable load/entrance animations on this page only and enable cursor
   useEffect(() => {
@@ -67,7 +65,7 @@ export default function Activities() {
             className="w-full h-full"
             style={{ 
               objectFit: 'cover',
-              transform: 'scale(1.3)'
+              transform: 'scale(1.35)'
             }}
             muted
             loop
@@ -102,169 +100,134 @@ export default function Activities() {
         <div className="h-screen" />
 
         {/* Defence Programs Section */}
-        <section className="w-full py-20" style={{ backgroundColor: '#050612' }}>
-          <div className="relative z-10 w-full mx-auto" style={{ marginLeft: '70px', marginRight: '70px', maxWidth: 'calc(100vw - 140px)' }}>
-            <div className="mb-8">
-              <h2 className="font-teko font-bold text-scout-text-white" style={{ fontSize: 'calc(1.375rem + 1.25vw)' }}>Defence Programs</h2>
+        <section className="w-full py-16 md:py-20" style={{ backgroundColor: '#050612' }}>
+          <div className="relative z-10 w-full mx-auto px-4 sm:px-6 md:px-8" style={{ marginLeft: 'clamp(1rem, 4vw, 70px)', marginRight: 'clamp(1rem, 4vw, 70px)', maxWidth: 'calc(100vw - clamp(2rem, 8vw, 140px))' }}>
+            <div className="mb-10 md:mb-12">
+              <h2 className="font-teko font-bold text-scout-text-white" style={{ fontSize: 'clamp(1.75rem, 6vw, calc(1.375rem + 1.25vw))' }}>Defence Programs</h2>
             </div>
 
-            {/* Tabs */}
-            <div role="tablist" aria-label="Defence Programs" className="grid sm:grid-cols-3 gap-3 mb-6">
-              {defence.map((svc, i) => {
-                const isActive = i === activeDefenceIdx;
-                return (
-                  <button
-                    key={svc.id}
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls={`defence-panel-${i}`}
-                    id={`defence-tab-${i}`}
-                    onClick={() => setActiveDefenceIdx(i)}
-                    className={
-                      `w-full px-4 py-3 rounded-lg border ${isActive ? 'bg-white text-black border-white/80' : 'bg-transparent text-white border-white/40'} ` +
-                      `font-teko text-xl tracking-wide`
-                    }
-                  >
-                    <span className="block leading-none">{svc.title}</span>
-                    {svc.subtitle && (
-                      <span className={`block mt-1 text-sm ${isActive ? 'text-black/70' : 'text-white/60'} font-metropolis`}>{svc.subtitle}</span>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* Active Panel */}
-            {(() => {
-              const service = defence[activeDefenceIdx] ?? defence[0];
-              return (
+            {/* All Defence Services - No Tabs */}
+            <div className="space-y-8 md:space-y-6 lg:space-y-8">
+              {defence.map((service, index) => (
                 <div
-                  role="tabpanel"
-                  id={`defence-panel-${activeDefenceIdx}`}
-                  aria-labelledby={`defence-tab-${activeDefenceIdx}`}
-                  className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm p-6"
+                  key={service.id}
+                  className="bg-scout-card-bg/60 border border-scout-border/40 rounded-lg md:rounded-xl backdrop-blur-sm p-6 md:p-6"
                 >
-                  <h3 className="font-teko font-bold text-scout-text-white mb-2" style={{ fontSize: 'calc(1rem + 0.75vw)' }}>{service.title}</h3>
-                  <p className="text-scout-text-muted font-metropolis mb-4" style={{ fontSize: 'calc(0.8125rem + 0.375vw)' }}>{service.description}</p>
+                  <h3 className="font-teko font-bold text-scout-text-white mb-4 md:mb-2"                   style={{ fontSize: 'clamp(1.375rem, 4.5vw, calc(1rem + 0.75vw))' }}>{service.title}</h3>
+                  <p className="text-scout-text-muted font-metropolis mb-5 md:mb-4" style={{ fontSize: 'clamp(1.125rem, 3vw, calc(0.8125rem + 0.375vw))' }}>{service.description}</p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {service.services.map(item => (
-                      <div key={item} className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30">
-                        <span className="text-scout-text-white font-metropolis font-medium" style={{ fontSize: 'calc(0.8125rem + 0.375vw)' }}>{item}</span>
-                      </div>
-                    ))}
-                  </div>
+                  {/* Bullet Points */}
+                  {service.bulletPoints && service.bulletPoints.length > 0 && (
+                    <div className="space-y-3 md:space-y-2 mb-6 md:mb-6">
+                      {service.bulletPoints.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-3 md:gap-3 py-2 md:py-2">
+                          <span className="text-scout-green text-lg md:text-xl font-light mt-0.5 flex-shrink-0">⊹</span>
+                          <span className="text-scout-text-white font-metropolis flex-1" style={{ fontSize: 'clamp(1.125rem, 3vw, calc(0.8125rem + 0.375vw))' }}>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Deep-Dive Rows */}
-                  <div className="mt-6 grid sm:grid-cols-2 gap-4">
-                    <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4">
-                      <h4 className="font-teko text-scout-text-white mb-2" style={{ fontSize: 'calc(0.95rem + 0.45vw)' }}>Use Cases</h4>
-                      <ul className="list-disc pl-5 text-scout-text-muted space-y-1 font-metropolis" style={{ fontSize: 'calc(0.8rem + 0.3vw)' }}>
-                        <li>Rapid validation of foreign technologies under operational constraints</li>
-                        <li>Localization roadmaps for tooling, training, and sustainment</li>
-                        <li>Multi-stakeholder coordination across MOD, industry, and labs</li>
-                      </ul>
+                  {(service.useCases || service.capabilities) && (
+                    <div className="mt-6 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4">
+                      {service.useCases && service.useCases.length > 0 && (
+                        <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4 md:p-4">
+                          <h4 className="font-teko text-scout-text-white mb-3 md:mb-2 uppercase tracking-wide"                           style={{ fontSize: 'clamp(1.125rem, 3.5vw, calc(0.95rem + 0.45vw))' }}>Use Cases</h4>
+                          <ul className="list-none pl-0 text-scout-text-muted space-y-2 md:space-y-2 font-metropolis" style={{ fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8rem + 0.3vw))' }}>
+                            {service.useCases.map((item, idx) => (
+                              <li key={idx}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {service.capabilities && service.capabilities.length > 0 && (
+                        <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4 md:p-4">
+                          <h4 className="font-teko text-scout-text-white mb-3 md:mb-2 uppercase tracking-wide"                           style={{ fontSize: 'clamp(1.125rem, 3.5vw, calc(0.95rem + 0.45vw))' }}>Capabilities</h4>
+                          <ul className="list-none pl-0 text-scout-text-muted space-y-2 md:space-y-2 font-metropolis" style={{ fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8rem + 0.3vw))' }}>
+                            {service.capabilities.map((item, idx) => (
+                              <li key={idx}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                    <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4">
-                      <h4 className="font-teko text-scout-text-white mb-2" style={{ fontSize: 'calc(0.95rem + 0.45vw)' }}>Capabilities</h4>
-                      <ul className="list-disc pl-5 text-scout-text-muted space-y-1 font-metropolis" style={{ fontSize: 'calc(0.8rem + 0.3vw)' }}>
-                        <li>System integration and field deployment support</li>
-                        <li>Requirements shaping and trials orchestration</li>
-                        <li>Programme advocacy and project governance</li>
-                      </ul>
-                    </div>
-                  </div>
+                  )}
                 </div>
-              )
-            })()}
+              ))}
+            </div>
           </div>
         </section>
 
         {/* Civil Programs Section */}
-        <section className="w-full py-20" style={{ backgroundColor: '#050612' }}>
-          <div className="relative z-10 w-full mx-auto" style={{ marginLeft: '70px', marginRight: '70px', maxWidth: 'calc(100vw - 140px)' }}>
-            <div className="mb-8">
-              <h2 className="font-teko font-bold text-scout-text-white" style={{ fontSize: 'calc(1.375rem + 1.25vw)' }}>Civil Programs</h2>
+        <section className="w-full py-16 md:py-20" style={{ backgroundColor: '#050612' }}>
+          <div className="relative z-10 w-full mx-auto px-4 sm:px-6 md:px-8" style={{ marginLeft: 'clamp(1rem, 4vw, 70px)', marginRight: 'clamp(1rem, 4vw, 70px)', maxWidth: 'calc(100vw - clamp(2rem, 8vw, 140px))' }}>
+            <div className="mb-10 md:mb-12">
+              <h2 className="font-teko font-bold text-scout-text-white" style={{ fontSize: 'clamp(1.75rem, 6vw, calc(1.375rem + 1.25vw))' }}>Legal, Financing & Consulting</h2>
             </div>
 
-            {/* Tabs */}
-            <div role="tablist" aria-label="Civil Programs" className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-              {legal.map((svc, i) => {
-                const isActive = i === activeCivilIdx;
-                return (
-                  <button
-                    key={svc.id}
-                    role="tab"
-                    aria-selected={isActive}
-                    aria-controls={`civil-panel-${i}`}
-                    id={`civil-tab-${i}`}
-                    onClick={() => setActiveCivilIdx(i)}
-                    className={`w-full px-4 py-3 rounded-lg border ${isActive ? 'bg-white text-black border-white/80' : 'bg-transparent text-white border-white/40'} font-teko text-xl tracking-wide`}
-                  >
-                    <span className="block leading-none">{svc.title}</span>
-                    {svc.subtitle && (
-                      <span className={`block mt-1 text-sm ${isActive ? 'text-black/70' : 'text-white/60'} font-metropolis`}>{svc.subtitle}</span>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* Active Panel */}
-            {(() => {
-              const service = legal[activeCivilIdx] ?? legal[0];
-              return (
+            {/* All Legal Services - No Tabs */}
+            <div className="space-y-8 md:space-y-6 lg:space-y-8">
+              {legal.map((service, index) => (
                 <div
-                  role="tabpanel"
-                  id={`civil-panel-${activeCivilIdx}`}
-                  aria-labelledby={`civil-tab-${activeCivilIdx}`}
-                  className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm p-6"
+                  key={service.id}
+                  className="bg-scout-card-bg/60 border border-scout-border/40 rounded-lg md:rounded-xl backdrop-blur-sm p-6 md:p-6"
                 >
-                  <h3 className="font-teko font-bold text-scout-text-white mb-2" style={{ fontSize: 'calc(1rem + 0.75vw)' }}>{service.title}</h3>
-                  <p className="text-scout-text-muted font-metropolis mb-4" style={{ fontSize: 'calc(0.8125rem + 0.375vw)' }}>{service.description}</p>
+                  <h3 className="font-teko font-bold text-scout-text-white mb-4 md:mb-2"                   style={{ fontSize: 'clamp(1.375rem, 4.5vw, calc(1rem + 0.75vw))' }}>{service.title}</h3>
+                  <p className="text-scout-text-muted font-metropolis mb-5 md:mb-4" style={{ fontSize: 'clamp(1.125rem, 3vw, calc(0.8125rem + 0.375vw))' }}>{service.description}</p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {service.services.map(item => (
-                      <div key={item} className="flex items-center justify-center py-3 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30">
-                        <span className="text-scout-text-white font-metropolis font-medium" style={{ fontSize: 'calc(0.8125rem + 0.375vw)' }}>{item}</span>
-                      </div>
-                    ))}
-                  </div>
+                  {/* Bullet Points */}
+                  {service.bulletPoints && service.bulletPoints.length > 0 && (
+                    <div className="space-y-3 md:space-y-2 mb-6 md:mb-6">
+                      {service.bulletPoints.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-3 md:gap-3 py-2 md:py-2">
+                          <span className="text-scout-green text-lg md:text-xl font-light mt-0.5 flex-shrink-0">⊹</span>
+                          <span className="text-scout-text-white font-metropolis flex-1" style={{ fontSize: 'clamp(1.125rem, 3vw, calc(0.8125rem + 0.375vw))' }}>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Deep-Dive Rows */}
-                  <div className="mt-6 grid sm:grid-cols-2 gap-4">
-                    <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4">
-                      <h4 className="font-teko text-scout-text-white mb-2" style={{ fontSize: 'calc(0.95rem + 0.45vw)' }}>Engagement Areas</h4>
-                      <ul className="list-disc pl-5 text-scout-text-muted space-y-1 font-metropolis" style={{ fontSize: 'calc(0.8rem + 0.3vw)' }}>
-                        <li>Risk, compliance, and documentation workflows</li>
-                        <li>Corporate structuring and IP protections</li>
-                        <li>Investor outreach and market communications</li>
-                      </ul>
+                  {(service.engagementAreas || service.deliverables) && (
+                    <div className="mt-6 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4">
+                      {service.engagementAreas && service.engagementAreas.length > 0 && (
+                        <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4 md:p-4">
+                          <h4 className="font-teko text-scout-text-white mb-3 md:mb-2 uppercase tracking-wide"                           style={{ fontSize: 'clamp(1.125rem, 3.5vw, calc(0.95rem + 0.45vw))' }}>Engagement Areas</h4>
+                          <ul className="list-none pl-0 text-scout-text-muted space-y-2 md:space-y-2 font-metropolis" style={{ fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8rem + 0.3vw))' }}>
+                            {service.engagementAreas.map((item, idx) => (
+                              <li key={idx}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {service.deliverables && service.deliverables.length > 0 && (
+                        <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4 md:p-4">
+                          <h4 className="font-teko text-scout-text-white mb-3 md:mb-2 uppercase tracking-wide"                           style={{ fontSize: 'clamp(1.125rem, 3.5vw, calc(0.95rem + 0.45vw))' }}>Deliverables</h4>
+                          <ul className="list-none pl-0 text-scout-text-muted space-y-2 md:space-y-2 font-metropolis" style={{ fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8rem + 0.3vw))' }}>
+                            {service.deliverables.map((item, idx) => (
+                              <li key={idx}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                    <div className="bg-scout-card-bg/40 border border-scout-border/30 rounded-lg p-4">
-                      <h4 className="font-teko text-scout-text-white mb-2" style={{ fontSize: 'calc(0.95rem + 0.45vw)' }}>Deliverables</h4>
-                      <ul className="list-disc pl-5 text-scout-text-muted space-y-1 font-metropolis" style={{ fontSize: 'calc(0.8rem + 0.3vw)' }}>
-                        <li>Due diligence packs and counterparty scoring</li>
-                        <li>Contracting, legalization, and filings toolkits</li>
-                        <li>Press kits, briefs, and stakeholder reports</li>
-                      </ul>
-                    </div>
-                  </div>
+                  )}
                 </div>
-              )
-            })()}
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Globe after services */}
-        <section className="w-full" style={{ backgroundColor: '#050612' }}>
-          <IpadGlobeWrapper className="pointer-events-auto" />
-        </section>
+        {/* Globe after services - temporarily hidden */}
+        {false && (
+          <section className="w-full" style={{ backgroundColor: '#050612' }}>
+            <IpadGlobeWrapper className="pointer-events-auto" />
+          </section>
+        )}
       </main>
 
       <Footer />
     </div>
   );
 }
-
-

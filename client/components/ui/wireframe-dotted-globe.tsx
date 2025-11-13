@@ -615,7 +615,6 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
             if (Math.abs(lng - 2.3) < 0.6 && Math.abs(lat - 48.9) < 0.6) return { city: "PARIS", country: "FRANCE" }
             if (Math.abs(lng - 12.3) < 0.6 && Math.abs(lat - 45.4) < 0.6) return { city: "VENICE", country: "ITALY" }
             if (Math.abs(lng + 4.4) < 0.8 && Math.abs(lat - 36.7) < 0.8) return { city: "MÁLAGA", country: "SPAIN" }
-            if (Math.abs(lng - 116.4) < 0.8 && Math.abs(lat - 39.9) < 0.8) return { city: "BEIJING", country: "CHINA" }
             if (Math.abs(lng - 153.0) < 0.8 && Math.abs(lat + 27.5) < 0.8) return { city: "BRISBANE", country: "AUSTRALIA" }
             return undefined
           }
@@ -636,7 +635,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
           const UKRAINE: [number, number] = [31.5, 49.0]
           const NA_LINES: Array<[number, number]> = [[-123.1, 49.3], [-79.4, 43.7]]
           const EU_LINES: Array<[number, number]> = [[-0.1, 51.5], [10.7, 59.9], [2.3, 48.9], [12.3, 45.4], [-4.4, 36.7]]
-          const ASIA_LINES: Array<[number, number]> = [[116.4, 39.9]]
+          const ASIA_LINES: Array<[number, number]> = []
           const OCEANIA_LINES: Array<[number, number]> = [[153.0, -27.5]]
 
           const drawCurveProgress = (start: [number, number], end: [number, number], prog: number) => {

@@ -1,14 +1,62 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { PixelButton } from "@/components/ui/PixelButton";
+import { useLoading } from "@/App";
 
 type HeaderProps = { staticFinal?: boolean; hideLogo?: boolean };
 
 export default function Header({ staticFinal = false, hideLogo = false }: HeaderProps) {
   const logoRef = useRef<HTMLImageElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [buttonShouldSlideIn, setButtonShouldSlideIn] = useState(false);
+  const { heroAnimationsComplete } = useLoading();
   const isActivities = typeof document !== 'undefined' && document.documentElement.classList.contains('activities-no-anim');
   const final = staticFinal || isActivities;
+  const showButton = final || heroAnimationsComplete;
+
+  // Handle button slide animation when menu closes
+  useEffect(() => {
+    if (!showButton) return;
+
+    if (isMobileMenuOpen) {
+      // Menu is opening - hide button
+      setButtonShouldSlideIn(false);
+    } else {
+      // Menu is closed - trigger slide in animation
+      setButtonShouldSlideIn(true);
+    }
+  }, [isMobileMenuOpen, showButton]);
+
+  // Apply animation styles when buttonShouldSlideIn changes
+  useEffect(() => {
+    if (!menuButtonRef.current || !showButton) return;
+
+    if (buttonShouldSlideIn) {
+      // Start from top
+      menuButtonRef.current.style.transform = 'translateY(-100%)';
+      menuButtonRef.current.style.opacity = '0';
+      menuButtonRef.current.style.visibility = 'visible';
+      menuButtonRef.current.style.pointerEvents = 'auto';
+      
+      // Force reflow
+      menuButtonRef.current.offsetHeight;
+      
+      // Animate to position
+      requestAnimationFrame(() => {
+        if (menuButtonRef.current) {
+          menuButtonRef.current.style.transform = 'translateY(0)';
+          menuButtonRef.current.style.opacity = '1';
+        }
+      });
+    } else {
+      // Hide button
+      menuButtonRef.current.style.transform = 'translateY(-100%)';
+      menuButtonRef.current.style.opacity = '0';
+      menuButtonRef.current.style.visibility = 'hidden';
+      menuButtonRef.current.style.pointerEvents = 'none';
+    }
+  }, [buttonShouldSlideIn, showButton]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +70,21 @@ export default function Header({ staticFinal = false, hideLogo = false }: Header
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <>
@@ -98,71 +161,91 @@ export default function Header({ staticFinal = false, hideLogo = false }: Header
         </a>
       </div>
 
-      {/* Mobile Menu Button - Right side */}
-      <button
-        className="fixed top-6 right-16 sm:hidden pointer-events-auto z-[9999]"
-        style={{ mixBlendMode: 'difference', opacity: final ? 1 : 0, animation: final ? 'none' : 'dropDownNavigationFixed 0.5s ease-out forwards', ...(final ? {} : { animationDelay: '3.3s' }) }}
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      >
-        {isMobileMenuOpen ? (
-          <X className="w-8 h-8 text-white" />
-        ) : (
-          <Menu className="w-8 h-8 text-white" />
-        )}
-      </button>
-
-      {/* Mobile Dropdown Menu */}
-      <div 
-        className={`fixed top-20 sm:hidden z-[9999] transition-all duration-300 ease-out ${
-          isMobileMenuOpen 
-            ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto' 
-            : 'opacity-0 translate-y-[-10px] scale-95 pointer-events-none'
-        }`}
-        style={{ right: '41.5px' }}
-      >
-        <div 
-          className="bg-black/95 backdrop-blur-md border border-white/30 p-4 shadow-2xl min-w-[160px] text-right"
-          style={{ mixBlendMode: 'normal' }}
+      {/* Mobile Menu Button */}
+      {showButton && (
+        <button
+          ref={menuButtonRef}
+          className="fixed top-6 right-4 md:hidden pointer-events-auto z-[10000]"
+          style={{ 
+            mixBlendMode: 'difference',
+            transition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+            WebkitTransition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
+          onClick={() => setIsMobileMenuOpen(true)}
+          aria-label="Open menu"
         >
-          <div className="flex flex-col space-y-4">
-            <a 
-              href="/activities" 
-              className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
+          <Menu className="w-8 h-8 text-white" />
+        </button>
+      )}
+
+      {/* Backdrop Overlay - Transparent, no blur */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 sm:hidden z-[9998]"
+          style={{
+            backgroundColor: 'transparent',
+            pointerEvents: 'auto'
+          }}
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Side Menu - Slides from right with blur only */}
+      <nav
+        className="fixed top-0 right-0 h-full backdrop-blur-md border-l border-scout-border/40 shadow-2xl sm:hidden z-[9999]"
+        style={{ 
+          width: '40vw',
+          mixBlendMode: 'normal',
+          transform: isMobileMenuOpen ? 'translateX(0px)' : 'translateX(100%)',
+          transition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+          WebkitTransition: 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+          willChange: 'transform',
+          backgroundColor: 'transparent'
+        }}
+        aria-label="Mobile navigation"
+      >
+        <div className="flex flex-col h-full p-8 pt-12">
+          {/* Navigation Links */}
+          <div className="flex flex-col space-y-6 mt-4">
+            <a
+              href="/activities"
+              className="text-2xl text-white transition-all duration-200 hover:text-scout-green hover:translate-x-2 font-teko uppercase tracking-wide"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Activities
             </a>
-            <a 
-              href="#who-we-are" 
-              className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
+            <a
+              href="#who-we-are"
+              className="text-2xl text-white transition-all duration-200 hover:text-scout-green hover:translate-x-2 font-teko uppercase tracking-wide"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Who we are
             </a>
-            <a 
-              href="#partners" 
-              className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
+            <a
+              href="#partners"
+              className="text-2xl text-white transition-all duration-200 hover:text-scout-green hover:translate-x-2 font-teko uppercase tracking-wide"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Partners
             </a>
-            <a 
-              href="#team" 
-              className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
+            <a
+              href="#team"
+              className="text-2xl text-white transition-all duration-200 hover:text-scout-green hover:translate-x-2 font-teko uppercase tracking-wide"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Our Team
             </a>
-            <a 
-              href="#contact" 
-              className="text-2xl text-white transition-all duration-200 hover:text-gray-300 hover:-translate-x-1 font-teko text-right"
+            <a
+              href="#contact"
+              className="text-2xl text-white transition-all duration-200 hover:text-scout-green hover:translate-x-2 font-teko uppercase tracking-wide"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Blog
             </a>
           </div>
         </div>
-      </div>
+      </nav>
     </>
   );
 }

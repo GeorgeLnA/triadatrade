@@ -133,9 +133,9 @@ export const ParticleWaves = ({
       cameraRef.current.position.y += (-mouseRef.current.y - cameraRef.current.position.y) * 0.05;
       cameraRef.current.lookAt(sceneRef.current.position);
     } else {
-      // On mobile, maintain the tilt after lookAt
+      // On mobile, maintain the tilt after lookAt (more tilted towards us)
       cameraRef.current.lookAt(sceneRef.current.position);
-      cameraRef.current.rotation.x = -0.05;
+      cameraRef.current.rotation.x = -0.4;
     }
     
     // Update particles
@@ -180,9 +180,9 @@ export const ParticleWaves = ({
     camera.position.z = 1000;
     camera.position.y = 800;
     
-    // Tilt camera slightly on mobile
+    // Tilt camera more towards us on mobile
     if (isTouchDevice) {
-      camera.rotation.x = -0.05;
+      camera.rotation.x = -0.4;
     }
     
     cameraRef.current = camera;

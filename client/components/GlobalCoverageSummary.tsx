@@ -2,7 +2,7 @@ export default function GlobalCoverageSummary() {
   const coverageData = {
     'North America': ['Vancouver', 'Toronto'],
     'Europe': ['London', 'Oslo', 'Paris', 'Venice', 'Málaga'],
-    'Asia': ['Beijing'],
+    'Asia': [],
     'Oceania': ['Brisbane']
   };
 
@@ -110,7 +110,7 @@ export default function GlobalCoverageSummary() {
                   fontSize: 'calc(1.5rem + 1.5vw)' // Scales with container width
                 }}
               >
-                9
+                8
               </div>
               <div 
                 className="text-scout-text-muted font-metropolis uppercase tracking-wider font-medium"

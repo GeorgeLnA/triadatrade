@@ -57,10 +57,10 @@ const PARTNERS = [
     description: "Innovative defence technology company specializing in cutting-edge military solutions and systems."
   },
   { 
-    name: "Alliance Defence", 
-    category: "Defence Alliance",
-    logo: "/alliance_defense.avif",
-    description: "Strategic defence alliance providing comprehensive security solutions and collaborative defence initiatives."
+    name: "Cyclops", 
+    category: "Defence Technology",
+    logo: "/ChatGPT Image Nov 12, 2025, 01_24_16 PM.png",
+    description: "Manufacturer/supplier of tactical military radios, UAS, and border security equipment to diverse worldwide customer base."
   }
 ];
 
@@ -110,22 +110,22 @@ export default function PartnersPreviewSection() {
   return (
     <section
       className="w-full bg-scout-dark"
-      style={{ paddingTop: '7.5rem', paddingBottom: '7.5rem' }}
+      style={{ paddingTop: 'clamp(3rem, 12vw, 7.5rem)', paddingBottom: 'clamp(3rem, 12vw, 7.5rem)' }}
     >
       <div 
-        className="relative z-10 w-full mx-auto"
+        className="relative z-10 w-full mx-auto px-4 sm:px-6 md:px-8"
         style={{
-          marginLeft: '70px',
-          marginRight: '70px',
-          maxWidth: 'calc(100vw - 140px)' // 70px left + 70px right
+          marginLeft: 'clamp(1rem, 4vw, 70px)',
+          marginRight: 'clamp(1rem, 4vw, 70px)',
+          maxWidth: 'calc(100vw - clamp(2rem, 8vw, 140px))'
         }}
       >
         <Reveal variant="slide-up">
           <div className="text-center mb-16">
             <h2 
-              className="font-bold text-scout-text-white mb-6 font-teko"
+              className="font-bold text-scout-text-white mb-8 md:mb-16 font-teko"
               style={{
-                fontSize: 'calc(1.5rem + 2vw)' // Scales with container width
+                fontSize: 'clamp(1.75rem, 7vw, calc(1.5rem + 2vw))' // Even larger heading on mobile
               }}
             >
               TRUSTED BY INDUSTRY LEADERS
@@ -137,16 +137,16 @@ export default function PartnersPreviewSection() {
         <Reveal>
           <div className="mb-16">
             <div className="group relative">
-              <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-2xl backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-scout-green/40 hover:scale-[1.02] h-64">
-                <div className="p-12 h-full">
-                  <div className="flex flex-col lg:flex-row items-center gap-8 h-full">
+              <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl md:rounded-2xl backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-scout-green/40 hover:scale-[1.02] min-h-64 md:h-64">
+                <div className="p-6 md:p-12 h-full">
+                  <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-8 h-full">
                   {/* Logo */}
                   <div className="flex-shrink-0">
                     <div 
                       className="bg-scout-dark/40 border border-scout-border/30 rounded-2xl flex items-center justify-center group-hover:border-scout-green/40 transition-all duration-300"
                       style={{
-                        width: 'calc(8rem + 2vw)',
-                        height: 'calc(8rem + 2vw)'
+                        width: 'clamp(5rem, 12vw, calc(8rem + 2vw))',
+                        height: 'clamp(5rem, 12vw, calc(8rem + 2vw))'
                       }}
                     >
                       <img 
@@ -165,12 +165,8 @@ export default function PartnersPreviewSection() {
                           )
                             ? undefined
                             : "contrast(130%) brightness(1.25)",
-                          width: "calc(6rem + 1.5vw)",
-                          height: "calc(6rem + 1.5vw)"
-                        }}
-                        style={{
-                          width: 'calc(6rem + 1.5vw)',
-                          height: 'calc(6rem + 1.5vw)'
+                          width: 'clamp(3.5rem, 10vw, calc(6rem + 1.5vw))',
+                          height: 'clamp(3.5rem, 10vw, calc(6rem + 1.5vw))'
                         }}
                       />
                     </div>
@@ -178,28 +174,30 @@ export default function PartnersPreviewSection() {
 
                   {/* Content */}
                   <div className="flex-grow text-center lg:text-left flex flex-col justify-center">
-                    <h3 
-                      className="font-bold text-scout-text-white mb-4 font-teko"
-                      style={{
-                        fontSize: 'calc(1.5rem + 1.5vw)' // Scales with container width
-                      }}
-                    >
-                      {PARTNERS[currentIndex].name}
-                    </h3>
-                    <div className="inline-flex items-center px-4 py-2 bg-scout-green/20 border border-scout-green/40 rounded-full mb-6 w-fit">
-                      <span 
-                        className="text-scout-green font-metropolis font-medium uppercase tracking-wider whitespace-nowrap"
+                    <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-4 md:mb-6 justify-center lg:justify-start">
+                      <h3 
+                        className="font-bold text-scout-text-white font-teko"
                         style={{
-                          fontSize: 'calc(0.625rem + 0.25vw)' // Scales with container width
+                          fontSize: 'clamp(1.5rem, 6vw, calc(1.5rem + 1.5vw))' // Even larger text on mobile
                         }}
                       >
-                        {PARTNERS[currentIndex].category}
-                      </span>
+                        {PARTNERS[currentIndex].name}
+                      </h3>
+                      <div className="inline-flex items-center px-3 md:px-4 py-1.5 md:py-2 bg-scout-green/20 border border-scout-green/40 rounded-full w-fit">
+                        <span 
+                          className="text-scout-green font-metropolis font-medium uppercase tracking-wider whitespace-nowrap"
+                          style={{
+                            fontSize: 'clamp(0.75rem, 2vw, calc(0.625rem + 0.25vw))' // Larger category text on mobile
+                          }}
+                        >
+                          {PARTNERS[currentIndex].category}
+                        </span>
+                      </div>
                     </div>
                     <p 
                       className="text-scout-text-muted font-metropolis leading-relaxed max-w-2xl"
                       style={{
-                        fontSize: 'calc(0.875rem + 0.5vw)' // Scales with container width
+                        fontSize: 'clamp(1.125rem, 3.5vw, calc(0.875rem + 0.5vw))' // Even larger description text on mobile
                       }}
                     >
                       {PARTNERS[currentIndex].description}
@@ -214,7 +212,7 @@ export default function PartnersPreviewSection() {
 
         {/* Partners Grid - Logo Focus */}
         <Reveal>
-          <div className="grid grid-cols-2 gap-5 md:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 md:gap-5 md:grid-cols-5">
             {PARTNERS.map((partner, index) => (
               <div
                 key={partner.name}
@@ -241,7 +239,7 @@ export default function PartnersPreviewSection() {
                     </div>
                   )}
 
-                  <div className="flex aspect-[5/4] items-center justify-center p-6">
+                  <div className="flex aspect-[5/4] items-center justify-center p-4 md:p-6">
                     <img
                       src={partner.logo}
                       alt={partner.name}

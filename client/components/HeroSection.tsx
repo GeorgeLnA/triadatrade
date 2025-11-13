@@ -133,7 +133,7 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
 
       {/* Rotating Words - Center */}
       <div 
-        className="absolute bottom-24 left-1/2 z-10 transition-all duration-500" 
+        className="absolute bottom-28 md:bottom-24 left-1/2 z-10 transition-all duration-500" 
         style={{ 
           transform: showInteractive ? 'translateX(calc(-50% + 1px)) translateY(-12px)' : 'translateX(calc(-50% + 1px)) translateY(calc(18px))',
           opacity: showInteractive ? finalOpacity : 0,

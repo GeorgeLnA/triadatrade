@@ -464,7 +464,7 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
         }}
       >
         <div
-          className="relative w-full max-w-xl overflow-hidden rounded-xl bg-white shadow-xl"
+          className="relative w-full max-w-xl overflow-hidden rounded-2xl bg-scout-card-bg/60 border border-scout-border/40 backdrop-blur-sm shadow-2xl"
           onClick={e => e.stopPropagation()}
           style={{
             animation: "scaleIn 0.3s ease-out"
@@ -472,28 +472,29 @@ const SphereImageGrid: React.FC<SphereImageGridProps> = ({
         >
           <button
             onClick={() => setSelectedImage(null)}
-            className="absolute right-4 top-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-black/60 text-white transition-all hover:bg-black/80"
+            className="absolute right-4 top-4 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-scout-border/60 text-scout-text-white transition-all hover:bg-scout-green/40 hover:border-scout-green/60 border border-scout-border/40"
           >
             <X size={18} />
           </button>
 
           <div className="flex flex-col gap-5 p-6 md:flex-row md:items-start md:gap-8">
-            <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-xl bg-gray-100 p-3 shadow-inner">
+            <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center rounded-2xl bg-scout-dark/40 border border-scout-border/30 p-3">
               <img
                 src={selectedImage.src}
                 alt={selectedImage.alt}
                 className="h-full w-full object-contain"
                 style={{
-                  ...selectedImage.imageStyles
+                  ...selectedImage.imageStyles,
+                  filter: "contrast(130%) brightness(1.25)"
                 }}
               />
             </div>
 
             <div className="flex-1 space-y-4">
               <div>
-                <h3 className="text-2xl font-semibold text-gray-900">{modalTitle}</h3>
+                <h3 className="text-2xl font-semibold text-scout-text-white font-teko">{modalTitle}</h3>
               </div>
-              <p className="text-base leading-relaxed text-gray-600 whitespace-pre-line">
+              <p className="text-base leading-relaxed text-scout-text-muted font-metropolis whitespace-pre-line">
                 {modalDescription}
               </p>
             </div>

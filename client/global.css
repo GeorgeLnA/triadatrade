@@ -48,16 +48,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide default cursor globally from the start */
-html, body {
-  cursor: none !important;
-}
-
-/* Ensure all interactive elements also have no cursor initially */
-*, *::before, *::after {
-  cursor: none !important;
-}
-
 @layer base {
   /**
    * Tailwind CSS theme
@@ -149,7 +139,6 @@ html, body {
 @layer base {
   * {
     @apply border-border;
-    cursor: none !important;
   }
 
   html, body {
@@ -226,11 +215,6 @@ html {
     will-change: transform;
   }
 
-/* Hide default cursor completely */
-.tcursor-hide {
-  cursor: none !important;
-}
-
 /* Ensure main content doesn't overlap with ruler on desktop */
 @media (min-width: 768px) {
   main, .main-content {
@@ -238,32 +222,6 @@ html {
   }
 }
   
-  .tcursor-hide * {
-    cursor: none !important;
-  }
-  
-  .tcursor-hide *:hover {
-    cursor: none !important;
-  }
-  
-  .tcursor-hide button,
-  .tcursor-hide a,
-  .tcursor-hide [role="button"],
-  .tcursor-hide .cursor-target {
-    cursor: none !important;
-  }
-
-  /* Force hide cursor on all interactive elements when cursor is active */
-  .tcursor-hide button:hover,
-  .tcursor-hide a:hover,
-  .tcursor-hide [role="button"]:hover,
-  .tcursor-hide .cursor-target:hover,
-  .tcursor-hide input:hover,
-  .tcursor-hide select:hover,
-  .tcursor-hide textarea:hover {
-    cursor: none !important;
-  }
-
   /* Improved container system - truly full width */
   .container {
     width: 100vw;
@@ -358,6 +316,48 @@ html {
     letter-spacing: 0.05em;
   }
 
+  /* Mobile Side Menu Animations */
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideOutToRight {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Mobile Menu Button Animations */
+  @keyframes slideInFromTop {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutToTop {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+
   /* Spacing utilities */
   .section-padding {
     padding-top: var(--space-4xl);
@@ -433,16 +433,20 @@ html {
     animation-name: moveRightLine;
   }
 
-  /* Mobile-specific loading animation - wider starting position */
+  /* Mobile-specific loading animation - wider starting position and extended height */
   @media (max-width: 640px) {
     body::before {
       left: 25%; /* Wider starting position on mobile */
       animation-name: moveLeftLineMobile;
+      height: 200vh; /* Extended beyond viewport on mobile */
+      top: -50vh; /* Center the extended line vertically */
     }
 
     body::after {
       left: 75%; /* Wider starting position on mobile */
       animation-name: moveRightLineMobile;
+      height: 200vh; /* Extended beyond viewport on mobile */
+      top: -50vh; /* Center the extended line vertically */
     }
   }
 
@@ -483,6 +487,19 @@ html {
     animation: moveBottomLine 1.2s ease-out forwards;
     animation-delay: 2s; /* 2 second pause before extending */
     mix-blend-mode: difference;
+  }
+
+  /* Mobile-only: Extend horizontal lines beyond viewport and use mobile animations */
+  @media (max-width: 640px) {
+    html::before {
+      height: 200vw; /* Extended beyond viewport on mobile */
+      animation-name: moveTopLineMobile; /* Use mobile animation that moves off-screen */
+    }
+
+    html::after {
+      height: 200vw; /* Extended beyond viewport on mobile */
+      animation-name: moveBottomLineMobile; /* Use mobile animation that moves off-screen */
+    }
   }
 
 /* Header logo - appears 0.2s before center logo disappears */
@@ -545,6 +562,21 @@ header img {
     opacity: 1 !important;
     transform: translateY(0) !important;
     animation: none !important;
+  }
+
+  /* Mobile-only: Hide border lines on activities page */
+  @media (max-width: 640px) {
+    .activities-no-anim body::before,
+    .activities-no-anim body::after {
+      display: none !important;
+    }
+
+    .activities-no-anim html::before,
+    .activities-no-anim html::after,
+    html.activities-no-anim::before,
+    html.activities-no-anim::after {
+      display: none !important;
+    }
   }
 
   @keyframes showHeaderLogo {
@@ -683,17 +715,17 @@ header img {
     }
   }
 
-  /* Mobile-specific keyframes for wider starting position */
+  /* Mobile-specific keyframes - move lines completely off-screen */
   @keyframes moveLeftLineMobile {
     100% {
-      left: 43px;
+      left: -100px; /* Move completely off-screen to the left */
       transform: translateX(0);
     }
   }
 
 @keyframes moveRightLineMobile {
   100% {
-    left: calc(100% - 43px);
+    left: calc(100% + 100px); /* Move completely off-screen to the right */
     transform: translateX(0);
   }
 }
@@ -769,6 +801,23 @@ header img {
   @keyframes moveBottomLine {
     100% {
       top: calc(100vh - 43px); /* Position with 43px margin from bottom */
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    }
+  }
+
+  /* Mobile-specific keyframes - move horizontal lines completely off-screen */
+  @keyframes moveTopLineMobile {
+    100% {
+      top: -100px; /* Move completely off-screen above viewport */
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    }
+  }
+
+  @keyframes moveBottomLineMobile {
+    100% {
+      top: calc(100vh + 100px); /* Move completely off-screen below viewport */
       left: 50%;
       transform: translateX(-50%) translateY(-50%) rotate(90deg);
     }
@@ -913,6 +962,8 @@ header img {
       opacity: 1;
     }
   }
+
+
 
   @keyframes slideInFromBottom {
     0% {

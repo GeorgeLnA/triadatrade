@@ -113,10 +113,10 @@ export default function StrategicStakeholdersSection() {
   useEffect(() => {
     const computeSize = () => {
       const width = window.innerWidth || 1280;
-      const horizontalPadding = width < 768 ? 48 : 160;
+      const horizontalPadding = width < 768 ? 32 : width < 1024 ? 80 : 160;
       const maxPossible = width - horizontalPadding;
-      const clamped = Math.max(300, Math.min(maxPossible, width < 768 ? 410 : 600));
-      setContainerSize(Math.round(clamped * 0.85));
+      const clamped = Math.max(280, Math.min(maxPossible, width < 768 ? 350 : width < 1024 ? 450 : 600));
+      setContainerSize(Math.round(clamped * (width < 768 ? 0.8 : 0.85)));
     };
 
     computeSize();
@@ -129,14 +129,14 @@ export default function StrategicStakeholdersSection() {
 
   return (
     <section
-      className="relative w-full bg-scout-dark"
-      style={{ paddingTop: '7.5rem', paddingBottom: '7.5rem' }}
+      className="relative w-full bg-scout-dark px-4 sm:px-6"
+      style={{ paddingTop: 'clamp(3rem, 12vw, 7.5rem)', paddingBottom: 'clamp(3rem, 12vw, 7.5rem)' }}
     >
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
         <div className="mx-auto max-w-5xl">
           <Reveal variant="slide-up">
-            <div className="mb-16 text-center">
-              <h2 className="font-teko text-4xl font-bold uppercase text-scout-text-white md:text-5xl">
+            <div className="mb-8 md:mb-16 text-center">
+              <h2 className="font-teko text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase text-scout-text-white">
                 Strategic Defence Stakeholders
               </h2>
             </div>
