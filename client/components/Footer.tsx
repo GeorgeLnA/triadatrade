@@ -7,6 +7,7 @@ import {
 } from "react";
 import { FooterNetworkAnimation } from "@/components/ui/FooterNetworkAnimation";
 import { FooterCursorTrail } from "@/components/ui/FooterCursorTrail";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Footer navigation data structure
 const footerNavigation = {
@@ -79,8 +80,11 @@ export default function Footer() {
   const logoWrapperRef = useRef<HTMLDivElement>(null);
   const [logoTilt, setLogoTilt] = useState({ rotateX: 0, rotateY: 0 });
   const [isCursorActive, setIsCursorActive] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleFooterMouseMove = (event: MouseEvent<HTMLElement>) => {
+    if (isMobile) return; // Disable logo movement on mobile
+    
     setIsCursorActive(true);
     
     if (logoWrapperRef.current) {
@@ -110,8 +114,10 @@ export default function Footer() {
 
   const dynamicLogoWrapperStyle: CSSProperties = {
     ...logoWrapperStyle,
-    transform: `perspective(900px) rotateX(${logoTilt.rotateX}deg) rotateY(${logoTilt.rotateY}deg)`,
-    transition: "transform 0.35s ease-out",
+    transform: isMobile 
+      ? 'none' 
+      : `perspective(900px) rotateX(${logoTilt.rotateX}deg) rotateY(${logoTilt.rotateY}deg)`,
+    transition: isMobile ? 'none' : "transform 0.35s ease-out",
     marginTop: "-8rem"
   };
 
@@ -122,28 +128,32 @@ export default function Footer() {
       onMouseMove={handleFooterMouseMove}
       onMouseLeave={handleFooterMouseLeave}
     >
-      <FooterNetworkAnimation
-        backgroundColor="rgba(255, 255, 255, 1)"
-        particleColor="rgba(0, 0, 0, "
-        lineColor="rgba(0, 0, 0, "
-      />
-      <FooterCursorTrail
-        containerRef={footerRef}
-        pagesNavRef={pagesNavRef}
-        legalNavRef={legalNavRef}
-        contactNavRef={contactNavRef}
-        active={isCursorActive}
-        trailLength={7}
-        distanceRatio={12}
-        fadeDuration={2600}
-      />
+      {!isMobile && (
+        <>
+          <FooterNetworkAnimation
+            backgroundColor="rgba(255, 255, 255, 1)"
+            particleColor="rgba(0, 0, 0, "
+            lineColor="rgba(0, 0, 0, "
+          />
+          <FooterCursorTrail
+            containerRef={footerRef}
+            pagesNavRef={pagesNavRef}
+            legalNavRef={legalNavRef}
+            contactNavRef={contactNavRef}
+            active={isCursorActive}
+            trailLength={7}
+            distanceRatio={12}
+            fadeDuration={2600}
+          />
+        </>
+      )}
       <div className="w-full mx-auto relative z-10 px-4 sm:px-6 md:px-8" style={containerStyle}>
         {/* Mobile Layout: Logo at top, all links in one line at bottom */}
         <div className="flex flex-col lg:hidden items-center gap-4">
           {/* Logo - Top on Mobile - Bigger */}
           <div
             ref={logoWrapperRef}
-            style={{...dynamicLogoWrapperStyle, marginTop: "-3rem", transform: `perspective(900px) rotateX(${logoTilt.rotateX}deg) rotateY(${logoTilt.rotateY}deg)`}}
+            style={{...dynamicLogoWrapperStyle, marginTop: "-3rem"}}
           >
             <img 
               src="/TT logo black.png" 

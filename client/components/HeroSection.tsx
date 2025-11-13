@@ -163,14 +163,17 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
 
       {/* CTA Button - Center */}
       <div 
-        className="fixed bottom-16 left-1/2 transition-all duration-500 pointer-events-auto" 
+        className="fixed bottom-16 left-1/2 pointer-events-auto" 
         style={{ 
           transform: isMobile 
             ? 'translateX(-50%)' 
             : (showInteractive ? 'translateX(-50%)' : 'translateX(-50%) translateY(30px)'),
-          opacity: showInteractive ? finalOpacity : 0,
+          opacity: isMobile 
+            ? (showInteractive ? 1 : 0)
+            : (showInteractive ? finalOpacity : 0),
           mixBlendMode: 'difference',
-          zIndex: 9999
+          zIndex: 9999,
+          transition: isMobile ? 'opacity 0.5s' : 'opacity 0.5s, transform 0.5s'
         }}
       >
           <Button 
