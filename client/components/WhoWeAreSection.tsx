@@ -33,7 +33,7 @@ export default function WhoWeAreSection() {
                 {/* Image Container */}
                 <div className="relative w-full overflow-hidden">
                   <img 
-                    src="/triada.jpg" 
+                    src="/WhatsApp Image 2025-11-13 at 14.35.36 (1).jpeg" 
                     alt="Triada Trade Team"
                     className="w-full h-auto object-contain"
                   />

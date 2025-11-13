@@ -10,7 +10,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Activities from "./pages/Activities";
 import NotFound from "./pages/NotFound";
-// import CursorDemo from "./components/CursorDemo"; // Removed in production
 import ScrollRuler from "./components/ScrollRuler";
 import TargetCursor from "./components/TargetCursor";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -111,8 +110,6 @@ const App = () => {
               <Activities />
             </>
           } />
-          {/* Demo route removed for production cleanup */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={
             <>
               <ScrollToTop />
