@@ -91,7 +91,10 @@ export default function QuoteSection() {
               {/* Read Full Letter Button */}
               <div className="mt-2">
                 <PixelButton
-                  type="button"
+                  as="a"
+                  href="/triadatradepartnersIntroduction.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-scout-card-bg/60 border border-scout-border/40 px-4 md:px-8 py-2 md:py-3 rounded-lg transition-all duration-300 font-teko text-scout-text-white hover:border-scout-green/60 hover:bg-scout-green/10 backdrop-blur-sm tracking-wide"
                   style={{ fontSize: 'clamp(1.125rem, 3.5vw, calc(1rem + 0.5vw))' }} // Even larger button text on mobile
                 >

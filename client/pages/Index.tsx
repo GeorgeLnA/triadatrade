@@ -31,7 +31,7 @@ const blogTimelineData: TimelineEntry[] = [
     link: "https://kyivindependent.com/europe-scrambles-for-ukrainian-interceptor-drones-following-russias-polish-attack/"
   },
   {
-    title: "Co-founder and Commercial Director of Triada Trade Partners LLC, an agency that represents international businesses in Ukraine",
+    title: "Check out latest isnsight from our experts on platform Rates.fm",
     date: "December 2024",
     image: "/jo7ptj---c1x1x50px50p--b7e9f1bfb8d91ad320150f8bf8e06747.webp",
     link: "https://rates.fm/ua-uk/authors/nikitin-marsel/"
@@ -197,7 +197,7 @@ export default function Index() {
               >
                 <div className="bg-[#050612]/80 backdrop-blur-md border border-gray-400/30 rounded-xl md:rounded-2xl p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20 shadow-2xl">
                   <p className="text-scout-text-white font-teko text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl leading-relaxed">
-                    Our mission is to ensure that Ukraine and its partners gain not merely weapons, but a decisive technological edge — and that every creator or investor in military technology has a powerful ally at their side — technically, strategically, and corporately.
+                    Leading defence initiatives across the defense sector, combining innovation, expertise, and integrity to deliver advanced technological solutions. We bridge Ukrainian and international defense industries, helping partners navigate complex systems and achieve measurable results. Our mission is to give Ukraine and its allies a decisive technological
                   </p>
                 </div>
               </motion.div>

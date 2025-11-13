@@ -7,7 +7,7 @@ const SENIOR_LEADERS = [
     name: "Yaroslav Yakymov",
     role: "Chief Executive Officer",
     initials: "YY",
-    image: "/y.jpeg",
+    image: "/WhatsApp Image 2025-11-13 at 09.06.08.jpeg",
     description: "Leading strategic vision and overall company direction with extensive experience in defence sector partnerships.",
     skills: ["Strategic Planning", "Defence Partnerships", "Leadership"],
     experience: "15+ years",
@@ -52,13 +52,24 @@ const TEAM_MEMBERS = [
   {
     id: "international",
     name: "Maksym Obod",
-    role: "International Relations", 
+    role: "Battle management consulting", 
     initials: "MO",
     image: "/maks.jpeg",
-    description: "Managing international partnerships and fostering relationships with global stakeholders.",
+    description: "Battalion Commander with extensive experience in combat operations and tactics of usage of various UAV systems.",
     skills: ["International Relations", "Partnership Development", "Cross-Cultural Communication"],
     experience: "13+ years",
     category: "leadership"
+  },
+  {
+    id: "uav",
+    name: "Oleg Pryimenko",
+    role: "Chief of R&D operations",
+    initials: "OP", 
+    image: "/oleg_pryimenko.jpg",
+    description: "Leading UAV testing and operations with extensive experience in unmanned systems and technical validation.",
+    skills: ["UAV Systems", "Technical Testing", "Operations Management"],
+    experience: "14+ years",
+    category: "specialist"
   },
   {
     id: "commercial",
@@ -70,17 +81,6 @@ const TEAM_MEMBERS = [
     skills: ["Commercial Operations", "Client Relations", "Sales Strategy"],
     experience: "7+ years",
     category: "leadership"
-  },
-  {
-    id: "uav",
-    name: "Oleg Pryimenko",
-    role: "UAV Expert & Chief of Operations",
-    initials: "OP", 
-    image: "/oleg_pryimenko.jpg",
-    description: "Leading UAV testing and operations with extensive experience in unmanned systems and technical validation.",
-    skills: ["UAV Systems", "Technical Testing", "Operations Management"],
-    experience: "14+ years",
-    category: "specialist"
   },
   {
     id: "analytics",
@@ -165,7 +165,7 @@ export default function TeamPreviewSection() {
                         ...(member.id === 'cro' 
                           ? { objectPosition: isMobile ? 'center 0%' : 'center 10%' } 
                           : member.id === 'ceo' 
-                          ? { objectPosition: 'center 50%' } 
+                          ? { objectPosition: 'center 0%' } 
                           : member.id === 'international' 
                           ? { objectPosition: 'center 30%' } 
                           : member.id === 'commercial' 
@@ -179,20 +179,20 @@ export default function TeamPreviewSection() {
                           : member.id === 'rd' 
                           ? { objectPosition: 'center 0%' } 
                           : { objectPosition: 'center 10%' }),
-                        transform: member.id === 'ceo' || member.id === 'cro' 
+                        transform: member.id === 'cro' 
                           ? (isMobile ? 'scale(1.8)' : 'scale(1.5)') 
                           : 'scale(1)',
                         ...(member.id === 'ceo' || member.id === 'cro' ? {} : {})
                       }}
                       onMouseEnter={(e) => {
-                        if (member.id === 'ceo' || member.id === 'cro') {
+                        if (member.id === 'cro') {
                           e.currentTarget.style.transform = isMobile ? 'scale(2)' : 'scale(1.65)';
                         } else {
                           e.currentTarget.style.transform = 'scale(1.1)';
                         }
                       }}
                       onMouseLeave={(e) => {
-                        if (member.id === 'ceo' || member.id === 'cro') {
+                        if (member.id === 'cro') {
                           e.currentTarget.style.transform = isMobile ? 'scale(1.8)' : 'scale(1.5)';
                         } else {
                           e.currentTarget.style.transform = 'scale(1)';
@@ -254,83 +254,114 @@ export default function TeamPreviewSection() {
           </div>
         </Reveal>
 
-        {/* Team Members - 8 cards below */}
-        <Reveal>
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-16">
-            {TEAM_MEMBERS.map((member, index) => (
-              <div 
-                key={member.id}
-                className="group relative h-full"
-                onMouseEnter={() => setHoveredMember(member.id)}
-                onMouseLeave={() => setHoveredMember(null)}
-              >
-                <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105 h-full flex flex-col">
-                {/* Image Container */}
-                <div className="relative h-48 md:h-64 overflow-hidden flex-shrink-0">
-                  <img 
-                    src={member.image} 
-                    alt={member.name}
-                    className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${
-                      member.id === 'cro' ? 'object-top' : 'object-center'
-                    }`}
+        {/* Team Members - Grouped in Pairs with Headers */}
+        {[
+          {
+            header: "Legal & Financial Consulting",
+            members: [TEAM_MEMBERS[0], TEAM_MEMBERS[1]] // Oleksandra, Olena
+          },
+          {
+            header: "R&D Operations and Technical consulting",
+            members: [TEAM_MEMBERS[2], TEAM_MEMBERS[3]] // Maksym, Oleg
+          },
+          {
+            header: "comercial activitties and representation",
+            members: [TEAM_MEMBERS[4], TEAM_MEMBERS[5]] // Denis, Bohdan
+          }
+        ].map((pair, pairIndex) => (
+          <Reveal key={pairIndex} delayMs={pairIndex * 100}>
+            <div className="mb-8 md:mb-12">
+              {/* Header */}
+              {pair.header && (
+                <div className="mb-6 md:mb-8">
+                  <h3 
+                    className="font-bold text-scout-text-white font-teko text-center"
                     style={{
-                      ...(member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : member.id === 'analytics' ? { objectPosition: 'center 20%' } : { objectPosition: 'center 10%' }),
-                      ...(member.id === 'analytics' ? { filter: 'grayscale(100%)' } : {})
+                      fontSize: 'clamp(1.375rem, 4.5vw, calc(1rem + 0.75vw))'
                     }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
+                  >
+                    {pair.header}
+                  </h3>
                 </div>
+              )}
 
-                {/* Content */}
-                <div className="p-4 md:p-6 flex flex-col flex-grow">
-                  <div className="flex flex-col items-center mb-3 md:mb-4 flex-shrink-0">
-                    <h3 
-                      className="font-bold text-scout-text-white mb-1.5 md:mb-2 font-teko text-center"
-                      style={{
-                        fontSize: 'clamp(1.375rem, 4.5vw, calc(1rem + 0.75vw))' // Even larger name text on mobile
-                      }}
-                    >
-                      {member.name}
-                    </h3>
-                    <p 
-                      className="text-scout-text-muted font-metropolis leading-relaxed block w-full"
-                      style={{
-                        fontSize: 'clamp(1.0625rem, 3vw, calc(0.875rem + 0.25vw))', // Even larger role text on mobile
-                        textAlign: 'center',
-                        display: 'block',
-                        width: '100%',
-                        margin: '0 auto'
-                      }}
-                    >
-                      {member.role}
-                    </p>
+              {/* Pair of Cards */}
+              <div className="grid grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto">
+                {pair.members.map((member) => (
+                  <div 
+                    key={member.id}
+                    className="group relative h-full"
+                    onMouseEnter={() => setHoveredMember(member.id)}
+                    onMouseLeave={() => setHoveredMember(null)}
+                  >
+                    <div className="bg-scout-card-bg/60 border border-scout-border/40 rounded-xl backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-scout-green/40 hover:scale-105 h-full flex flex-col">
+                      {/* Image Container */}
+                      <div className="relative h-48 md:h-64 overflow-hidden flex-shrink-0">
+                        <img 
+                          src={member.image} 
+                          alt={member.name}
+                          className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 ${
+                            member.id === 'cro' ? 'object-top' : 'object-center'
+                          }`}
+                          style={{
+                            ...(member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : member.id === 'analytics' ? { objectPosition: 'center 20%' } : { objectPosition: 'center 10%' }),
+                            ...(member.id === 'analytics' ? { filter: 'grayscale(100%)' } : {})
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
+                      </div>
+
+                      {/* Content */}
+                      <div className="p-4 md:p-6 flex flex-col flex-grow">
+                        <div className="flex flex-col items-center mb-3 md:mb-4 flex-shrink-0">
+                          <h3 
+                            className="font-bold text-scout-text-white mb-1.5 md:mb-2 font-teko text-center"
+                            style={{
+                              fontSize: 'clamp(1.375rem, 4.5vw, calc(1rem + 0.75vw))' // Even larger name text on mobile
+                            }}
+                          >
+                            {member.name}
+                          </h3>
+                          <p 
+                            className="text-scout-text-muted font-metropolis leading-relaxed block w-full"
+                            style={{
+                              fontSize: 'clamp(1.0625rem, 3vw, calc(0.875rem + 0.25vw))', // Even larger role text on mobile
+                              textAlign: 'center',
+                              display: 'block',
+                              width: '100%',
+                              margin: '0 auto'
+                            }}
+                          >
+                            {member.role}
+                          </p>
+                        </div>
+
+                        {/* Description - Shows on hover */}
+                        <div className={`transition-all duration-300 overflow-hidden flex-grow ${
+                          hoveredMember === member.id ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+                        }`}>
+                          <p 
+                            className="text-scout-text-muted font-metropolis leading-relaxed mb-3 md:mb-4 text-center block w-full"
+                            style={{
+                              fontSize: 'clamp(1rem, 2.5vw, calc(0.75rem + 0.125vw))', // Even larger description text on mobile
+                              textAlign: 'center',
+                              display: 'block',
+                              width: '100%',
+                              margin: '0 auto'
+                            }}
+                          >
+                            {member.description}
+                          </p>
+                        </div>
+                        <div className="pt-4" />
+                      </div>
+                    </div>
                   </div>
-
-
-                  {/* Description - Shows on hover */}
-                  <div className={`transition-all duration-300 overflow-hidden flex-grow ${
-                    hoveredMember === member.id ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
-                  }`}>
-                    <p 
-                      className="text-scout-text-muted font-metropolis leading-relaxed mb-3 md:mb-4 text-center block w-full"
-                      style={{
-                        fontSize: 'clamp(1rem, 2.5vw, calc(0.75rem + 0.125vw))', // Even larger description text on mobile
-                        textAlign: 'center',
-                        display: 'block',
-                        width: '100%',
-                        margin: '0 auto'
-                      }}
-                    >
-                      {member.description}
-                    </p>
-                  </div>
-                  <div className="pt-4" />
-                </div>
+                ))}
               </div>
             </div>
-            ))}
-          </div>
-        </Reveal>
+          </Reveal>
+        ))}
 
         {/* Enhanced Stats */}
         <Reveal>

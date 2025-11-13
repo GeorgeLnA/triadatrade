@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import Reveal from "@/components/ui/Reveal"
+import { PixelButton } from "@/components/ui/PixelButton"
 
 export interface Service {
   id: string
@@ -128,16 +129,6 @@ export default function DefenceProgramsSection() {
   const renderServiceContent = (service: Service) => {
     return (
       <div className="space-y-6">
-        {/* Description */}
-        <p 
-          className="text-scout-text-muted font-metropolis leading-relaxed"
-          style={{
-            fontSize: 'clamp(1.125rem, 3vw, calc(0.8125rem + 0.375vw))' // Even larger body text on mobile
-          }}
-        >
-          {service.description}
-        </p>
-
         {/* Bullet Points */}
         {service.bulletPoints && service.bulletPoints.length > 0 && (
           <div className="space-y-2">
@@ -159,131 +150,6 @@ export default function DefenceProgramsSection() {
             ))}
           </div>
         )}
-
-        {/* Use Cases */}
-        {service.useCases && service.useCases.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-scout-border/20">
-            <h4 
-              className="text-scout-text-white font-teko font-bold mb-3 md:mb-4 uppercase tracking-wide"
-              style={{
-                fontSize: 'clamp(1.125rem, 3.5vw, calc(0.875rem + 0.5vw))' // Even larger heading on mobile
-              }}
-            >
-              USE CASES
-            </h4>
-            <div className="space-y-2">
-              {service.useCases.map((useCase, index) => (
-                <div
-                  key={index}
-                  className="flex items-center py-2 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30"
-                >
-                  <span 
-                    className="text-scout-text-white font-metropolis"
-                    style={{
-                      fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8125rem + 0.375vw))' // Even larger text on mobile
-                    }}
-                  >
-                    {useCase}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Capabilities */}
-        {service.capabilities && service.capabilities.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-scout-border/20">
-            <h4 
-              className="text-scout-text-white font-teko font-bold mb-3 md:mb-4 uppercase tracking-wide"
-              style={{
-                fontSize: 'clamp(1.125rem, 3.5vw, calc(0.875rem + 0.5vw))' // Even larger heading on mobile
-              }}
-            >
-              CAPABILITIES
-            </h4>
-            <div className="space-y-2">
-              {service.capabilities.map((capability, index) => (
-                <div
-                  key={index}
-                  className="flex items-center py-2 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30"
-                >
-                  <span 
-                    className="text-scout-text-white font-metropolis"
-                    style={{
-                      fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8125rem + 0.375vw))' // Even larger text on mobile
-                    }}
-                  >
-                    {capability}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Engagement Areas */}
-        {service.engagementAreas && service.engagementAreas.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-scout-border/20">
-            <h4 
-              className="text-scout-text-white font-teko font-bold mb-3 md:mb-4 uppercase tracking-wide"
-              style={{
-                fontSize: 'clamp(1.125rem, 3.5vw, calc(0.875rem + 0.5vw))' // Even larger heading on mobile
-              }}
-            >
-              ENGAGEMENT AREAS
-            </h4>
-            <div className="space-y-2">
-              {service.engagementAreas.map((area, index) => (
-                <div
-                  key={index}
-                  className="flex items-center py-2 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30"
-                >
-                  <span 
-                    className="text-scout-text-white font-metropolis"
-                    style={{
-                      fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8125rem + 0.375vw))' // Even larger text on mobile
-                    }}
-                  >
-                    {area}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Deliverables */}
-        {service.deliverables && service.deliverables.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-scout-border/20">
-            <h4 
-              className="text-scout-text-white font-teko font-bold mb-3 md:mb-4 uppercase tracking-wide"
-              style={{
-                fontSize: 'clamp(1.125rem, 3.5vw, calc(0.875rem + 0.5vw))' // Even larger heading on mobile
-              }}
-            >
-              DELIVERABLES
-            </h4>
-            <div className="space-y-2">
-              {service.deliverables.map((deliverable, index) => (
-                <div
-                  key={index}
-                  className="flex items-center py-2 px-4 rounded-lg bg-scout-card-bg/40 border border-scout-border/30"
-                >
-                  <span 
-                    className="text-scout-text-white font-metropolis"
-                    style={{
-                      fontSize: 'clamp(1.0625rem, 2.5vw, calc(0.8125rem + 0.375vw))' // Even larger text on mobile
-                    }}
-                  >
-                    {deliverable}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
       </div>
     )
   }
@@ -301,24 +167,25 @@ export default function DefenceProgramsSection() {
           paddingBottom: '2rem'
         }}
       >
+        {/* Section Header */}
+        <Reveal variant="slide-up">
+          <div className="mb-10 md:mb-12">
+            <h2 
+              className="font-bold text-scout-text-white font-teko mb-4 md:mb-8"
+              style={{
+                fontSize: 'clamp(1.75rem, 6vw, calc(1.375rem + 1.25vw))' // Even larger heading on mobile
+              }}
+            >
+              OUR ACTIVITIES
+            </h2>
+          </div>
+        </Reveal>
+
         {/* Two Column Layout */}
         <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-start">
           
           {/* Left Column - Defence Programs */}
           <div>
-            <Reveal variant="slide-up">
-              <div className="mb-8">
-                <h2 
-                  className="font-bold text-scout-text-white font-teko mb-4 md:mb-8"
-                  style={{
-                    fontSize: 'clamp(1.75rem, 6vw, calc(1.375rem + 1.25vw))' // Even larger heading on mobile
-                  }}
-                >
-                  Defence Programs
-                </h2>
-              </div>
-            </Reveal>
-
             <div className="space-y-3 md:space-y-4">
               {ALL_SERVICES.filter(service => service.category === 'defence').map((service, index) => {
                 const globalIndex = ALL_SERVICES.findIndex(s => s.id === service.id)
@@ -386,19 +253,6 @@ export default function DefenceProgramsSection() {
 
           {/* Right Column - Legal, Financing & Consulting Services */}
           <div>
-            <Reveal variant="slide-up">
-              <div className="mb-8">
-                <h2 
-                  className="font-bold text-scout-text-white font-teko mb-4 md:mb-8"
-                  style={{
-                    fontSize: 'clamp(1.75rem, 6vw, calc(1.375rem + 1.25vw))' // Even larger heading on mobile
-                  }}
-                >
-                  Legal, Financing & Consulting
-                </h2>
-              </div>
-            </Reveal>
-
             <div className="space-y-3 md:space-y-4">
               {ALL_SERVICES.filter(service => service.category === 'legal').map((service, index) => {
                 const globalIndex = ALL_SERVICES.findIndex(s => s.id === service.id)
@@ -465,6 +319,22 @@ export default function DefenceProgramsSection() {
           </div>
         </div>
         <div className="mt-8 md:mt-16" />
+
+        {/* CTA Section */}
+        <div className="mt-12 md:mt-16 flex justify-center">
+          <Reveal variant="slide-up">
+            <PixelButton
+              as="a"
+              href="/activities"
+              className="px-8 py-4 border border-scout-border/60 rounded-lg bg-scout-card-bg/60 backdrop-blur-sm text-scout-text-white font-teko font-bold transition-all duration-300 hover:border-scout-green/60 hover:bg-scout-card-bg/80"
+              style={{
+                fontSize: 'clamp(1.125rem, 3vw, calc(1rem + 0.5vw))'
+              }}
+            >
+              Learn More
+            </PixelButton>
+          </Reveal>
+        </div>
 
       </div>
     </section>
