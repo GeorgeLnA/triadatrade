@@ -176,7 +176,7 @@ export default function DefenceProgramsSection() {
                 fontSize: 'clamp(1.75rem, 7vw, calc(1.5rem + 2vw))' // Even larger heading on mobile
               }}
             >
-              OUR ACTIVITIES
+              FOCUS AREAS
             </h2>
           </div>
         </Reveal>
