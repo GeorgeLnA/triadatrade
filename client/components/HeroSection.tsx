@@ -138,6 +138,26 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
                <span className="md:hidden">TRIADA<br />TRADE</span>
                <span className="hidden md:inline">TRIADA TRADE</span>
              </h1>
+            {/* CTA Button - Mobile only, under heading */}
+            {isMobile && (
+              <div 
+                className="mt-8 pointer-events-auto transition-opacity duration-500" 
+                style={{ 
+                  opacity: showInteractive ? 1 : 0
+                }}
+              >
+                <Button 
+                  size="lg" 
+                  className="bg-white hover:bg-white/90 text-black font-teko px-10 py-5 text-xl rounded-none transition-all duration-200 transform hover:scale-105 cursor-pointer pointer-events-auto"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = '/activities';
+                  }}
+                >
+                  Explore our activities
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -161,32 +181,30 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
           </div>
       </div>
 
-      {/* CTA Button - Center */}
-      <div 
-        className="fixed bottom-16 left-1/2 pointer-events-auto" 
-        style={{ 
-          transform: isMobile 
-            ? 'translateX(-50%)' 
-            : (showInteractive ? 'translateX(-50%)' : 'translateX(-50%) translateY(30px)'),
-          opacity: isMobile 
-            ? (showInteractive ? 1 : 0)
-            : (showInteractive ? finalOpacity : 0),
-          mixBlendMode: 'difference',
-          zIndex: 9999,
-          transition: isMobile ? 'opacity 0.5s' : 'opacity 0.5s, transform 0.5s'
-        }}
-      >
-          <Button 
-            size="lg" 
-            className="bg-white hover:bg-white/90 text-black font-teko px-10 py-5 text-xl rounded-none transition-all duration-200 transform hover:scale-105 cursor-pointer pointer-events-auto"
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = '/activities';
-            }}
-          >
-            Explore our activities
-          </Button>
-      </div>
+      {/* CTA Button - Desktop only, bottom center */}
+      {!isMobile && (
+        <div 
+          className="fixed bottom-16 left-1/2 pointer-events-auto" 
+          style={{ 
+            transform: showInteractive ? 'translateX(-50%)' : 'translateX(-50%) translateY(30px)',
+            opacity: showInteractive ? finalOpacity : 0,
+            mixBlendMode: 'difference',
+            zIndex: 9999,
+            transition: 'opacity 0.5s, transform 0.5s'
+          }}
+        >
+            <Button 
+              size="lg" 
+              className="bg-white hover:bg-white/90 text-black font-teko px-10 py-5 text-xl rounded-none transition-all duration-200 transform hover:scale-105 cursor-pointer pointer-events-auto"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.href = '/activities';
+              }}
+            >
+              Explore our activities
+            </Button>
+        </div>
+      )}
 
     </section>
   );
