@@ -173,7 +173,7 @@ export default function DefenceProgramsSection() {
             <h2 
               className="font-bold text-scout-text-white font-teko mb-4 md:mb-8"
               style={{
-                fontSize: 'clamp(1.75rem, 6vw, calc(1.375rem + 1.25vw))' // Even larger heading on mobile
+                fontSize: 'clamp(1.75rem, 7vw, calc(1.5rem + 2vw))' // Even larger heading on mobile
               }}
             >
               OUR ACTIVITIES
