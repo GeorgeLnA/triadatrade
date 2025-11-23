@@ -52,6 +52,30 @@ const App = () => {
   const [heroAnimationsComplete, setHeroAnimationsComplete] = useState(false);
   const isMobile = useIsMobile();
 
+  // Ensure scroll is at top on page load/reload
+  useEffect(() => {
+    // Set scroll to top immediately on mount/reload
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Prevent browser from restoring scroll position
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Also handle beforeunload to ensure clean state
+    const handleBeforeUnload = () => {
+      window.scrollTo(0, 0);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   useEffect(() => {
     // Hide cursor via JavaScript
     const root = document.documentElement;
