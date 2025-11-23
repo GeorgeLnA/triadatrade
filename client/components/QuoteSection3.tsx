@@ -62,7 +62,7 @@ export default function QuoteSection3() {
                     fontSize: 'clamp(1.0625rem, 3vw, calc(0.8rem + 0.5vw))' // Even larger role text on mobile
                   }}
                 >
-                  CEO
+                  Executive Director
                 </div>
                 <div 
                   className="text-scout-text-muted/80 font-teko leading-tight"
@@ -70,7 +70,7 @@ export default function QuoteSection3() {
                     fontSize: 'clamp(1.0625rem, 3vw, calc(0.8rem + 0.5vw))' // Even larger role text on mobile
                   }}
                 >
-                  KORD Defence
+                  Kord Group
                 </div>
               </div>
             </Reveal>
@@ -88,13 +88,16 @@ export default function QuoteSection3() {
                   fontSize: 'clamp(1.375rem, 5vw, calc(1rem + 1.3vw))' // Even larger quote text on mobile
                 }}
               >
-                Working with Triada Trade Partners has been instrumental in successfully introducing our solutions into Ukraine. Under the guidance of Yaroslav Yakymov and Marsel Nikitin, we were able to navigate the complexities of the Ukrainian market with confidence and clarity. Their expertise under the Office of Trade Representatives in coordinating with defense stakeholders provided the framework that allowed KORD Defence to establish a meaningful presence.
+                Working with Triada Trade Partners has been instrumental in successfully introducing our solutions into Ukraine. Under the guidance of Yaroslav Yakymov and Marsel Nikitin, we were able to navigate the complexities of the Ukrainian market with confidence and clarity. Their expertise under the Office of Trade Representatives in coordinating with defence stakeholders provided the framework that allowed Kord Defence to establish a meaningful presence and contribute directly to enhancing the capabilities of Ukraine's Armed Forces.
               </blockquote>
 
               {/* Read Full Letter Button */}
               <div className="mt-2">
                 <PixelButton
-                  type="button"
+                  as="a"
+                  href="/Triada_-_Letter_of_Recommendation_-_Nov_2025.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-scout-card-bg/60 border border-scout-border/40 px-4 md:px-8 py-2 md:py-3 rounded-lg transition-all duration-300 font-teko text-scout-text-white hover:border-scout-green/60 hover:bg-scout-green/10 backdrop-blur-sm tracking-wide"
                   style={{ fontSize: 'clamp(1.125rem, 3.5vw, calc(1rem + 0.5vw))' }} // Even larger button text on mobile
                 >

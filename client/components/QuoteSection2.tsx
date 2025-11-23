@@ -61,7 +61,7 @@ export default function QuoteSection2() {
                     fontSize: 'clamp(1.0625rem, 3vw, calc(0.8rem + 0.5vw))' // Even larger role text on mobile
                   }}
                 >
-                  U.S. Embassy Representative
+                  CEO Cyclops Corporation
                 </div>
                 <div 
                   className="text-scout-text-muted/80 font-teko leading-tight"
@@ -69,7 +69,7 @@ export default function QuoteSection2() {
                     fontSize: 'clamp(1.0625rem, 3vw, calc(0.8rem + 0.5vw))' // Even larger role text on mobile
                   }}
                 >
-                  U.S. Embassy Beirut
+                  Chairman OSAC
                 </div>
               </div>
             </Reveal>

@@ -76,7 +76,7 @@ export const ALL_SERVICES: Service[] = [
     engagementAreas: [
       "Risk, compliance, and documentation workflows",
       "Corporate structuring and IP protections",
-      "Interaction with reliable Ukrainian defense manufacturers and suppliers, leading producers of military goods."
+      "Interaction with reliable Ukrainian defense manufacturers and suppliers, leading producers of military goods"
     ],
     deliverables: [
       "Due diligence packs and counterparty scoring",
