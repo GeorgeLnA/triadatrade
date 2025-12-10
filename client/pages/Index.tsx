@@ -190,14 +190,14 @@ export default function Index() {
           <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-12 max-w-7xl">
             <div className="max-w-5xl mx-auto">
               <motion.div
-                className="text-center"
+                className="text-center overflow-visible"
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
-                <div className="bg-[#050612]/80 backdrop-blur-md border border-gray-400/30 rounded-xl md:rounded-2xl p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20 shadow-2xl">
-                  <p className="text-scout-text-white font-teko text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl leading-relaxed">
-                    Leading defence initiatives across the defense sector, combining innovation, expertise, and integrity to deliver advanced technological solutions. We bridge Ukrainian and international defense industries, helping partners navigate complex systems and achieve measurable results. Our mission is to give Ukraine and its allies a decisive technological
+                <div className="bg-[#050612]/80 backdrop-blur-md border border-gray-400/30 rounded-xl md:rounded-2xl p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20 shadow-2xl overflow-visible">
+                  <p className="text-scout-text-white font-teko text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl leading-relaxed break-words overflow-visible whitespace-normal">
+                    Leading defence initiatives across the defense sector, combining innovation, expertise, and integrity to deliver advanced technological solutions. We bridge Ukrainian and international defense industries, helping partners navigate complex systems and achieve measurable results. Our mission is to give Ukraine and its allies a decisive technological edge—and to stand beside every creator and investor shaping the future of defense.
                   </p>
                 </div>
               </motion.div>
