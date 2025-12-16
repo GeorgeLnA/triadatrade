@@ -151,7 +151,9 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
         
         if (hasOAuth) {
           // Use OAuth 2.0 authentication with GoogleAuth
-          // Create a credentials object for OAuth2 user credentials
+          // Following Google's recommended approach for OAuth2 user credentials
+          console.log("🔐 Initializing OAuth 2.0 authentication...");
+          
           const googleAuth = new GoogleAuth({
             credentials: {
               client_id: oauthClientId!,
@@ -159,7 +161,17 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
               refresh_token: oauthRefreshToken!,
               type: 'authorized_user',
             },
+            scopes: ['https://www.googleapis.com/auth/analytics.readonly'],
           });
+          
+          // Verify authentication works by getting credentials
+          try {
+            const credentials = await googleAuth.getAccessToken();
+            console.log("✅ OAuth authentication successful, access token obtained");
+          } catch (authError) {
+            console.error("❌ OAuth authentication failed:", authError);
+            throw new Error(`OAuth authentication failed: ${authError instanceof Error ? authError.message : String(authError)}`);
+          }
           
           analyticsDataClient = new BetaAnalyticsDataClient({
             auth: googleAuth,
@@ -185,6 +197,29 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
         const propertyPath = `properties/${propertyIdNum}`;
         console.log("📊 Fetching GA4 data for property:", propertyPath);
         console.log("📅 Date range:", { start: ga4StartDate, end: ga4EndDate });
+        
+        // Verify we can access the property by making a simple test request first
+        try {
+          console.log("🔍 Testing property access...");
+          await analyticsDataClient.runReport({
+            property: propertyPath,
+            dateRanges: [{ startDate: ga4EndDate, endDate: ga4EndDate }], // Single day test
+            metrics: [{ name: 'activeUsers' }],
+            limit: 1,
+          });
+          console.log("✅ Property access verified");
+        } catch (testError) {
+          const errorMsg = testError instanceof Error ? testError.message : String(testError);
+          console.error("❌ Property access test failed:", errorMsg);
+          if (errorMsg.includes('NOT_FOUND') || errorMsg.includes('not found')) {
+            throw new Error(`Property ID "${propertyIdNum}" not found. Please verify the Property ID in GA4 Admin > Property Settings. Make sure you're using the numeric Property ID, not the Measurement ID (G-XXXXXXX).`);
+          }
+          if (errorMsg.includes('PERMISSION_DENIED') || errorMsg.includes('insufficient')) {
+            throw new Error(`Permission denied for property "${propertyIdNum}". Ensure the OAuth account has Viewer or Editor access to this GA4 property in Admin > Property Access Management.`);
+          }
+          // If it's a different error, continue - might be a date issue
+          console.warn("⚠️ Property test failed, but continuing with full request...");
+        }
 
         // Fetch overall metrics
         const [overallReport] = await analyticsDataClient.runReport({
