@@ -7,7 +7,12 @@
 [functions]
   external_node_modules = ["express", "@google-analytics/data", "google-auth-library"]
   node_bundler = "esbuild"
-  included_files = ["package.json", "package-lock.json", "pnpm-lock.yaml"]
+
+# This repo uses ESM (`"type": "module"` in package.json). Ensure the Functions bundle
+# is emitted as ESM too, otherwise Netlify will generate CommonJS (`module.exports`)
+# which crashes at runtime with: "module is not defined in ES module scope".
+[functions.esbuild]
+  format = "esm"
   
 [[redirects]]
   force = true
