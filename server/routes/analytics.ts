@@ -48,6 +48,16 @@ interface AnalyticsData {
  */
 
 export const handleAnalytics: RequestHandler = async (req, res) => {
+  // Set timeout for Netlify Functions (26 seconds max, but we'll use 25 to be safe)
+  const timeout = setTimeout(() => {
+    if (!res.headersSent) {
+      res.status(504).json({
+        error: "Request timeout",
+        message: "The analytics request took too long to complete. Please try a shorter date range.",
+      });
+    }
+  }, 25000);
+
   try {
     // Get date range from query parameters or use defaults
     const startDate = (req.query.start as string) || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
@@ -55,6 +65,7 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
     
     // Ensure dates are valid strings
     if (!startDate || !endDate || typeof startDate !== 'string' || typeof endDate !== 'string') {
+      clearTimeout(timeout);
       return res.status(400).json({
         error: "Invalid date parameters",
         message: "Start and end dates must be valid ISO date strings",
@@ -111,6 +122,7 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
     const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);
     if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+      clearTimeout(timeout);
       return res.status(400).json({
         error: "Invalid date range",
         message: "Start and end dates must be valid ISO date strings",
@@ -119,6 +131,7 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
     }
     
     if (startDateObj > endDateObj) {
+      clearTimeout(timeout);
       return res.status(400).json({
         error: "Invalid date range",
         message: "Start date must be before end date",
@@ -142,10 +155,24 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
     if (hasCredentials) {
       try {
         // Dynamic import to avoid requiring the package if not installed
-        const { BetaAnalyticsDataClient } = await import('@google-analytics/data');
-        const { GoogleAuth } = await import('google-auth-library');
+        // In Netlify Functions, these packages need to be available at runtime
+        let BetaAnalyticsDataClient: any;
+        let GoogleAuth: any;
         
-        let analyticsDataClient: InstanceType<typeof BetaAnalyticsDataClient>;
+        try {
+          const analyticsModule = await import('@google-analytics/data');
+          const authModule = await import('google-auth-library');
+          BetaAnalyticsDataClient = analyticsModule.BetaAnalyticsDataClient;
+          GoogleAuth = authModule.GoogleAuth;
+        } catch (importError) {
+          console.error("❌ Failed to import Google Analytics packages:", importError);
+          throw new Error(
+            `Failed to load Google Analytics packages. This might be a bundling issue in Netlify Functions. ` +
+            `Error: ${importError instanceof Error ? importError.message : String(importError)}`
+          );
+        }
+        
+        let analyticsDataClient: any;
         
         if (hasOAuth) {
           // Use OAuth 2.0 authentication with GoogleAuth
@@ -543,6 +570,7 @@ Solution: Regenerate the refresh token using the OAuth 2.0 Playground (see GA4_S
         }
         
         // Return error - NO FALLBACK DATA
+        clearTimeout(timeout);
         return res.status(500).json({ 
           error: "Failed to fetch analytics data",
           message: helpfulMessage,
@@ -553,6 +581,7 @@ Solution: Regenerate the refresh token using the OAuth 2.0 Playground (see GA4_S
     }
 
     // Return error if credentials are not configured - NO FALLBACK DATA
+    clearTimeout(timeout);
     console.log("⚠️ No credentials configured - cannot fetch real data");
     return res.status(400).json({ 
       error: "Google Analytics credentials not configured",
@@ -560,11 +589,22 @@ Solution: Regenerate the refresh token using the OAuth 2.0 Playground (see GA4_S
       errors: [{ metric: 'all', error: 'Missing credentials' }]
     });
   } catch (error) {
+    clearTimeout(timeout);
     console.error("Error fetching analytics:", error);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    // Log full error details for debugging
+    console.error("Full error details:", {
+      message: errorMessage,
+      stack: errorStack,
+      name: error instanceof Error ? error.name : undefined,
+    });
+    
     return res.status(500).json({ 
       error: "Failed to fetch analytics data",
-      message: error instanceof Error ? error.message : "Unknown error",
-      errors: [{ metric: 'all', error: error instanceof Error ? error.message : "Unknown error" }]
+      message: errorMessage,
+      errors: [{ metric: 'all', error: errorMessage }]
     });
   }
 };
