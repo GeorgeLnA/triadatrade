@@ -5,7 +5,6 @@
 
 
 [functions]
-  external_node_modules = ["express", "@google-analytics/data", "google-auth-library"]
   node_bundler = "esbuild"
 
 # This repo uses ESM (`"type": "module"` in package.json). Ensure the Functions bundle
@@ -16,9 +15,9 @@
   
 [[redirects]]
   force = true
-  from = "/api/*"
+  from = "/api/analytics"
   status = 200
-  to = "/.netlify/functions/api/:splat"
+  to = "/.netlify/functions/analytics"
 
 [[redirects]]
   from = "/*"
