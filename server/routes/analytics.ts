@@ -5,7 +5,6 @@ interface AnalyticsData {
   newUsers: number | null;
   sessions: number | null;
   pageViews: number | null;
-  bounceRate: number | null;
   avgSessionDuration: number | null;
   avgEngagementTime: number | null;
   eventCount: number | null;
@@ -15,11 +14,9 @@ interface AnalyticsData {
     pageTitle?: string;
     views: number; 
     users: number | null; 
-    eventCount: number | null; 
-    bounceRate: number | null;
+    eventCount: number | null;
   }>;
   topCountries: Array<{ country: string; users: number }>;
-  topSources: Array<{ source: string; users: number }>;
   topPlatforms: Array<{ platform: string; users: number }>;
   dateRange: {
     start: string;
@@ -133,6 +130,7 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
     // GA4 data typically goes back to when the property was created (usually 2020 or later)
     const ga4StartDate = formatDateForGA4(startDate);
     const ga4EndDate = formatDateForGA4(endDate);
+    let validatedEndDate: string | undefined;
     
     console.log("📅 Date range for GA4 API:", {
       start: ga4StartDate,
@@ -151,7 +149,16 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
         
         if (hasOAuth) {
           // Use OAuth 2.0 authentication with GoogleAuth
-          // Following Google's recommended approach for OAuth2 user credentials
+          // Following Google's recommended approach for OAuth2 user credentials (Web Server Application pattern)
+          // 
+          // This implementation follows Google's OAuth 2.0 best practices:
+          // 1. Uses google-auth-library (recommended by Google)
+          // 2. Stores refresh token securely in environment variables
+          // 3. GoogleAuth automatically handles access token refresh when expired
+          // 4. Access tokens are automatically sent in Authorization header by the client library
+          // 5. Uses minimal required scope: analytics.readonly
+          //
+          // Reference: https://developers.google.com/identity/protocols/oauth2/web-server
           console.log("🔐 Initializing OAuth 2.0 authentication...");
           
           const googleAuth = new GoogleAuth({
@@ -159,12 +166,16 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
               client_id: oauthClientId!,
               client_secret: oauthClientSecret!,
               refresh_token: oauthRefreshToken!,
-              type: 'authorized_user',
+              type: 'authorized_user', // OAuth 2.0 user credentials (not service account)
             },
             scopes: ['https://www.googleapis.com/auth/analytics.readonly'],
           });
           
           // Verify authentication works by getting credentials
+          // GoogleAuth automatically handles:
+          // - Access token refresh using refresh_token when expired
+          // - Token caching to avoid unnecessary refresh requests
+          // - Proper error handling for expired/invalid refresh tokens
           try {
             const credentials = await googleAuth.getAccessToken();
             console.log("✅ OAuth authentication successful, access token obtained");
@@ -173,6 +184,8 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
             throw new Error(`OAuth authentication failed: ${authError instanceof Error ? authError.message : String(authError)}`);
           }
           
+          // BetaAnalyticsDataClient automatically uses the GoogleAuth instance
+          // to get access tokens and send them in Authorization header
           analyticsDataClient = new BetaAnalyticsDataClient({
             auth: googleAuth,
           });
@@ -196,25 +209,81 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
         
         const propertyPath = `properties/${propertyIdNum}`;
         console.log("📊 Fetching GA4 data for property:", propertyPath);
-        console.log("📅 Date range:", { start: ga4StartDate, end: ga4EndDate });
         
         // Validate dates - ensure they're valid and start is before end
-        const startDateObj = new Date(ga4StartDate + 'T00:00:00');
-        const endDateObj = new Date(ga4EndDate + 'T23:59:59');
         const today = new Date();
         today.setHours(23, 59, 59, 999);
+        
+        const startDateObj = new Date(ga4StartDate + 'T00:00:00');
+        let endDateObj = new Date(ga4EndDate + 'T23:59:59');
         
         if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
           throw new Error(`Invalid date format. Dates must be in YYYY-MM-DD format. Got: ${ga4StartDate} to ${ga4EndDate}`);
         }
         
+        // If end date is in the future, cap it to today
         if (endDateObj > today) {
-          const todayStr = formatDateForGA4(today.toISOString());
-          throw new Error(`End date ${ga4EndDate} cannot be in the future. Maximum allowed: ${todayStr}`);
+          console.warn(`⚠️ End date ${ga4EndDate} is in the future. Capping to today: ${formatDateForGA4(today.toISOString())}`);
+          endDateObj = today;
         }
         
         if (startDateObj > endDateObj) {
           throw new Error(`Start date ${ga4StartDate} must be before or equal to end date ${ga4EndDate}.`);
+        }
+        
+        // Use the validated end date (might be capped to today)
+        validatedEndDate = formatDateForGA4(endDateObj.toISOString());
+        
+        console.log("📅 Validated date range:", { start: ga4StartDate, end: validatedEndDate });
+
+        // Fetch GA4 metadata to ensure metric/dimension names are valid for this property.
+        // This prevents opaque INVALID_ARGUMENT errors and lets us pick the correct field names.
+        const [metadata] = await analyticsDataClient.getMetadata({
+          name: `${propertyPath}/metadata`,
+        });
+        const availableMetrics = new Set((metadata.metrics || []).map((m: any) => m.apiName));
+        const availableDimensions = new Set((metadata.dimensions || []).map((d: any) => d.apiName));
+
+        const pickMetric = (candidates: string[]) => candidates.find((c) => availableMetrics.has(c));
+        const pickDimension = (candidates: string[]) => candidates.find((c) => availableDimensions.has(c));
+
+        // Metrics (use first available option per GA4 metadata)
+        const metricActiveUsers = pickMetric(['activeUsers']);
+        const metricNewUsers = pickMetric(['newUsers']);
+        const metricSessions = pickMetric(['sessions']);
+        const metricPageViews = pickMetric(['screenPageViews', 'screenPageViewsPerSession', 'views']);
+        const metricAvgSessionDuration = pickMetric(['averageSessionDuration', 'avgSessionDuration']);
+        const metricAvgEngagementTime = pickMetric([
+          'averageEngagementTime',
+          'averageEngagementTimePerSession',
+          'userEngagementDuration',
+        ]);
+        const metricEventCount = pickMetric(['eventCount']);
+
+        // Dimensions
+        const dimCountry = pickDimension(['country']);
+        const dimPlatform = pickDimension(['platform']);
+        const dimPagePath = pickDimension(['pagePathPlusQueryString', 'pagePath', 'unifiedPagePathScreen']);
+        const dimPageTitle = pickDimension(['pageTitle', 'unifiedPageTitleScreenName']);
+
+        const requiredCoreFields = [
+          { kind: 'metric', name: 'activeUsers', value: metricActiveUsers },
+          { kind: 'metric', name: 'newUsers', value: metricNewUsers },
+          { kind: 'metric', name: 'sessions', value: metricSessions },
+          { kind: 'metric', name: 'screenPageViews', value: metricPageViews },
+          { kind: 'metric', name: 'averageSessionDuration', value: metricAvgSessionDuration },
+          { kind: 'metric', name: 'averageEngagementTime', value: metricAvgEngagementTime },
+          { kind: 'metric', name: 'eventCount', value: metricEventCount },
+        ].filter((x) => !x.value);
+
+        if (requiredCoreFields.length > 0) {
+          const missing = requiredCoreFields
+            .map((x) => `${x.kind}:${x.name}`)
+            .join(', ');
+          throw new Error(
+            `GA4 metadata validation failed. Missing required fields for this property: ${missing}. ` +
+              `This usually means the API field names changed or the property type doesn't support them.`
+          );
         }
 
         // Fetch overall metrics - using only valid GA4 metrics
@@ -223,43 +292,42 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           dateRanges: [
             {
               startDate: ga4StartDate,
-              endDate: ga4EndDate,
+              endDate: validatedEndDate,
             },
           ],
           metrics: [
-            { name: 'activeUsers' },
-            { name: 'newUsers' },
-            { name: 'sessions' },
-            { name: 'screenPageViews' },
-            { name: 'bounceRate' },
-            { name: 'averageSessionDuration' },
-            { name: 'averageEngagementTime' },
-            { name: 'eventCount' },
+            { name: metricActiveUsers! },
+            { name: metricNewUsers! },
+            { name: metricSessions! },
+            { name: metricPageViews! },
+            { name: metricAvgSessionDuration! },
+            { name: metricAvgEngagementTime! },
+            { name: metricEventCount! },
           ],
         });
 
         // Fetch top pages with detailed metrics
+        const pageDimensions = [
+          ...(dimPagePath ? [{ name: dimPagePath }] : []),
+          ...(dimPageTitle ? [{ name: dimPageTitle }] : []),
+        ];
         const [pagesReport] = await analyticsDataClient.runReport({
           property: propertyPath,
           dateRanges: [
             {
               startDate: ga4StartDate,
-              endDate: ga4EndDate,
+              endDate: validatedEndDate,
             },
           ],
           metrics: [
-            { name: 'screenPageViews' },
-            { name: 'activeUsers' },
-            { name: 'eventCount' },
-            { name: 'bounceRate' },
+            { name: metricPageViews! },
+            { name: metricActiveUsers! },
+            { name: metricEventCount! },
           ],
-          dimensions: [
-            { name: 'pagePath' },
-            { name: 'pageTitle' }
-          ],
+          ...(pageDimensions.length > 0 ? { dimensions: pageDimensions } : {}),
           orderBys: [
             {
-              metric: { metricName: 'screenPageViews' },
+              metric: { metricName: metricPageViews! },
               desc: true,
             },
           ],
@@ -272,14 +340,14 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           dateRanges: [
             {
               startDate: ga4StartDate,
-              endDate: ga4EndDate,
+              endDate: validatedEndDate,
             },
           ],
-          metrics: [{ name: 'activeUsers' }],
-          dimensions: [{ name: 'country' }],
+          metrics: [{ name: metricActiveUsers! }],
+          ...(dimCountry ? { dimensions: [{ name: dimCountry }] } : {}),
           orderBys: [
             {
-              metric: { metricName: 'activeUsers' },
+              metric: { metricName: metricActiveUsers! },
               desc: true,
             },
           ],
@@ -287,27 +355,9 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
         });
 
         // Fetch additional reports with error handling (each can fail independently)
-        let sourcesReport: any = { rows: [] };
         let platformsReport: any = { rows: [] };
         let activeUsers30Min: number | null = null;
         const errors: Array<{ metric: string; error: string }> = [];
-
-        try {
-          // Fetch top sources (First user source/medium)
-          const sourcesResult = await analyticsDataClient.runReport({
-            property: propertyPath,
-            dateRanges: [{ startDate: ga4StartDate, endDate: ga4EndDate }],
-            metrics: [{ name: 'activeUsers' }],
-            dimensions: [{ name: 'firstUserSource' }, { name: 'firstUserMedium' }],
-            orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
-            limit: 10,
-          });
-          sourcesReport = sourcesResult[0];
-        } catch (e) {
-          const errorMsg = e instanceof Error ? e.message : String(e);
-          console.warn("⚠️ Failed to fetch sources report:", errorMsg);
-          errors.push({ metric: 'topSources', error: errorMsg });
-        }
 
         try {
           // Fetch active users in last 30 minutes
@@ -319,7 +369,7 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           const activeUsers30MinResult = await analyticsDataClient.runReport({
             property: propertyPath,
             dateRanges: [{ startDate: thirtyMinStart, endDate: thirtyMinEnd }],
-            metrics: [{ name: 'activeUsers' }],
+            metrics: [{ name: metricActiveUsers! }],
           });
           
           const thirtyMinRows = activeUsers30MinResult[0].rows || [];
@@ -335,10 +385,10 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           // Fetch platforms - users by platform
           const platformsResult = await analyticsDataClient.runReport({
             property: propertyPath,
-            dateRanges: [{ startDate: ga4StartDate, endDate: ga4EndDate }],
-            metrics: [{ name: 'activeUsers' }],
-            dimensions: [{ name: 'platform' }],
-            orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+            dateRanges: [{ startDate: ga4StartDate, endDate: validatedEndDate }],
+            metrics: [{ name: metricActiveUsers! }],
+            ...(dimPlatform ? { dimensions: [{ name: dimPlatform }] } : {}),
+            orderBys: [{ metric: { metricName: metricActiveUsers! }, desc: true }],
             limit: 10,
           });
           platformsReport = platformsResult[0];
@@ -360,23 +410,22 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
         const newUsers = metrics[1]?.value ? parseInt(metrics[1].value, 10) : null;
         const sessions = metrics[2]?.value ? parseInt(metrics[2].value, 10) : null;
         const pageViews = metrics[3]?.value ? parseInt(metrics[3].value, 10) : null;
-        const bounceRate = metrics[4]?.value ? parseFloat(metrics[4].value) * 100 : null;
-        const avgSessionDuration = metrics[5]?.value ? parseFloat(metrics[5].value) : null;
-        const avgEngagementTime = metrics[6]?.value ? parseFloat(metrics[6].value) : null;
-        const eventCount = metrics[7]?.value ? parseInt(metrics[7].value, 10) : null;
+        const avgSessionDuration = metrics[4]?.value ? parseFloat(metrics[4].value) : null;
+        const avgEngagementTime = metrics[5]?.value ? parseFloat(metrics[5].value) : null;
+        const eventCount = metrics[6]?.value ? parseInt(metrics[6].value, 10) : null;
         
-        console.log("📊 Processed metrics:", { users, newUsers, sessions, pageViews, bounceRate, avgSessionDuration, avgEngagementTime, eventCount });
+        console.log("📊 Processed metrics:", { users, newUsers, sessions, pageViews, avgSessionDuration, avgEngagementTime, eventCount });
 
         // Process top pages with detailed metrics - only include rows with real data
         const topPages = (pagesReport.rows || [])
           .filter(row => row.metricValues?.[0]?.value) // Only include rows with views data
           .map(row => ({
-            page: row.dimensionValues?.[1]?.value || row.dimensionValues?.[0]?.value || '',
-            pageTitle: row.dimensionValues?.[0]?.value || '',
+            // If both dims exist: [path, title]. If only one: [path]
+            page: row.dimensionValues?.[0]?.value || '',
+            pageTitle: row.dimensionValues?.[1]?.value || undefined,
             views: parseInt(row.metricValues[0].value, 10),
             users: row.metricValues[1]?.value ? parseInt(row.metricValues[1].value, 10) : null,
             eventCount: row.metricValues[2]?.value ? parseInt(row.metricValues[2].value, 10) : null,
-            bounceRate: row.metricValues[3]?.value ? parseFloat(row.metricValues[3].value) * 100 : null,
           }));
 
         // Process top countries - only include rows with real data
@@ -385,14 +434,6 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           .filter(row => row.metricValues?.[0]?.value) // Only include rows with users data
           .map(row => ({
             country: row.dimensionValues?.[0]?.value || '',
-            users: parseInt(row.metricValues[0].value, 10),
-          }));
-
-        // Process top sources (First user source/medium) - only include rows with real data
-        const topSources = (sourcesReport.rows || [])
-          .filter(row => row.metricValues?.[0]?.value) // Only include rows with users data
-          .map(row => ({
-            source: `${row.dimensionValues?.[0]?.value || ''} / ${row.dimensionValues?.[1]?.value || ''}`,
             users: parseInt(row.metricValues[0].value, 10),
           }));
 
@@ -409,14 +450,12 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           newUsers,
           sessions,
           pageViews,
-          bounceRate,
           avgSessionDuration,
           avgEngagementTime,
           eventCount,
           activeUsersLast30Min: activeUsers30Min !== null && activeUsers30Min !== undefined ? activeUsers30Min : null,
           topPages,
           topCountries,
-          topSources,
           topPlatforms,
           dateRange: {
             start: startDate,
@@ -429,7 +468,6 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           users,
           sessions,
           pageViews,
-          bounceRate: bounceRate !== null ? bounceRate.toFixed(2) + '%' : 'N/A',
           avgSessionDuration: avgSessionDuration !== null ? Math.floor(avgSessionDuration) + 's' : 'N/A',
           topPagesCount: topPages.length,
           topCountriesCount: topCountries.length,
@@ -456,6 +494,7 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           
           // Check for specific GA4 API error codes
           if (errorMessage.includes('3 INVALID_ARGUMENT') || errorMessage.includes('INVALID_ARGUMENT')) {
+            const displayEndDate = validatedEndDate || ga4EndDate;
             helpfulMessage = `Invalid argument in GA4 API request. This usually means:
 - Property ID format is incorrect (should be numeric, e.g., "516612454")
 - Date format is invalid
@@ -463,12 +502,31 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
 - Property ID doesn't exist or you don't have access
 
 Property ID used: ${propertyId}
-Date range: ${ga4StartDate} to ${ga4EndDate}`;
+Date range: ${ga4StartDate} to ${displayEndDate}`;
             console.error("⚠️ INVALID_ARGUMENT error - check property ID and date format");
           }
           if (errorMessage.includes('invalid_grant') || errorMessage.includes('INVALID_GRANT')) {
-            helpfulMessage = "Refresh token is expired or invalid. Please regenerate it using the OAuth 2.0 Playground.";
-            console.error("⚠️ Refresh token may be expired or invalid. Please regenerate it.");
+            // Check for session control policy errors (GCP session duration expired)
+            if (errorMessage.includes('invalid_rapt') || errorMessage.includes('error_subtype')) {
+              helpfulMessage = `Session expired due to Google Cloud session control policy. The user needs to re-authenticate. This happens when:
+- A GCP organization admin has set session duration limits
+- The session duration has expired (typically 1-24 hours)
+- The refresh token cannot be used until the user re-authenticates
+
+Solution: The user must re-authorize the application using the OAuth 2.0 Playground to get a new refresh token.`;
+              console.error("⚠️ Session control policy expired - user needs to re-authenticate");
+            } else {
+              helpfulMessage = `Refresh token is expired or invalid. This can happen if:
+- The refresh token has not been used for 6 months
+- The user revoked your app's access
+- The user changed passwords (if token contains Gmail scopes)
+- The user account exceeded the maximum number of refresh tokens (100 per account per client)
+- The app's access expired (if time-based access was granted)
+- An admin set requested services to Restricted
+
+Solution: Regenerate the refresh token using the OAuth 2.0 Playground (see GA4_SETUP.md for instructions).`;
+              console.error("⚠️ Refresh token expired or invalid - regenerate using OAuth 2.0 Playground");
+            }
           }
           if (errorMessage.includes('insufficient permissions') || errorMessage.includes('PERMISSION_DENIED')) {
             helpfulMessage = "The OAuth account doesn't have access to this GA4 property. Please ensure the account has Viewer or Editor access.";

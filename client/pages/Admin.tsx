@@ -15,7 +15,6 @@ interface AnalyticsData {
   newUsers: number | null;
   sessions: number | null;
   pageViews: number | null;
-  bounceRate: number | null;
   avgSessionDuration: number | null;
   avgEngagementTime: number | null;
   eventCount: number | null;
@@ -26,10 +25,8 @@ interface AnalyticsData {
     views: number; 
     users: number | null;
     eventCount: number | null;
-    bounceRate: number | null;
   }>;
   topCountries: Array<{ country: string; users: number }>;
-  topSources: Array<{ source: string; users: number }>;
   topPlatforms: Array<{ platform: string; users: number }>;
   dateRange: {
     start: string;
@@ -45,15 +42,28 @@ const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "triada2025";
 type DateRange = "today" | "lastWeek" | "lastMonth" | "lastYear" | "allTime" | "custom";
 
 const getDateRange = (range: DateRange, customStart?: Date, customEnd?: Date): { start: string; end: string } => {
-  const end = new Date();
-  end.setHours(23, 59, 59, 999); // End of today
+  const today = new Date();
+  today.setHours(23, 59, 59, 999); // End of today
   
+  const end = new Date(today);
   const start = new Date();
   
   if (range === "custom" && customStart && customEnd) {
+    // Ensure custom dates are not in the future
+    const safeStart = customStart > today ? today : customStart;
+    const safeEnd = customEnd > today ? today : customEnd;
+    
+    // Ensure start is before end
+    if (safeStart > safeEnd) {
+      return {
+        start: safeEnd.toISOString(),
+        end: safeEnd.toISOString(),
+      };
+    }
+    
     return {
-      start: customStart.toISOString(),
-      end: customEnd.toISOString(),
+      start: safeStart.toISOString(),
+      end: safeEnd.toISOString(),
     };
   }
   
@@ -83,9 +93,12 @@ const getDateRange = (range: DateRange, customStart?: Date, customEnd?: Date): {
       start.setHours(0, 0, 0, 0);
   }
   
+  // Ensure end date is not in the future
+  const safeEnd = end > today ? today : end;
+  
   return {
     start: start.toISOString(),
-    end: end.toISOString(),
+    end: safeEnd.toISOString(),
   };
 };
 
@@ -173,6 +186,8 @@ export default function Admin() {
     },
     enabled: isAuthenticated && (dateRange !== "custom" || (customStartDate !== undefined && customEndDate !== undefined)),
     refetchInterval: 300000, // Refetch every 5 minutes
+    retry: false, // Don't retry on error to prevent excessive requests
+    retryOnMount: false, // Don't retry when component remounts
   });
 
   const handleDateRangeChange = (value: string) => {
@@ -288,14 +303,16 @@ export default function Admin() {
             </div>
           ) : analyticsError ? (
             <Card className="border-2 border-red-500">
-              <CardContent className="py-12 text-center">
-                <p className="font-metropolis text-red-600 font-semibold mb-2">
-                  Failed to fetch analytics data
-                </p>
-                <p className="font-metropolis text-gray-600 text-sm">
-                  {analyticsError instanceof Error ? analyticsError.message : "Unknown error occurred"}
-                </p>
-                <p className="font-metropolis text-gray-500 text-xs mt-4">
+              <CardContent className="py-12 px-6">
+                <div className="text-center mb-4">
+                  <p className="font-metropolis text-red-600 font-semibold mb-2">
+                    Failed to fetch analytics data
+                  </p>
+                  <div className="font-metropolis text-gray-600 text-sm whitespace-pre-line text-left max-w-2xl mx-auto">
+                    {analyticsError instanceof Error ? analyticsError.message : "Unknown error occurred"}
+                  </div>
+                </div>
+                <p className="font-metropolis text-gray-500 text-xs mt-4 text-center">
                   Please check your Google Analytics configuration and try again.
                 </p>
               </CardContent>
@@ -487,19 +504,6 @@ export default function Admin() {
 
                 <Card className="border-2">
                   <CardHeader>
-                    <CardTitle className="font-teko text-xl uppercase">Bounce Rate</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-3xl font-bold font-metropolis">
-                      {analyticsData.bounceRate !== null && analyticsData.bounceRate !== undefined
-                        ? `${analyticsData.bounceRate.toFixed(1)}%`
-                        : 'N/A'}
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-2">
-                  <CardHeader>
                     <CardTitle className="font-teko text-xl uppercase">Avg. Session Duration</CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -527,7 +531,6 @@ export default function Admin() {
                             <th className="text-right py-3 px-4 font-teko uppercase text-sm">Views</th>
                             <th className="text-right py-3 px-4 font-teko uppercase text-sm">Active Users</th>
                             <th className="text-right py-3 px-4 font-teko uppercase text-sm">Event Count</th>
-                            <th className="text-right py-3 px-4 font-teko uppercase text-sm">Bounce Rate</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -546,11 +549,6 @@ export default function Admin() {
                               <td className="text-right py-3 px-4 font-metropolis">
                                 {page.eventCount !== undefined && page.eventCount !== null ? page.eventCount.toLocaleString() : 'N/A'}
                               </td>
-                              <td className="text-right py-3 px-4 font-metropolis">
-                                {page.bounceRate !== undefined && page.bounceRate !== null
-                                  ? `${page.bounceRate.toFixed(1)}%`
-                                  : 'N/A'}
-                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -558,31 +556,6 @@ export default function Admin() {
                     </div>
                   ) : (
                     <p className="font-metropolis text-gray-500 text-center py-4">No page data available</p>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Active Users by First User Source/Medium */}
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="font-teko text-2xl uppercase">Active Users by First User Source/Medium</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {analyticsData.topSources && analyticsData.topSources.length > 0 ? (
-                    <div className="space-y-3">
-                      {analyticsData.topSources.map((source, index) => (
-                        <div key={index} className="flex justify-between items-center py-2 border-b last:border-0">
-                          <span className="font-metropolis">{source.source}</span>
-                          <span className="font-metropolis font-semibold">
-                            {source.users !== undefined && source.users !== null 
-                              ? `${source.users.toLocaleString()} users`
-                              : 'N/A'}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="font-metropolis text-gray-500 text-center py-4">No source data available</p>
                   )}
                 </CardContent>
               </Card>
