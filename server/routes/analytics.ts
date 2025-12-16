@@ -188,40 +188,36 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
           throw new Error('No valid credentials found');
         }
 
-        // Validate property ID format (should be numeric)
-        const propertyIdNum = propertyId?.trim();
-        if (!propertyIdNum || !/^\d+$/.test(propertyIdNum)) {
-          throw new Error(`Invalid property ID format: "${propertyIdNum}". Property ID must be numeric (e.g., "516612454")`);
+        // Use Property ID: 516612454
+        const propertyIdNum = propertyId?.trim() || '516612454';
+        if (!/^\d+$/.test(propertyIdNum)) {
+          throw new Error(`Invalid property ID format: "${propertyIdNum}". Property ID must be numeric.`);
         }
         
         const propertyPath = `properties/${propertyIdNum}`;
         console.log("📊 Fetching GA4 data for property:", propertyPath);
         console.log("📅 Date range:", { start: ga4StartDate, end: ga4EndDate });
         
-        // Verify we can access the property by making a simple test request first
-        try {
-          console.log("🔍 Testing property access...");
-          await analyticsDataClient.runReport({
-            property: propertyPath,
-            dateRanges: [{ startDate: ga4EndDate, endDate: ga4EndDate }], // Single day test
-            metrics: [{ name: 'activeUsers' }],
-            limit: 1,
-          });
-          console.log("✅ Property access verified");
-        } catch (testError) {
-          const errorMsg = testError instanceof Error ? testError.message : String(testError);
-          console.error("❌ Property access test failed:", errorMsg);
-          if (errorMsg.includes('NOT_FOUND') || errorMsg.includes('not found')) {
-            throw new Error(`Property ID "${propertyIdNum}" not found. Please verify the Property ID in GA4 Admin > Property Settings. Make sure you're using the numeric Property ID, not the Measurement ID (G-XXXXXXX).`);
-          }
-          if (errorMsg.includes('PERMISSION_DENIED') || errorMsg.includes('insufficient')) {
-            throw new Error(`Permission denied for property "${propertyIdNum}". Ensure the OAuth account has Viewer or Editor access to this GA4 property in Admin > Property Access Management.`);
-          }
-          // If it's a different error, continue - might be a date issue
-          console.warn("⚠️ Property test failed, but continuing with full request...");
+        // Validate dates - ensure they're valid and start is before end
+        const startDateObj = new Date(ga4StartDate + 'T00:00:00');
+        const endDateObj = new Date(ga4EndDate + 'T23:59:59');
+        const today = new Date();
+        today.setHours(23, 59, 59, 999);
+        
+        if (isNaN(startDateObj.getTime()) || isNaN(endDateObj.getTime())) {
+          throw new Error(`Invalid date format. Dates must be in YYYY-MM-DD format. Got: ${ga4StartDate} to ${ga4EndDate}`);
+        }
+        
+        if (endDateObj > today) {
+          const todayStr = formatDateForGA4(today.toISOString());
+          throw new Error(`End date ${ga4EndDate} cannot be in the future. Maximum allowed: ${todayStr}`);
+        }
+        
+        if (startDateObj > endDateObj) {
+          throw new Error(`Start date ${ga4StartDate} must be before or equal to end date ${ga4EndDate}.`);
         }
 
-        // Fetch overall metrics
+        // Fetch overall metrics - using only valid GA4 metrics
         const [overallReport] = await analyticsDataClient.runReport({
           property: propertyPath,
           dateRanges: [
