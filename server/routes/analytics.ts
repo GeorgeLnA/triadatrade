@@ -253,7 +253,10 @@ export const handleAnalytics: RequestHandler = async (req, res) => {
             { name: 'eventCount' },
             { name: 'bounceRate' },
           ],
-          dimensions: [{ name: 'pageTitle' }, { name: 'pagePath' }],
+          dimensions: [
+            { name: 'pagePath' },
+            { name: 'pageTitle' }
+          ],
           orderBys: [
             {
               metric: { metricName: 'screenPageViews' },
