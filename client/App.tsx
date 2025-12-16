@@ -9,6 +9,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Activities from "./pages/Activities";
+import TermsOfService from "./pages/TermsOfService";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import ScrollRuler from "./components/ScrollRuler";
 import TargetCursor from "./components/TargetCursor";
@@ -132,6 +134,18 @@ const App = () => {
             <>
               <ScrollToTop />
               <Activities />
+            </>
+          } />
+          <Route path="/terms-of-service" element={
+            <>
+              <ScrollToTop />
+              <TermsOfService />
+            </>
+          } />
+          <Route path="/admin" element={
+            <>
+              <ScrollToTop />
+              <Admin />
             </>
           } />
           <Route path="*" element={

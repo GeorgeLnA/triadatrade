@@ -19,8 +19,9 @@ const footerNavigation = {
     { name: "Blog", href: "/#contact" }
   ],
   legal: [
-    { name: "Terms of Service", href: "/TermsOfServices.pdf", target: "_blank" },
+    { name: "Terms of Service", href: "/terms-of-service" },
     { name: "Privacy Policy", href: "/PrivacyPolicy.pdf", target: "_blank" },
+    { name: "Admin Panel", href: "/admin" },
     { name: "Site Credit", href: "https://leadandallure.com", target: "_blank" }
   ]
 };
