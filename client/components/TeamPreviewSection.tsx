@@ -54,7 +54,7 @@ const TEAM_MEMBERS = [
     name: "Maksym Obod",
     role: "Battle management consulting", 
     initials: "MO",
-    image: "/maks.jpeg",
+    image: "/WhatsApp Image 2025-12-19 at 09.51.38.jpeg",
     description: "Battalion Commander with extensive experience in combat operations and tactics of usage of various UAV systems.",
     skills: ["International Relations", "Partnership Development", "Cross-Cultural Communication"],
     experience: "13+ years",
@@ -305,7 +305,7 @@ export default function TeamPreviewSection() {
                           }`}
                           style={{
                             ...(member.id === 'cro' ? { objectPosition: 'center 10%' } : member.id === 'ceo' ? { objectPosition: 'center 55%' } : member.id === 'international' ? { objectPosition: 'center 30%' } : member.id === 'commercial' ? { objectPosition: 'center 0%' } : member.id === 'finance' ? { objectPosition: 'center 0%' } : member.id === 'taxation' ? { objectPosition: 'center 0%' } : member.id === 'production' ? { objectPosition: 'center 0%' } : member.id === 'rd' ? { objectPosition: 'center 0%' } : member.id === 'analytics' ? { objectPosition: 'center 20%' } : { objectPosition: 'center 10%' }),
-                            ...(member.id === 'analytics' ? { filter: 'grayscale(100%)' } : {})
+                            ...(member.id === 'analytics' || member.id === 'international' ? { filter: 'grayscale(100%)' } : {})
                           }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-scout-dark/80 via-transparent to-transparent" />
