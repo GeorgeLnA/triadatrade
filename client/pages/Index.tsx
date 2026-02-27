@@ -1,6 +1,5 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
-import QuoteSection from "@/components/QuoteSection";
 import QuoteSection2 from "@/components/QuoteSection2";
 import QuoteSection3 from "@/components/QuoteSection3";
 import WhoWeAreSection from "@/components/WhoWeAreSection";
@@ -205,11 +204,6 @@ export default function Index() {
           </div>
         </section>
         
-        {/* Quote Section - Black background */}
-        <div style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
-          <QuoteSection />
-        </div>
-
         {/* Quote Section 2 - Black background */}
         <div style={{backgroundColor: '#050612', pointerEvents: 'auto'}}>
           <QuoteSection2 />
