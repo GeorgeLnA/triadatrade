@@ -117,7 +117,7 @@ export default function HeroSection({ isHidden = false }: HeroSectionProps) {
             objectFit: 'cover'
           }}
         >
-          <source src="/Screen Recording 2025-09-23 at 17.00.56.mov" type="video/mp4" />
+          <source src="/Screen Recording 2025-09-23 at 17.00.56.mp4" type="video/mp4" />
         </video>
         
       </div>
